@@ -112,17 +112,6 @@
 .fs-source-result details { margin-top: 10px; font-size: 11px; color: #817091; }
 .fs-source-result summary { cursor: pointer; }
 .fs-source-result pre { max-height: 200px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; padding: 10px; background: white; border-radius: 5px; }
-.fs-outline-title { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-.fs-outline-title label { font-size: 12px; }
-.fs-outline-pages { list-style: none; padding: 0; margin: 25px 0 0; display: grid; gap: 14px; }
-.fs-outline-pages > li { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid var(--kd-brand-200); border-radius: 11px; background: #fcfbff; }
-.fs-outline-number { display: grid; place-items: center; width: 30px; height: 30px; margin-top: 8px; flex-shrink: 0; border-radius: 8px; background: var(--fs-accent-soft); color: var(--fs-accent); font-size: 11px; }
-.fs-outline-pages li > div:first-of-type { flex: 1; min-width: 0; display: grid; gap: 8px; }
-.fs-outline-chapter { justify-self: start; padding: 3px 9px; border-radius: 999px; background: var(--kd-brand-100); color: var(--kd-accent); font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; }
-.fs-workspace .fs-outline-pages .fs-outline-chapter-input { font-size: 11px; color: var(--kd-brand-muted); }
-.fs-workspace .fs-outline-pages input, .fs-workspace .fs-outline-pages textarea { width: 100%; font-size: 12px; }
-.fs-outline-reorder { display: grid; gap: 6px; }
-.fs-outline-reorder button { border: 1px solid var(--kd-brand-200); background: #fff; border-radius: 6px; padding: 6px; display: grid; color: #7d6a9e; }
 .fs-creator-generating { max-width: 680px; margin: 40px auto 20px; border: 1px solid var(--kd-brand-200); border-radius: 20px; padding: 45px; text-align: center; background: radial-gradient(ellipse at top, var(--kd-brand-100), transparent 60%), #fff; }
 .fs-generating-symbol { position: relative; display: flex; justify-content: center; margin: 10px auto 25px; color: var(--fs-accent); }
 .fs-generating-symbol > svg:last-child { position: absolute; margin-left: 58px; top: -12px; }
@@ -187,7 +176,7 @@
   .fs-workspace .fs-creator-panel-head h2 { font-size: 14px; }
   .fs-creator-option-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
   .fs-creator-option-grid > label:last-child { grid-column: 1 / -1; }
-  .fs-creator .fs-creator-advanced, .fs-outline-title { grid-template-columns: 1fr; }
+  .fs-creator .fs-creator-advanced { grid-template-columns: 1fr; }
   .fs-advanced-toggle span { display: none; }
   .fs-advanced-toggle svg { margin-left: auto; }
   .fs-input-hint { gap: 10px; font-size: 9px; }
@@ -196,10 +185,6 @@
   .fs-url-input > div { flex-wrap: wrap; }
   .fs-url-input > div input { width: calc(100% - 32px) !important; flex: auto !important; }
   .fs-url-input > div .fs-btn { width: 100%; }
-  .fs-outline-review .fs-creator-panel-head { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .fs-outline-pages > li { padding: 10px; gap: 8px; }
-  .fs-outline-number { width: 23px; font-size: 10px; }
-  .fs-outline-reorder button { padding: 4px; }
   .fs-workspace .fs-creator-generating h2 { font-size: 22px; }
   .fs-generation-status { flex-direction: column; gap: 5px; }
   .fs-creator-footer { font-size: 9px; gap: 4px; }

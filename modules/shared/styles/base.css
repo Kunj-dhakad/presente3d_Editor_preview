@@ -1,0 +1,679 @@
+/* ============================================================================
+   01. FOUNDATION
+   Fonts, design tokens, base document
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@300;400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  /* ---------- 1. BRAND — AI Book Creator ----------
+     Poore project (site, admin, editor, reader) ka EK hi purple yahi hai.
+     Kahin bhi hex mat likho — in tokens ko use karo. Logo bhi isi
+     scale se bana hai (brand-600 → brand-400). Email / OG image jaise
+     jagah jahan CSS variable nahi chalta, wahan modules/shared/brand.ts. */
+  --kd-brand-50: #f7f5ff;          /* page wash, faint tint              */
+  --kd-brand-100: #efebfb;         /* soft panel / chip background       */
+  --kd-brand-200: #e4dff3;         /* lavender border, divider           */
+  --kd-brand-300: #c9bef0;         /* hover border, strong outline       */
+  --kd-brand-400: #8a76ea;         /* light accent, icons, gradient end  */
+  --kd-brand-500: #6c56dc;         /* THE brand colour                   */
+  --kd-brand-600: #5b45cf;         /* hover, gradient start              */
+  --kd-brand-700: #4c38b8;         /* pressed, deep accent text          */
+  --kd-brand-800: #3b2a7a;         /* dark accent, tinted shadow         */
+  --kd-brand-900: #1e1a3a;         /* brand ink (headings)               */
+  --kd-brand-muted: #7a6f9b;       /* muted lavender text                */
+
+  --kd-accent: var(--kd-brand-500);        /* buttons, active state, links */
+  --kd-accent-hover: var(--kd-brand-600);  /* hover                        */
+  --kd-accent-active: var(--kd-brand-700); /* pressed                      */
+  --kd-accent-soft: color-mix(in srgb, var(--kd-brand-500) 10%, transparent); /* alpha tint */
+  --kd-accent-subtle: var(--kd-brand-100); /* solid tint — section / panel bg */
+  --kd-on-accent: #ffffff;                 /* accent ke upar ka text / icon */
+
+  /* ---------- 2. SURFACES ---------- */
+  --kd-bg-app: #f3f3f6;            /* editor backdrop, sunken well       */
+  --kd-bg-surface: #ffffff;        /* panel, card, toolbar               */
+  --kd-bg-elevated: #ffffff;       /* popup, modal, dropdown             */
+  --kd-bg-sunken: #f2f2f2;         /* input well, thumbnail slot         */
+  --kd-bg-hover: #ededed;          /* neutral hover (accent wala nahi)   */
+  --kd-bg-overlay: #0000008c;      /* modal scrim                        */
+
+  /* ---------- 3. TEXT ---------- */
+  --kd-text: #1a1a1a;              /* primary                            */
+  --kd-text-muted: #616161;        /* secondary, labels                  */
+  --kd-text-subtle: #9a9a9a;       /* placeholder, disabled, hint        */
+  --kd-text-inverse: #ffffff;      /* dark / accent surface ke upar      */
+
+  /* ---------- 4. BORDERS ---------- */
+  --kd-border: #00000026;          /* default                            */
+  --kd-border-subtle: #0000001a;   /* hairline, divider                  */
+  --kd-border-strong: #00000059;   /* emphasis, focused input            */
+  --kd-border-inverse: #ffffff2e;  /* accent/media surface ke upar        */
+
+  /* ---------- 5. STATUS ---------- */
+  --kd-danger: #dc2626;
+  --kd-danger-soft: #fef2f2;
+  --kd-success: #16a34a;
+  --kd-success-soft: #ecfdf5;
+  --kd-warning: #d97706;
+  --kd-warning-soft: #fff7e8;
+
+  /* ---------- 6. ELEVATION ---------- */
+  --kd-shadow-color: #00000026;
+  --kd-shadow-sm: 0 2px 6px #00000040;
+  --kd-shadow-lg: 2px 2px 8px 0px #00000026;
+  --kd-shadow-popup: 0 8px 24px #0000001a;
+  --kd-focus-ring: 0 0 0 3px var(--kd-accent-soft);
+  --kd-ring: color-mix(in srgb, var(--kd-accent) 30%, transparent);            /* outline-color ke liye              */
+
+  /* ---------- 7. MEDIA — theme se independent ----------------
+     Ye un surfaces ke liye hain jo DONO theme me dark rehti hain:
+     image/video ka scrim, tooltip, thumbnail badge. Text yahan
+     hamesha light hona chahiye — --kd-text-inverse yahan mat lagao,
+     wo dark mode me flip ho ke kaala ho jata hai aur padha nahi
+     jata. Isi tarah --kd-on-accent un surfaces ke liye hai jo dono
+     theme me PURPLE rehti hain (header gradient, accent buttons). */
+  --kd-scrim: #00000099;
+  --kd-scrim-soft: #00000033;      /* input well / chip on accent surface */
+  --kd-on-media: #ffffff;
+
+  /* ---------- 8. BRAND GRADIENT ---------- */
+  --kd-gradient-brand: linear-gradient(90deg, var(--kd-brand-600) 0%, var(--kd-brand-500) 45%, var(--kd-brand-400) 100%);
+  --kd-gradient-accent: linear-gradient(180deg, var(--kd-brand-400) 0%, var(--kd-brand-500) 100%);
+  --kd-gradient-soft: linear-gradient(135deg, var(--kd-accent-subtle), var(--kd-brand-200));
+  --kd-gradient-glass: linear-gradient(180deg, #ffffff14 0%, #ffffff08 100%);
+  --kd-gradient-rainbow: conic-gradient(from 180deg at 50% 50%, #ff6b6b, #ffd93d, #6bff95, #4fc3f7, #8b5cf6, #ff6b6b);
+ 
+  --kd-gradient-skeleton: linear-gradient(90deg, var(--kd-bg-hover) 25%, var(--kd-bg-app) 50%, var(--kd-bg-hover) 75%);
+  --kd-snap-guide: #e8368f;
+
+  /* ---------- Radius — sirf ye 4 use karo ---------- */
+  --kd-r-xs: 4px;                    /* chips, badges, chhote icon buttons */
+  --kd-r-sm: 8px;                    /* buttons, inputs, popups */
+  --kd-r-md: 10px;                   /* cards, panels */
+  --kd-r-pill: 999px;
+
+  /* ---------- Spacing rhythm ---------- */
+  --kd-panel-pad: 12px;              /* panel ka horizontal padding */
+  --kd-grid-gap: 12px;               /* asset grid ka gap */
+  --kd-card-pad: 4px;                /* card ke andar ka inset */
+
+  /* ---------- Typography ---------- */
+  --kd-font: "Plus Jakarta Sans", Arial, Helvetica, sans-serif;
+  --kd-fs-xs: 10px;
+  --kd-fs-sm: 11px;
+  --kd-fs-md: 12px;
+  --kd-fs-lg: 13px;
+
+  /* ---------- Layers ---------- */
+  --kd-z-panel: 10;
+  --kd-z-toolbar: 100;
+  --kd-z-popup: 1000;
+  --kd-z-modal: 2000;
+
+
+  --kd-bg-primary: var(--kd-bg-surface);
+  --kd-bg-secondary: var(--kd-accent);
+  --kd-bg-subtle: var(--kd-accent-soft);
+  --kd-bg-muted: var(--kd-bg-hover);
+  --kd-bg-black: #000000de;
+  --kd-bg-danger: var(--kd-danger);
+  --kd-bg-scrollbar: var(--kd-bg-hover);
+  --kd-bg-overlay-dark: var(--kd-bg-overlay);
+  --kd-bg-tertiary: var(--kd-accent-soft);
+  --kd-bg-placeholderbg: var(--kd-bg-sunken);
+  --kd-bg-disabled: var(--kd-bg-app);
+  --kd-bg-text: var(--kd-bg-app);
+  --kd-bg-btn: var(--kd-bg-app);
+  --kd-bg-control: var(--kd-bg-surface);
+  /* Canvas ka mat — page ke chaaro taraf ka area. Light me ye
+     surface hi hai (koi farq nahi). Dark me themes.ts isse
+     mid-tone kar deta hai, kyunki page theme follow nahi karta
+     aur bright page near-black well par cliff bana deta tha. */
+  --kd-bg-canvas-well: var(--kd-bg-primary);
+  --kd-disabled-bg: var(--kd-bg-app);
+  --kd-active-bg: #2a2a2a;
+  --kd-transparent: transparent;
+  --kd-text-primary: var(--kd-text);
+  --kd-text-secondary: var(--kd-text-inverse);
+  --kd-text-accent: var(--kd-accent);
+  --kd-text-danger: var(--kd-danger);
+  --kd-text-tertiary: var(--kd-accent);
+  --kd-text-red: var(--kd-danger);
+  --kd-text-black: var(--kd-text);
+  --kd-text-dark: var(--kd-text);
+  --kd-text-light: var(--kd-text-inverse);
+  --kd-disabled-text: var(--kd-text-subtle);
+  --kd-accent-primary: var(--kd-accent);
+  --kd-accent-secondary: var(--kd-accent);
+  --kd-border-primary: var(--kd-border);
+  --kd-border-muted: var(--kd-border-subtle);
+  --kd-border-accent: var(--kd-accent);
+  --kd-border-secondary: var(--kd-accent);
+  --kd-border-tertiary: var(--kd-border-inverse);
+  --kd-divider: var(--kd-border-subtle);
+  --kd-btn-primary-bg: var(--kd-bg-surface);
+  --kd-btn-primary-text: var(--kd-on-accent);
+  --kd-btn-primary-hover: var(--kd-accent-hover);
+  --kd-btn-secondary-hover: var(--kd-text);
+  --kd-heder-btn-hover-bg: #ffffff33;
+  --kd-hover-bg: var(--kd-accent-subtle);
+  --kd-hover-border: var(--kd-accent);
+  --kd-shadow-color-subtle: #00000014;
+  --kd-shadow-color-soft: #0000001a;
+  --kd-shadow-color-medium: #00000026;
+  --kd-shadow-color-strong: #00000040;
+  --kd-shadow-color-accent: var(--kd-accent-soft);
+  --kd-shadow-color-inverse: #ffffff14;
+  --kd-gradient-header: var(--kd-gradient-brand);
+  --kd-gradient-fade-right: linear-gradient(to right, var(--kd-accent), transparent);
+  --kd-gradient-fade-left: linear-gradient(to left, var(--kd-accent), transparent);
+  --kd-control-bg: var(--kd-bg-surface);
+  --kd-control-border: var(--kd-border);
+  --kd-control-shadow: 0 2px 8px var(--kd-shadow-color);
+  --kd-control-badge-bg: #000000de;
+  --kd-control-badge-text: var(--kd-text-inverse);
+  --kd-control-badge-shadow: 0 4px 12px var(--kd-shadow-color);
+  --kd-transform-outline: var(--kd-accent);
+}
+
+body {
+  background: var(--kd-bg-primary);
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+}
+
+[data-slide-index] {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ============================================================================
+   02. PRIMITIVES
+   Design-system skins - popup, input, chip, button, note
+   ============================================================================ */
+
+/* ---------- Surfaces ---------- */
+.kd-surface        { background: var(--kd-bg-surface); color: var(--kd-text); }
+
+.kd-surface-app    { background: var(--kd-bg-app); color: var(--kd-text); }
+
+.kd-surface-sunken { background: var(--kd-bg-sunken); color: var(--kd-text); }
+
+.kd-hairline       { border-color: var(--kd-border-subtle); }
+
+/* ---------- Popup / dropdown shell ---------- */
+.kd-popup {
+  background: var(--kd-bg-elevated);
+  border: 1px solid var(--kd-border-subtle);
+  border-radius: var(--kd-r-md);
+  box-shadow: var(--kd-shadow-popup);
+  color: var(--kd-text);
+}
+
+.kd-popup-section + .kd-popup-section {
+  border-top: 1px solid var(--kd-border-subtle);
+}
+
+/* ---------- Text roles ---------- */
+.kd-muted   { color: var(--kd-text-muted); }
+
+.kd-subtle  { color: var(--kd-text-subtle); }
+
+.kd-strong  { color: var(--kd-text); }
+
+
+
+.kd-danger-text  { color: var(--kd-danger); }
+
+.kd-success-text { color: var(--kd-success); }
+
+.kd-warning-text { color: var(--kd-warning); }
+
+.kd-field-label {
+  color: var(--kd-text-muted);
+  font-size: var(--kd-fs-sm);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ---------- Inputs ---------- */
+.kd-input {
+  background: var(--kd-bg-sunken);
+  border: 1px solid var(--kd-border-subtle);
+  border-radius: var(--kd-r-sm);
+  color: var(--kd-text);
+  outline: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.kd-input:hover { border-color: var(--kd-border); }
+
+.kd-input:focus {
+  border-color: var(--kd-accent);
+  background: var(--kd-bg-surface);
+  box-shadow: var(--kd-focus-ring);
+}
+
+.kd-input::placeholder { color: var(--kd-text-subtle); }
+
+.kd-input:disabled {
+  color: var(--kd-text-subtle);
+  background: var(--kd-bg-app);
+  cursor: not-allowed;
+}
+
+.kd-input-invalid,
+.kd-input[aria-invalid="true"] { border-color: var(--kd-danger); }
+
+.kd-range { accent-color: var(--kd-accent); }
+
+/* ---------- Chip / preset / segmented button ---------- */
+.kd-chip {
+  background: transparent;
+  border: 1px solid var(--kd-border-subtle);
+  border-radius: var(--kd-r-sm);
+  color: var(--kd-text-muted);
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.kd-chip:hover {
+  border-color: var(--kd-border);
+  background: var(--kd-bg-app);
+  color: var(--kd-text);
+}
+
+.kd-chip[data-active="true"] {
+  border-color: var(--kd-accent);
+  background: var(--kd-accent-subtle);
+  color: var(--kd-accent);
+}
+
+/* ---------- Buttons ---------- */
+.kd-btn-primary {
+  background: var(--kd-accent);
+  color: var(--kd-on-accent);
+  border: 1px solid transparent;
+  border-radius: var(--kd-r-sm);
+  transition: background 0.15s ease;
+}
+
+.kd-btn-primary:hover:not(:disabled)  { background: var(--kd-accent-hover); }
+
+.kd-btn-primary:active:not(:disabled) { background: var(--kd-accent-active); }
+
+.kd-btn-primary:disabled {
+  background: var(--kd-bg-hover);
+  color: var(--kd-text-subtle);
+  cursor: not-allowed;
+}
+
+.kd-btn-ghost {
+  background: transparent;
+  color: var(--kd-text-muted);
+  border: 1px solid transparent;
+  border-radius: var(--kd-r-sm);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kd-btn-ghost:hover:not(:disabled) {
+  background: var(--kd-bg-hover);
+  color: var(--kd-text);
+}
+
+.kd-btn-ghost[data-active="true"] {
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+}
+
+.kd-btn-outline {
+  background: var(--kd-bg-surface);
+  color: var(--kd-text);
+  border: 1px solid var(--kd-border);
+  border-radius: var(--kd-r-sm);
+}
+
+.kd-btn-outline:hover:not(:disabled) {
+  border-color: var(--kd-accent);
+  color: var(--kd-accent);
+}
+
+.kd-btn-outline-danger:hover:not(:disabled) {
+  background: var(--kd-danger-soft);
+  border-color: var(--kd-danger);
+  color: var(--kd-danger);
+}
+
+.kd-btn-danger {
+  background: var(--kd-danger);
+  color: var(--kd-text-inverse);
+  border: 1px solid transparent;
+  border-radius: var(--kd-r-sm);
+}
+
+/* ---------- Status banners ---------- */
+.kd-note-danger  { background: var(--kd-danger-soft);  color: var(--kd-danger);  border: 1px solid var(--kd-danger); }
+
+.kd-note-success { background: var(--kd-success-soft); color: var(--kd-success); border: 1px solid var(--kd-success); }
+
+.kd-note-warning { background: var(--kd-warning-soft); color: var(--kd-warning); border: 1px solid var(--kd-warning); }
+
+.kd-note-accent  { background: var(--kd-accent-subtle); color: var(--kd-accent); border: 1px solid var(--kd-accent); }
+
+
+.kd-modal-scrim { background: var(--kd-bg-overlay); }
+
+.kd-scrim {
+  background: var(--kd-scrim);
+  color: var(--kd-on-media);
+}
+
+.kd-on-media { color: var(--kd-on-media); }
+
+/* ---------- Selection / list rows ---------- */
+.kd-row:hover { background: var(--kd-bg-hover); }
+
+.kd-row[data-selected="true"] {
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+}
+
+/* =========== add template card design End =========== */
+
+
+/*Editor Footer Tsx file CSS*/
+/* =========================
+   KD RANGE SLIDER
+========================= */
+
+.kd-range-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 106px;
+  height: 4px;
+  border-radius: 10px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kd-range-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 10px;
+  background: var(--kd-accent);
+}
+
+.kd-range-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 10px;
+  background: var(--kd-accent);
+}
+
+.kd-range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 10px;
+  background-color: var(--kd-bg-surface);
+  border: 2px solid var(--kd-accent);
+  cursor: pointer;
+  margin-top: -5px;
+  transition: 0.2s ease;
+}
+
+.kd-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.05);
+}
+
+.kd-range-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 10px;
+  background-color: var(--kd-bg-surface);
+  border: 2px solid var(--kd-accent);
+  cursor: pointer;
+}
+
+
+/* ---------- Accent/dark surface par input ------------------
+   Neutral input yahan ghul jaata hai, isliye alag skin. */
+.kd-input-inverse {
+  background: var(--kd-scrim-soft);
+  border: 1px solid var(--kd-border-inverse);
+  border-radius: var(--kd-r-sm);
+  color: var(--kd-on-accent);
+  outline: none;
+}
+
+.kd-input-inverse::placeholder { color: var(--kd-border-inverse); }
+
+.kd-input-inverse:focus { border-color: var(--kd-on-accent); }
+
+
+.kd-slider {
+  width: 100%;
+  height: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--kd-bg-hover);
+  border-radius: var(--kd-r-pill);
+  cursor: pointer;
+}
+
+.kd-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--kd-accent);
+  cursor: pointer;
+}
+
+.kd-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: var(--kd-accent);
+  cursor: pointer;
+}
+
+/* ---------- Text selection ---------- */
+.kd-selection::selection,
+.kd-selection *::selection {
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+}
+
+/* ---------- Corner glow (reader backdrop) ---------- */
+.kd-glow-accent {
+  background: radial-gradient(
+    circle at top right,
+    var(--kd-accent-soft),
+    transparent 55%
+  );
+}
+
+
+/* ============================================================================
+   03. UTILITIES
+   Single-property color / elevation utilities
+   ============================================================================ */
+
+/* ============================================================
+   KD COLOR UTILITIES — single-property, token-backed.
+   ============================================================ */
+
+/* ---------- Background ---------- */
+.kd-bg-surface        { background-color: var(--kd-bg-surface); }
+.kd-bg-elevated       { background-color: var(--kd-bg-elevated); }
+.kd-bg-app            { background-color: var(--kd-bg-app); }
+.kd-bg-sunken         { background-color: var(--kd-bg-sunken); }
+.kd-bg-hover          { background-color: var(--kd-bg-hover); }
+.kd-bg-inverse        { background-color: var(--kd-text); }
+.kd-bg-accent         { background-color: var(--kd-accent); }
+.kd-bg-accent-soft    { background-color: var(--kd-accent-soft); }
+.kd-bg-accent-subtle  { background-color: var(--kd-accent-subtle); }
+.kd-bg-danger         { background-color: var(--kd-danger); }
+.kd-bg-danger-soft    { background-color: var(--kd-danger-soft); }
+.kd-bg-success        { background-color: var(--kd-success); }
+.kd-bg-success-soft   { background-color: var(--kd-success-soft); }
+.kd-bg-warning        { background-color: var(--kd-warning); }
+.kd-bg-warning-soft   { background-color: var(--kd-warning-soft); }
+.kd-bg-scrim          { background-color: var(--kd-scrim); }
+.kd-bg-scrim-soft     { background-color: var(--kd-scrim-soft); }
+
+/* ---------- Foreground (text / icon) ---------- */
+.kd-fg                { color: var(--kd-text); }
+.kd-fg-muted          { color: var(--kd-text-muted); }
+.kd-fg-subtle         { color: var(--kd-text-subtle); }
+.kd-fg-inverse        { color: var(--kd-text-inverse); }
+.kd-fg-accent         { color: var(--kd-accent); }
+.kd-fg-danger         { color: var(--kd-danger); }
+.kd-fg-success        { color: var(--kd-success); }
+.kd-fg-warning        { color: var(--kd-warning); }
+.kd-fg-on-media       { color: var(--kd-on-media); }
+.kd-fg-on-accent      { color: var(--kd-on-accent); }
+
+/* ---------- Border ---------- */
+.kd-bd                { border-color: var(--kd-border); }
+.kd-bd-subtle         { border-color: var(--kd-border-subtle); }
+.kd-bd-strong         { border-color: var(--kd-border-strong); }
+.kd-bd-inverse        { border-color: var(--kd-border-inverse); }
+.kd-bd-accent         { border-color: var(--kd-accent); }
+.kd-bd-danger         { border-color: var(--kd-danger); }
+.kd-bd-success        { border-color: var(--kd-success); }
+.kd-bd-warning        { border-color: var(--kd-warning); }
+
+/* ---------- SVG fill / stroke ---------- */
+.kd-fill              { fill: var(--kd-text); }
+.kd-fill-muted        { fill: var(--kd-text-muted); }
+.kd-fill-accent       { fill: var(--kd-accent); }
+.kd-stroke            { stroke: var(--kd-text); }
+.kd-stroke-muted      { stroke: var(--kd-text-muted); }
+.kd-stroke-accent     { stroke: var(--kd-accent); }
+
+/* ---------- Form control tint (range, checkbox, radio) ---------- */
+.kd-accent-color      { accent-color: var(--kd-accent); }
+.kd-accent-color-fg   { accent-color: var(--kd-text); }
+
+/* ---------- Placeholder ---------- */
+.kd-ph-subtle::placeholder { color: var(--kd-text-subtle); }
+.kd-ph-muted::placeholder  { color: var(--kd-text-muted); }
+
+/* ---------- State variants ------------------------------------
+   Tailwind me `hover:bg-gray-100` likha jata tha. Utility classes
+   khud modifier nahi le sakti, isliye state yahan baked hai. */
+.kd-hv-bg:hover               { background-color: var(--kd-bg-hover); }
+.kd-hv-bg-surface:hover       { background-color: var(--kd-bg-surface); }
+.kd-hv-bg-sunken:hover        { background-color: var(--kd-bg-sunken); }
+.kd-hv-bg-accent:hover        { background-color: var(--kd-accent-hover); }
+.kd-hv-bg-accent-subtle:hover { background-color: var(--kd-accent-subtle); }
+.kd-hv-bg-danger-soft:hover   { background-color: var(--kd-danger-soft); }
+
+.kd-hv-fg:hover           { color: var(--kd-text); }
+.kd-hv-fg-muted:hover     { color: var(--kd-text-muted); }
+.kd-hv-fg-subtle:hover    { color: var(--kd-text-subtle); }
+.kd-hv-fg-accent:hover    { color: var(--kd-accent); }
+.kd-hv-fg-danger:hover    { color: var(--kd-danger); }
+.kd-hv-fg-success:hover   { color: var(--kd-success); }
+.kd-hv-fg-warning:hover   { color: var(--kd-warning); }
+
+.kd-hv-bd:hover           { border-color: var(--kd-border); }
+.kd-hv-bd-accent:hover    { border-color: var(--kd-accent); }
+.kd-hv-bd-danger:hover    { border-color: var(--kd-danger); }
+
+/* group-hover ke liye: parent par `group`, child par ye class. */
+.group:hover .kd-gh-fg-accent { color: var(--kd-accent); }
+
+.kd-fc-bd:focus           { border-color: var(--kd-border); }
+.kd-fc-bd-accent:focus    { border-color: var(--kd-accent); }
+.kd-fc-bd-inverse:focus   { border-color: var(--kd-border-inverse); }
+.kd-fc-bg-surface:focus   { background-color: var(--kd-bg-surface); }
+.kd-fc-ring:focus         { box-shadow: var(--kd-focus-ring); }
+
+.kd-dis-fg:disabled       { color: var(--kd-text-subtle); }
+
+/* ---------- Elevation utilities ---------- */
+.kd-shadow-sm     { box-shadow: var(--kd-shadow-sm); }
+.kd-shadow-lg     { box-shadow: var(--kd-shadow-lg); }
+.kd-shadow-popup  { box-shadow: var(--kd-shadow-popup); }
+.kd-shadow-accent { box-shadow: 0 8px 24px var(--kd-accent-soft); }
+
+.kd-bg-primary {
+  background-color: var(--kd-bg-primary);
+}
+
+.kd-bg-secondary {
+  background-color: var(--kd-bg-secondary);
+}
+
+.kd-bg-tertiary {
+  background-color: var(--kd-bg-primary);
+}
+
+
+/* ============================================================================
+   04. BASE
+   Plain HTML elements aur native controls
+   ============================================================================ */
+
+/* restore list bullets */
+ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+
+/* RESET RANGE */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  /* Brand accent har slider par — Tailwind ke accent-violet-600 ko override
+     karta hai kyunki ye rule kisi @layer me nahi hai. */
+  accent-color: var(--kd-accent-primary);
+}
+
+/* TRACK */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  /* background: var(--kd-bg-app); */
+  background: var(--kd-border);
+
+  border-radius: 999px;
+}
+
+/* THUMB */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--kd-bg-secondary);
+  cursor: pointer;
+  margin-top: -4px;
+}
+
+/* FIREFOX */
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--kd-bg-secondary);
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,5438 @@
+
+
+
+/* ============================================================================
+   05. COMMON
+   Poore app me shared - button, icon, tooltip, scrollbar, menu, animation
+   ============================================================================ */
+
+.kd-text-primary {
+  color: var(--kd-text-primary);
+}
+
+.kd-text-secondary {
+  color: var(--kd-text-secondary);
+}
+
+.kd-icon-text {
+  color: var(--kd-accent-primary);
+}
+
+.kd-border-primary {
+  border: 1px solid var(--kd-border-primary);
+}
+
+.kd-border-secondary {
+  border: 1px solid var(--kd-border-secondary);
+}
+
+textarea.kd-border-primary:focus {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 1px var(--kd-bg-app);
+}
+
+.kd-shadow {
+  box-shadow: 0 8px 32px var(--kd-bg-app);
+}
+
+/* ===== KD BUTTON SYSTEM ===== */
+
+.kd-btn {
+  opacity: 1;
+  border-radius: 4px;
+  border-width: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-text-primary);
+}
+
+.kd-btn:hover {
+  background: var(--kd-bg-secondary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-on-accent);
+}
+
+.kd-btn-active {
+  background: var(--kd-bg-secondary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-on-accent);
+}
+
+.kd-btn:disabled {
+  background: var(--kd-disabled-bg);
+  color: var(--kd-disabled-text);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* ================================ */
+/* KD POPUP PANEL (Right Content)   */
+/* ================================ */
+
+.kd-popup-panel {
+  background: var(--kd-bg-secondary);
+  border: 1px solid var(--kd-border-primary);
+  box-shadow: var(--kd-shadow-lg);
+}
+
+/* Header */
+.kd-popup-header {
+  border: 1px solid var(--kd-border-primary);
+}
+
+/* Close button */
+.kd-popup-close {
+  color: var(--kd-text-muted);
+}
+
+.kd-popup-close:hover {
+  color: var(--kd-text-primary);
+}
+
+/* Section divider (optional use inside panels) */
+.kd-popup-divider {
+  border-bottom: 1px solid var(--kd-border-primary);
+}
+
+.kd-popup-panel::before {
+  border-bottom-color: var(--kd-bg-secondary) !important;
+}
+
+/* Back / close jaisa square icon button */
+.kd-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--kd-r-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kd-icon-btn:hover {
+  background: var(--kd-hover-bg);
+  border-color: var(--kd-border-primary);
+}
+
+@keyframes kd-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kd-skeleton {
+    animation: none;
+  }
+}
+
+.kd-custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.kd-custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kd-custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--kd-bg-hover);
+  border-radius: 10px;
+}
+
+.kd-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--kd-bg-hover);
+}
+
+/* Firefox */
+.kd-custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--kd-bg-hover) transparent;
+}
+
+/* ================================ */
+/* CUSTOM HORIZONTAL SCROLLBAR      */
+/* ================================ */
+
+.kd-scrollbar-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.kd-scrollbar-x::-webkit-scrollbar {
+  height: 4px;
+}
+
+.kd-scrollbar-x::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kd-scrollbar-x::-webkit-scrollbar-thumb {
+  background: var(--kd-border-primary);
+  border-radius: 10px;
+}
+
+.kd-scrollbar-x::-webkit-scrollbar-thumb:hover {
+  background: var(--kd-text-muted);
+}
+
+/* Firefox */
+.kd-scrollbar-x {
+  scrollbar-color: var(--kd-border-primary) transparent;
+  scrollbar-width: thin;
+}
+
+/* ===================================
+ All Popup Container
+=================================== */
+
+.kd-popup-main-container {
+  opacity: 1;
+  color: var(--kd-text-primary);
+  border-radius: 15px;
+  border-width: 1px;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+}
+
+/* ===================================
+  All Icon container and icon
+=================================== */
+
+.kd-icon-container-main-box {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  /* padding: 3px; */
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 6px;
+  box-shadow: var(--kd-shadow-lg);
+  /* width: fit-content; */
+}
+
+/* Button Style */
+.kd-icon-btn-main {
+  padding: 3px;
+  border-radius: 4px;
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-primary);
+  color: var(--kd-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover Effect */
+.kd-icon-btn-main:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-icon-btn-main:hover svg {
+  color: var(--kd-text-secondary);
+}
+
+.kd-icon-btn-main-active {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-icon-btn-main-active svg {
+  color: var(--kd-text-secondary);
+}
+
+/* ============================= */
+/* KD TOOLTIP (DIRECT USE)       */
+/* ============================= */
+
+.kd-tooltip-parent {
+  position: relative;
+  display: inline-flex;
+}
+
+.kd-tooltip-box {
+  position: absolute;
+  right: 120%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.95);
+  background: var(--kd-bg-black);
+  color: var(--kd-on-media);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.18s ease;
+  box-shadow: var(--kd-shadow-lg);
+  z-index: 999;
+}
+
+/* Arrow */
+.kd-tooltip-box::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--kd-bg-black);
+}
+
+/* Show */
+.kd-tooltip-parent:hover .kd-tooltip-box {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.kd-tooltip-bottom {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+
+  background: var(--kd-bg-black);
+  color: var(--kd-on-media);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+
+  opacity: 1;
+  z-index: 9999;
+}
+
+/* Arrow */
+.kd-tooltip-bottom::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--kd-bg-black) transparent;
+}
+
+.kd-tooltip-top {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+
+  background: var(--kd-bg-black);
+  color: var(--kd-on-media);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+
+  opacity: 1;
+  z-index: 9999;
+}
+
+/* Arrow pointing down */
+.kd-tooltip-top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--kd-bg-black) transparent transparent transparent;
+}
+
+.kd-default-scroll-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kd-border-primary, var(--kd-bg-hover)) transparent;
+}
+
+.kd-default-scroll-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.kd-default-scroll-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kd-default-scroll-panel::-webkit-scrollbar-thumb {
+  background: var(--kd-border-primary, var(--kd-bg-hover));
+  border-radius: 4px;
+}
+
+@keyframes kd-font-skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kd-font-skeleton-bar {
+    animation: none;
+  }
+}
+
+
+/* ============================================================================
+   06. HEADER
+   Top header bar aur canvas header
+   ============================================================================ */
+
+/* ============================= */
+/* KD EXPORT ITEM (FINAL UI)     */
+/* ============================= */
+
+.kd-export-container {
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 15px;
+  box-shadow: var(--kd-shadow-lg);
+  padding: 20px;
+}
+
+.kd-export-window-black {
+  background: var(--kd-bg-black);
+}
+
+.kd-export-item {
+  display: flex;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--kd-border-subtle);
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.kd-export-item:hover {
+  box-shadow: 0 6px 16px var(--kd-shadow-color);
+}
+
+/* ---------- LEFT ICON STRIP ---------- */
+
+.kd-export-left {
+  background: var(--kd-bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid var(--kd-border-subtle);
+  transition: background 0.25s ease;
+}
+
+.kd-export-icon {
+  padding: 14px;
+}
+
+/* ---------- RIGHT CONTENT ---------- */
+
+.kd-export-content {
+  flex: 1;
+  padding: 16px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--kd-bg-app);
+
+  transition: all 0.25s ease;
+}
+
+/* ---------- LABEL ---------- */
+
+.kd-export-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--kd-text-primary);
+
+  transition: color 0.25s ease;
+}
+
+/* ---------- BUTTON ---------- */
+
+.kd-export-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  transition: all 0.25s ease;
+}
+
+/* ============================= */
+/* HOVER STATE                   */
+/* ============================= */
+
+.kd-export-item:hover .kd-export-content {
+  background: var(--kd-bg-secondary);
+}
+
+.kd-export-item:hover .kd-export-label {
+  color: var(--kd-text-secondary);
+}
+
+.kd-export-item:hover .kd-export-btn {
+  background: var(--kd-bg-primary);
+  color: var(--kd-text-tertiary);
+}
+
+.kd-export-item:hover .kd-export-left {
+  background: var(--kd-bg-disabled);
+}
+
+.kd-header {
+  background: var(--kd-gradient-brand);
+  border-bottom: 1px solid var(--kd-border-inverse);
+}
+
+.kd-header-logo {
+  width: 32;
+  height: 32;
+  background: var(--kd-gradient-brand);
+}
+
+.kd-header-text-box {
+  color: var(--kd-on-accent);
+  border: 1px solid var(--kd-border-inverse);
+  background: var(--kd-gradient-glass);
+  box-shadow: inset 0 1px 0 var(--kd-border-inverse);
+}
+
+/* Icon Button */
+.kd-header-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kd-header-btn {
+  background: var(--kd-accent);
+  color: var(--kd-on-accent);
+  border: 1px solid var(--kd-border-inverse);
+  box-shadow: 0 1px 2px var(--kd-shadow-color);
+  transition: all 0.2s ease;
+}
+
+.kd-header-btn:hover {
+  background: var(--kd-bg-surface);
+  color: var(--kd-accent);
+  border-color: var(--kd-bg-surface);
+}
+
+.kd-header-action-btn {
+  height: 32px;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kd-header-action-btn:hover svg,
+.kd-header-btn:hover svg {
+  color: var(--kd-accent);
+}
+
+/* ---------- Light / dark toggle ---------------------------------
+   Header accent gradient par baithta hai, isliye track inverse
+   colors use karta hai (neutral yahan ghul jaata). */
+.kd-theme-toggle {
+  height: 32px;
+  width: 52px;
+  padding: 0;
+  border-radius: var(--kd-r-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.kd-theme-toggle-track {
+  position: relative;
+  display: block;
+  width: 36px;
+  height: 18px;
+  border-radius: var(--kd-r-pill);
+  background: var(--kd-scrim-soft);
+  border: 1px solid var(--kd-border-inverse);
+}
+
+.kd-theme-toggle-thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kd-bg-surface);
+  color: var(--kd-accent);
+  box-shadow: var(--kd-shadow-sm);
+}
+
+/* data-ready=false ka matlab abhi hydrate nahi hua - pehle frame me
+   thumb ko slide mat karao, warna jhatka dikhta hai. */
+.kd-theme-toggle[data-ready="true"] .kd-theme-toggle-thumb {
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.kd-theme-toggle[aria-checked="true"] .kd-theme-toggle-thumb {
+  transform: translateX(18px);
+}
+
+.kd-theme-toggle:hover .kd-theme-toggle-track {
+  border-color: var(--kd-on-accent);
+}
+
+/* Header ke baaki buttons hover par invert hote hain; toggle ko wo
+   nahi chahiye, uska apna track hai. */
+.kd-theme-toggle:hover {
+  background: var(--kd-accent);
+  border-color: var(--kd-border-inverse);
+}
+
+/* ==========layer style End========== */
+
+/* preview Panel end */
+
+
+/*Canvas Headerbar Tool Start*/
+.kd-canvasheader-container {
+  background-color: var(--kd-bg-primary);
+  border-bottom: 1px solid var(--kd-border-inverse);
+  box-shadow: 0px 2px 10px 4px var(--kd-shadow-color);
+}
+
+.kd-canvasheader-fontfamily-button {
+  background: unset;
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: var(--kd-text);
+  border: 1px solid var(--kd-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Stretching to the row rather than hard-coding a height keeps this box the
+     same size as the font-size box beside it. */
+  align-self: stretch;
+  flex: 0 0 auto;
+  width: 100px;
+  padding: 0 12px;
+}
+
+.kd-canvasheader-fontfamily-label {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kd-canvasheader-fontfamily-button:hover {
+  color: var(--kd-on-accent);
+  background: var(--kd-accent);
+}
+
+.kd-canvasheader-fontsize-button {
+  background: unset;
+  border: 1px solid var(--kd-border-subtle);
+  color: var(--kd-text-dark);
+}
+
+.kd-canvasheader-fontsize-button:hover {
+  border: 1px solid;
+  border-color: var(--kd-accent);
+}
+
+.kd-canvasheader-button-all {
+  border: 1px solid var(--kd-border-subtle);
+  color: var(--kd-text-dark);
+}
+
+.kd-canvasheader-button-all:hover {
+  color: var(--kd-on-accent);
+  background: var(--kd-accent);
+}
+
+/* A toolbar action that is currently doing something — a shape with an effect
+   on it, say — so the strip shows its own state. Same treatment as .kd-chip's
+   active state, on purpose. */
+.kd-canvasheader-button-all[data-active="true"] {
+  border-color: var(--kd-accent);
+  background: var(--kd-accent-subtle);
+  color: var(--kd-accent);
+}
+
+.kd-canvasheader-nullText-button {
+  border: 1px solid var(--kd-border-subtle);
+  color: var(--kd-text-dark);
+  background: unset;
+}
+
+.kd-canvasheader-nullText-button:hover {
+  border: 1px solid transparent;
+  background: var(--kd-accent);
+  color: var(--kd-on-accent);
+}
+
+
+/* ============================================================================
+   07. SIDEBAR
+   Left icon strip, right panel shell, tool panel
+   ============================================================================ */
+
+/* ================================ */
+/* KD LEFT SIDEBAR (Slides / Preview) */
+/* ================================ */
+
+.kd-left-sidebar {
+  display: flex;
+  flex-direction: column;
+  /* position: absolute; */
+  /* top: 70px; */
+  -webkit-box-pack: center;
+  /* left: 10px; */
+  width: 155px;
+  z-index: 1;
+  height: calc(100%);
+  border-radius: 8px;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+  box-shadow: 4px 0px 40px 0px var(--kd-shadow-color);
+}
+
+/* Header (+ New) */
+/* .kd-left-sidebar-header {
+  border-bottom: 1px solid var(--kd-border-primary);
+} */
+
+/* + New button */
+.kd-left-sidebar-add {
+  background: var(--kd-btn-primary-bg);
+  color: var(--kd-text-primary);
+  border: 1px solid var(--kd-border-primary);
+}
+
+/* Title row: "Templates", "Images", back arrow + naam — sab yahi use karein. */
+.kd-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 12px var(--kd-panel-pad) 10px;
+}
+
+.kd-panel-header-title {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: var(--kd-fs-lg);
+  line-height: 1.2;
+  color: var(--kd-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kd-panel-subtext {
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-xs);
+  color: var(--kd-text-muted);
+}
+
+.kd-panel-divider {
+  flex-shrink: 0;
+  /* Content ke saath aligned rahe — edge-to-edge nahi. */
+  margin: 0 var(--kd-panel-pad);
+  border-bottom: 1px solid var(--kd-border-primary);
+}
+
+/* Jahan divider ko poori chaudai chahiye */
+.kd-panel-divider-full {
+  margin-inline: 0;
+}
+
+/* Panel ka fixed hissa (search, tabs, apply button) */
+.kd-panel-toolbar {
+  flex-shrink: 0;
+  padding: 10px var(--kd-panel-pad);
+}
+
+/* Scroll hone wala hissa — upar divider se saans lene ki jagah */
+.kd-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 12px var(--kd-panel-pad);
+}
+
+/* "LINKS AND TAGS", "ENGAGEMENT" jaisa group label */
+.kd-panel-section-title {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: var(--kd-fs-sm);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--kd-text-muted);
+}
+
+/* Panel ke andar ke buttons */
+.kd-panel-btn-primary {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: var(--kd-r-sm);
+  border: 1px solid var(--kd-accent-primary);
+  background: var(--kd-accent-primary);
+  color: var(--kd-on-accent);
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: var(--kd-fs-md);
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kd-panel-btn-primary:hover {
+  background: var(--kd-accent-hover);
+  border-color: var(--kd-accent-hover);
+}
+
+.kd-panel-btn-primary:active {
+  transform: scale(0.99);
+}
+
+.kd-panel-btn-ghost {
+  padding: 8px 14px;
+  border-radius: var(--kd-r-sm);
+  border: 1px solid var(--kd-border-primary);
+  background: transparent;
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-size: var(--kd-fs-md);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kd-panel-btn-ghost:hover {
+  background: var(--kd-hover-bg);
+  border-color: var(--kd-accent-primary);
+}
+
+/* ---------- Empty / failed panel state ---------- */
+
+.kd-panel-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 12px;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-muted);
+  text-align: center;
+}
+
+.kd-panel-empty-action {
+  padding: 4px 12px;
+  border-radius: var(--kd-r-xs);
+  border: 1px solid var(--kd-border-primary);
+  background: transparent;
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.kd-panel-empty-action:hover {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent-primary);
+}
+
+/* === Left Sidebar === */
+.toggle-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+}
+
+/* === Right Sidebar === */
+.right-menu {
+  /* z-index: 10; */
+  justify-content: center;
+  display: flex;
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  height: calc(100% - 90px);
+}
+
+.right-menu .menu-tags {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 8px;
+  padding: 5px;
+}
+
+/* ======more button seting design End ======= */
+
+/* ====== Tool panel coan design start ===========*/
+.kd-toolPanel-container {
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border);
+}
+
+.kd-toolPanel-heding-text {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 12.81px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text);
+}
+
+.kd-toolPanel-sub-heding-text {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  line-height: 100%;
+  letter-spacing: 0%;
+  font-size: 8.54px;
+  color: var(--kd-text);
+}
+
+.kd-toolPanel-hr-devide-border {
+  border-bottom: 0.71px solid var(--kd-border);
+}
+
+/* ---------- Slideshow builder tray ---------- */
+
+/* Fixed footer strip that holds a panel's primary action. */
+.kd-panel-footer,
+.kd-slideshow-tray {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px var(--kd-panel-pad) 16px;
+  border-top: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-primary);
+  box-shadow: 0 -4px 12px var(--kd-shadow-color);
+}
+
+.kd-panel-footer .kd-set-action,
+.kd-slideshow-tray .kd-set-action {
+  min-height: 38px;
+  padding: 9px 12px;
+  font-size: var(--kd-fs-lg);
+}
+
+
+/* ============================================================================
+   08. ASSETS PANEL
+   Assets panel - grids, cards, upload, AI generators, fonts
+   ============================================================================ */
+
+/* ============================= */
+/* MODERN BALANCED IMAGE CARD    */
+/* ============================= */
+
+.kd-replace-preview {
+  width: 100%;
+  border-radius: 8px;
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  padding: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kd-image-card {
+  position: relative;
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+/* image fit inside card */
+.kd-image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* important */
+  border-radius: 10px;
+  background: var(--kd-bg-primary);
+  transition: transform 0.25s ease;
+}
+
+/* hover effect */
+.kd-image-card:hover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+.kd-image-card:active {
+  transform: scale(0.98);
+}
+
+/* ================================ */
+/* Upload Box */
+/* ================================ */
+
+.kd-upload-box {
+  display: block;
+  cursor: pointer;
+}
+
+.kd-upload-inner {
+  background: var(--kd-bg-primary);
+  border: 1px dashed var(--kd-border-primary);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  transition: all 0.25s ease;
+}
+
+.kd-upload-inner:hover {
+  background: var(--kd-bg-app);
+
+  border-color: var(--kd-accent-primary);
+}
+
+/* Search */
+.kd-search-wrapper {
+  position: relative;
+}
+
+.kd-search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: var(--kd-text-muted);
+}
+
+.kd-search-input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  outline: none;
+}
+
+.kd-search-input:focus {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-search-input:focus {
+  outline: none;
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 1px var(--kd-accent-primary);
+}
+
+/* ================================ */
+/* KD FONT DROPDOWN                 */
+/* ================================ */
+
+.kd-font-trigger {
+  border-radius: 4px;
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-primary);
+  color: var(--kd-text-primary);
+  height: 32px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  min-width: 110px;
+}
+
+.kd-font-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-primary);
+  padding: 4px;
+  z-index: 200;
+}
+
+.kd-font-option {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.kd-font-option:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  box-shadow: inset 0 0 0 1px var(--kd-accent-primary);
+}
+
+.kd-font-option-active {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  box-shadow: inset 0 0 0 1px var(--kd-accent-primary);
+}
+
+/* ================================ */
+/* KD AI TEXT GENERATOR POPUP       */
+/* ================================ */
+
+.kd-ai-text-popup {
+  background: var(--kd-bg-secondary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 14px;
+  box-shadow: var(--kd-shadow-lg);
+  backdrop-filter: blur(12px);
+}
+
+.kd-ai-textarea {
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-text-primary);
+}
+
+.kd-ai-textarea::placeholder {
+  color: var(--kd-text-muted);
+}
+
+.kd-ai-textarea:focus {
+  outline: none;
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 1px var(--kd-accent-primary);
+}
+
+/* ================================ */
+/* KD ELEMENT PANEL (AddElementPanel) */
+/* ================================ */
+
+/* Har tool panel ka shell. Panel apna padding khud mat likhe —
+   ye class lagao aur body/header apne aap sahi rhythm me aa jaayenge. */
+.kd-element-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+}
+
+/* Asset grid — gap ab har panel me ek jaisa */
+.kd-asset-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--kd-grid-gap);
+  align-content: start;
+}
+
+.kd-asset-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.kd-asset-grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* ---------- Header ---------- */
+
+.kd-search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+}
+
+.kd-search-box:focus-within {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-search-box input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  outline: none;
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+}
+
+.kd-search-box input::placeholder {
+  color: var(--kd-text-muted);
+}
+
+/* ---------- Category Bar ---------- */
+
+.kd-category-bar {
+  position: relative;
+}
+
+.kd-category-pill {
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--kd-r-xs);
+  border: 1px solid var(--kd-border-primary);
+  background: transparent;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.kd-category-pill:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-category-pill-active {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+/* ---------- Category Arrow ---------- */
+
+.kd-category-arrow {
+  background: linear-gradient(to right, var(--kd-bg-secondary), transparent);
+  color: var(--kd-on-accent);
+}
+
+.kd-category-arrow-right {
+  background: linear-gradient(to left, var(--kd-bg-secondary), transparent);
+}
+
+/* ---------- Section ---------- */
+
+.kd-element-section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--kd-text-primary);
+}
+
+/* ---------- Element Card ---------- */
+
+.kd-element-card {
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.kd-element-card:hover {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent-primary);
+}
+
+/* ---------- Asset tile (shapes, elements, stickers grids) ---------- */
+
+.kd-asset-tile {
+  display: flex;
+  aspect-ratio: 1 / 1;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.kd-asset-tile:hover {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent-primary);
+  transform: translateY(-1px);
+}
+
+.kd-asset-tile:focus-visible {
+  outline: 2px solid var(--kd-accent-primary);
+  outline-offset: 2px;
+}
+
+.kd-asset-tile img,
+.kd-asset-tile svg {
+  width: 68%;
+  height: 68%;
+  object-fit: contain;
+}
+
+/* Photographic art (stickers, GIFs) fills its tile — the 68% inset above is
+   sized for the shape library's small icon silhouettes. */
+.kd-asset-tile-media {
+  padding: 6px;
+}
+
+.kd-asset-tile-media img {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+}
+
+/* ---------- Element library category rows ---------- */
+
+.kd-el-section + .kd-el-section {
+  margin-top: 18px;
+}
+
+.kd-el-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.kd-el-section-title {
+  min-width: 0;
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: var(--kd-fs-lg);
+  color: var(--kd-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kd-el-section-more {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 6px 3px 8px;
+  margin-right: -6px;
+  border-radius: var(--kd-r-xs);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  font-weight: 600;
+  color: var(--kd-accent-primary);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.kd-el-section-more:hover {
+  background: var(--kd-accent-soft);
+}
+
+/* ---------- Loading skeletons ---------- */
+
+.kd-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--kd-bg-app) 25%,
+    var(--kd-bg-primary) 50%,
+    var(--kd-bg-app) 75%
+  );
+  background-size: 200% 100%;
+  animation: kd-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+/* Same footprint as a real tile, so nothing jumps when the data lands. */
+.kd-asset-tile-skeleton {
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+}
+
+.kd-pill-skeleton {
+  width: 56px;
+  height: 24px;
+  border-radius: var(--kd-r-xs);
+  flex-shrink: 0;
+}
+
+/* for Some time use   */
+
+.default-img {
+  background-color: var(--kd-bg-canvas-well);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+/* ===================================
+ Ai genrate image box design
+=================================== */
+
+/* Input Box Wrapper */
+.kd-ai-generator-inputWrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 10px;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+/* Focus effect like Figma */
+.kd-ai-generator-inputWrapper:focus-within {
+  border-color: var(--kd-border-secondary);
+  box-shadow: var(--kd-focus-ring);
+}
+
+/* Textarea */
+.kd-ai-generator-textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 14px;
+  color: var(--kd-text-primary);
+  background: transparent;
+  line-height: 1.4;
+}
+
+.kd-ai-generator-textarea::placeholder {
+  color: var(--kd-text-primary);
+}
+
+.kd-ai-text-generate-input {
+
+  font-family: var(--kd-font);
+  width: 100%;
+  padding: 5px;
+  border: 1.07px solid transparent;
+  border-radius: 5.69px;
+  background:
+    linear-gradient(var(--kd-bg-surface), var(--kd-bg-surface)) padding-box,
+    var(--kd-gradient-brand) border-box;
+  outline: none;
+  resize: none;
+  color: var(--kd-text-muted);
+  font-size: 12px;
+  line-height: 150%;
+
+}
+
+.kd-ai-text-generate-input:focus-within {
+  border-color: var(--kd-border-secondary);
+  box-shadow: var(--kd-focus-ring);
+}
+
+/* Send Button */
+.kd-ai-generator-sendBtn {
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kd-on-accent);
+  background: var(--kd-gradient-brand);
+  box-shadow: var(--kd-shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.kd-ai-generator-sendBtn:hover {
+  transform: scale(1.05);
+}
+
+/* new editor css start  */
+/* header css start */
+/* ===== KD HEADER ===== */
+.kd-font-jakarta {
+  font-family: var(--kd-font);
+}
+
+/* header css end */
+
+/* sidebar Assets Panel start */
+/* =====  Assets Panel ===== */
+
+.kd-Assets-Panel-wrapper {
+  background: var(--kd-bg-surface);
+  border-right: 0.71px solid var(--kd-border);
+}
+
+/* sidebar Assets Panel end */
+
+/* ================================ */
+/* KD TEXT PANEL                    */
+/* ================================ */
+
+.kd-text-add-panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Fixed top section — never scrolls */
+.kd-text-add-panel-fixed {
+  flex-shrink: 0;
+  padding: 12px 12px 8px;
+}
+
+/* Section label */
+.kd-text-add-panel-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+}
+
+.kd-text-add-panel-card {
+  border-radius: 12px;
+  background: var(--kd-bg-app);
+
+}
+
+.kd-text-Add-defult-card {
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  padding: 8px;
+}
+
+.kd-text-Add-defult-card:hover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+/* Scrollable bottom section */
+.kd-text-add-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0px 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kd-border-primary, var(--kd-bg-hover)) transparent;
+}
+
+.kd-text-add-panel-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.kd-text-add-panel-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kd-text-add-panel-scroll::-webkit-scrollbar-thumb {
+  background: var(--kd-border-primary, var(--kd-bg-hover));
+  border-radius: 4px;
+}
+
+/* ================================ */
+/* LEGACY BUTTON CARD               */
+/* ================================ */
+
+.kd-btn-add-panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* padding: 12px 12px 8px; */
+}
+
+.kd-btn-add-panel-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+}
+
+.kd-btn-Add-defult-card {
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+}
+
+.kd-btn-Add-defult-card:hover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+/* Scrollable bottom section */
+.kd-btn-add-panel-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 12px 16px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kd-border-primary, var(--kd-bg-hover)) transparent;
+}
+
+.kd-btn-add-panel-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.kd-btn-add-panel-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kd-btn-add-panel-scroll::-webkit-scrollbar-thumb {
+  background: var(--kd-border-primary, var(--kd-bg-hover));
+  border-radius: 4px;
+}
+
+/* ======Tool panel coan design end =============*/
+
+
+/* =========== image secton css start ======== */
+.kd-add-imagetool-btn {
+  padding: 8px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--kd-border-muted);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--kd-text-black);
+  background: var(--kd-bg-btn);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kd-add-imagetool-btn:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-add-imagetool-btn.active {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  border-color: var(--kd-bg-secondary);
+}
+
+.kd-add-image-card,
+.kd-media-upload-gallery-card,
+.kd-media-upload-gallery-skeleton,
+.kd-ai-video-card {
+  position: relative;
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.kd-add-image-card img {
+  border-radius: var(--kd-r-md);
+  cursor: pointer;
+}
+
+.kd-add-image-card:hover,
+.kd-media-upload-gallery-card:hover,
+.kd-ai-video-card:hover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+.kd-add-image-card:active,
+.kd-media-upload-gallery-card:active,
+.kd-ai-video-card:active {
+  transform: scale(0.98);
+}
+
+/* Card ke andar ka media — radius card se ek qadam chhota */
+.kd-media-upload-gallery-card img,
+.kd-media-upload-gallery-card video,
+.kd-ai-video-card img,
+.kd-ai-video-card video {
+  border-radius: calc(var(--kd-r-md) - 2px);
+}
+
+.kd-media-upload-gallery-skeleton {
+  cursor: default;
+}
+
+/* Card par lagne wala delete chip — sab jagah ek jaisa */
+.kd-media-upload-delete-btn,
+.kd-ai-video-delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--kd-r-xs);
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-surface);
+  color: var(--kd-text-danger);
+  font-size: 10px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 3;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.kd-media-upload-delete-btn:hover,
+.kd-ai-video-delete-btn:hover {
+  background: var(--kd-bg-danger);
+  border-color: var(--kd-bg-danger);
+  color: var(--kd-text-secondary);
+}
+
+/* =========== image secton css End ======== */
+
+/* =========== add template card design start =========== */
+.Kd-add-template-card {
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  overflow: hidden;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.Kd-add-template-card:hover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+.Kd-add-template-card:active {
+  transform: scale(0.98);
+}
+
+.Kd-add-template-card-img {
+  background: var(--kd-bg-app);
+  /* Card ke 4px padding ke andar baithe — corner card se bahar na nikle */
+  border-radius: calc(var(--kd-r-md) - 4px);
+  transition: all 0.2s ease;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: auto;
+}
+
+/* ========Image add section css start======== */
+
+.kd-image-add-section-tap-btn {
+  background: var(--kd-bg-surface);
+  border: 1px solid var(--kd-border-subtle);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: var(--kd-text-muted);
+}
+
+.kd-image-add-section-tap-btn:hover {
+  border-color: var(--kd-accent);
+}
+
+.kd-tap-btn-icon-box {
+  /* border: 0.71px solid #00000026; */
+  background: var(--kd-accent-subtle);
+}
+
+/* Active state */
+.kd-image-add-section-tap-btn.active {
+  background: var(--kd-gradient-accent);
+  border-color: transparent;
+  color: var(--kd-on-accent);
+}
+
+.kd-image-add-section-tap-btn.active .kd-tap-btn-icon-box {
+  background: var(--kd-bg-surface);
+}
+
+.kd-image-add-section-tap-btn-icon-1 {
+  border-radius: 7.11px;
+  background: var(--kd-accent-subtle);
+}
+
+.kd-image-add-section-tap-btn-icon-2 {
+  border-radius: 7.11px;
+  background: var(--kd-warning-soft);
+}
+
+.kd-image-add-section-tap-btn-icon-3 {
+  border-radius: 7.11px;
+  background: var(--kd-success-soft);
+
+}
+
+.kd-image-add-section-tap-btn.active .kd-image-add-section-tap-btn-icon-1,
+.kd-image-add-section-tap-btn.active .kd-image-add-section-tap-btn-icon-2,
+.kd-image-add-section-tap-btn.active .kd-image-add-section-tap-btn-icon-3 {
+  background: var(--kd-bg-surface);
+  border: 3px solid var(--kd-border);
+
+}
+
+/* ========Image add section css End======== */
+
+/* ========Ai Generate Video section css start======== */
+
+.kd-ai-video-textArea-box {
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border);
+  border-radius: 11px;
+}
+
+.kd-ai-video-label {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 9.96px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+}
+
+.kd-ai-video-count {
+  font-family: var(--kd-font);
+  font-weight: 400;
+  font-style: "Regular";
+  font-size: 8.54px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+}
+
+/* .kd-ai-video-textarea {
+  font-family: var(--kd-font);
+  border: 1px solid var(--kd-accent);
+
+  
+  background: var(--kd-bg-surface);
+  color: var(--kd-text);
+} */
+
+.kd-ai-video-textarea {
+  font-family: var(--kd-font);
+  width: 100%;
+  padding: 12px;
+  border: 1.07px solid transparent;
+  border-radius: 5.69px;
+  background:
+    linear-gradient(var(--kd-bg-surface), var(--kd-bg-surface)) padding-box,
+    var(--kd-gradient-brand) border-box;
+  outline: none;
+  resize: none;
+  color: var(--kd-text-muted);
+  font-size: 12px;
+  line-height: 150%;
+}
+
+.kd-ai-video-textarea::placeholder {
+  color: var(--kd-text-muted);
+}
+
+/* .kd-ai-video-textarea:focus {
+  border-color: var(--kd-accent);
+} */
+
+.kd-ai-video-generate-btn {
+  font-family: var(--kd-font);
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent) !important;
+  border: none;
+}
+
+.kd-ai-video-history-empty {
+  border: 0.71px solid var(--kd-border);
+  background: var(--kd-bg-sunken);
+
+}
+
+.kd-ai-video-history-empty-text {
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 9.96px;
+  letter-spacing: 0px;
+  vertical-align: middle;
+  color: var(--kd-text-muted);
+}
+
+.kd-ai-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--kd-grid-gap);
+  align-content: start;
+}
+
+/* .kd-ai-video-card ka skin upar shared card group me hai */
+
+
+
+.kd-ai-video-card:active {
+  transform: scale(0.97);
+}
+
+.kd-ai-video-card video,
+.kd-ai-video-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Center play icon overlay */
+.kd-ai-video-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.kd-ai-video-play-overlay svg {
+  width: 22px;
+  height: 22px;
+  color: var(--kd-on-media);
+  filter: drop-shadow(0 1px 3px var(--kd-scrim));
+}
+
+.kd-ai-video-card:hover .kd-ai-video-play-overlay {
+  display: none;
+}
+
+/* Duration badge bottom-left */
+.kd-ai-video-duration-badge {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  background: var(--kd-scrim);
+  color: var(--kd-on-media);
+  font-family: var(--kd-font);
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1.3;
+  z-index: 2;
+}
+
+/* Delete chip ka skin shared card group ke saath upar define hai */
+
+
+
+/* Pending / generating state */
+.kd-ai-video-pending {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--kd-gradient-soft);
+  font-family: var(--kd-font);
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--kd-accent);
+}
+
+.kd-ai-video-pending svg {
+  font-size: 14px;
+}
+
+/* ========Ai Generate Video Card design End======== */
+
+/* ================================ */
+/* KD MEDIA UPLOAD (colors/borders)  */
+/* ================================ */
+
+
+/* upload part */
+
+.kd-media-upload-card {
+  width: 100%;
+  border: 1px solid var(--kd-border);
+  border-radius: 10px;
+  background: var(--kd-bg-surface);
+  padding: 10px;
+}
+
+.kd-media-upload-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.kd-media-upload-header h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14px;
+  color: var(--kd-text-muted);
+}
+
+.kd-media-upload-title {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 9.96px;
+  line-height: 100%;
+  letter-spacing: 0%;
+
+}
+
+.kd-media-upload-subtitle {
+  font-family: var(--kd-font);
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 8.54px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin: 4px 0 0;
+  color: var(--kd-text-muted);
+
+
+}
+
+.kd-media-upload-dropbox {
+  margin-top: 10px;
+  height: 110px;
+  width: 100%;
+  border-radius: 5px;
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-subtle);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.kd-media-upload-main-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--kd-bg-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kd-media-upload-drop-text {
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+
+}
+
+.kd-media-upload-file-info {
+  margin: 6px 0 0;
+  font-family: var(--kd-font);
+  font-weight: 400;
+  font-style: "Regular";
+  font-size: 8.54px;
+  color: var(--kd-text-muted);
+  line-height: 150%;
+  letter-spacing: 0%;
+
+}
+
+.kd-media-upload-divider {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kd-media-upload-divider span {
+  flex: 1;
+  height: 1px;
+  background: var(--kd-bg-hover);
+}
+
+.kd-media-upload-divider p {
+  margin: 0;
+  font-size: 8px;
+  line-height: 8px;
+  color: var(--kd-text-muted);
+}
+
+.kd-media-upload-url-label {
+  margin-top: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 11px;
+  color: var(--kd-text-muted);
+  line-height: 100%;
+  letter-spacing: 0%;
+
+}
+
+.kd-media-upload-url-label label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 12px;
+  color: var(--kd-text-muted);
+}
+
+.kd-media-upload-url-input {
+  margin-top: 8px;
+  width: 100%;
+  height: 32px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-bg-primary);
+  padding: 0 10px;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-sm);
+  color: var(--kd-text-primary);
+  outline: none;
+}
+
+.kd-media-upload-url-input:focus {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-media-upload-url-error {
+  margin-top: 6px;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-xs);
+  color: var(--kd-text-danger);
+}
+
+.kd-media-upload-url-input::placeholder {
+  color: var(--kd-text-subtle);
+}
+
+.kd-media-upload-load-btn {
+  margin-top: 11px;
+  width: 100%;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.kd-media-upload-load-btn:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.kd-media-upload-load-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================================ */
+/* KD FONT PANEL                     */
+/* ================================ */
+
+.kd-font-panel-heading {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--kd-text);
+}
+
+.kd-font-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 8px;
+  background: var(--kd-bg-sunken);
+  transition: all 0.2s ease;
+}
+
+.kd-font-search-wrapper:focus-within {
+  border-color: var(--kd-accent);
+  box-shadow: 0 0 0 2px var(--kd-accent-soft);
+  background: var(--kd-bg-surface);
+}
+
+.kd-font-search-icon {
+  color: var(--kd-text-muted);
+  flex-shrink: 0;
+}
+
+.kd-font-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--kd-font);
+  font-size: 12px;
+  color: var(--kd-text);
+}
+
+.kd-font-search-input::placeholder {
+  color: var(--kd-text-subtle);
+}
+
+.kd-font-search-clear {
+  color: var(--kd-text-muted);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.kd-font-search-clear:hover {
+  color: var(--kd-text);
+}
+
+.kd-font-section-label {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--kd-text-muted);
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+.kd-font-recent-box {
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 6px;
+  background: var(--kd-bg-surface);
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--kd-text);
+}
+
+.kd-font-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 0.71px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.kd-font-row:hover {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent-soft);
+}
+
+.kd-font-row-active {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent);
+}
+
+.kd-font-row-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+  opacity: 0.4;
+  color: var(--kd-text-muted);
+  transition: all 0.15s ease;
+}
+
+.kd-font-row:hover .kd-font-row-icon {
+  opacity: 0.7;
+  color: var(--kd-accent);
+}
+
+.kd-font-row-active .kd-font-row-icon {
+  opacity: 1;
+  color: var(--kd-accent);
+}
+
+.kd-font-row-text {
+  font-size: 13px;
+  color: var(--kd-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.kd-font-row-active .kd-font-row-text {
+  color: var(--kd-accent);
+  font-weight: 600;
+}
+
+.kd-font-divider {
+  border: none;
+  border-top: 0.71px solid var(--kd-border-subtle);
+  margin: 8px 0;
+}
+
+.kd-font-loading-text {
+  font-family: var(--kd-font);
+  font-size: 11px;
+  color: var(--kd-text-subtle);
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+.kd-font-empty-text {
+  font-family: var(--kd-font);
+  font-size: 12px;
+  color: var(--kd-text-subtle);
+  text-align: center;
+  padding: 32px 0;
+}
+
+/* Row name before its preview webfont has arrived: readable in the UI face,
+   dimmed so the swap does not read as a glitch. */
+.kd-font-row-text-pending {
+  font-family: var(--kd-font);
+  color: var(--kd-text-subtle);
+}
+
+/* Placeholder rows for the not-yet-paged-in tail of the list. */
+.kd-font-row-skeleton {
+  cursor: default;
+  pointer-events: none;
+}
+
+.kd-font-row-skeleton:hover {
+  background: transparent;
+  border-color: transparent;
+}
+
+.kd-font-skeleton-bar {
+  display: block;
+  height: 11px;
+  border-radius: 4px;
+  background: var(--kd-gradient-skeleton);
+  background-size: 200% 100%;
+  animation: kd-font-skeleton-shimmer 1.2s ease-in-out infinite;
+}
+
+/* The list is one render behind the search box while a filter settles. */
+.kd-font-list-pending {
+  opacity: 0.55;
+  transition: opacity 0.15s ease;
+}
+
+/* ===========Ai Text Gen popup ============ */
+.kd-text-Ai-gen-box-lable {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+
+}
+
+.kd-text-Ai-gen-box-text-btn {
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-app);
+  color: var(--kd-text-muted);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  border-radius: 10px;
+}
+
+.kd-text-Ai-gen-box-text-btn:hover {
+  border: 1px solid var(--kd-accent);
+  background: linear-gradient(90deg,
+      var(--kd-accent-soft) 0%,
+      var(--kd-accent-soft) 100%);
+}
+
+.kd-text-Ai-gen-box-AddNew-btn {
+  border: 1px solid var(--kd-accent);
+  background: linear-gradient(90deg,
+      var(--kd-accent-soft) 0%,
+      var(--kd-accent-soft) 100%);
+  border-radius: 10px;
+  color: var(--kd-accent);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: "Medium";
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.kd-text-Ai-gen-box-UseText-btn {
+  border: 1px solid var(--kd-accent);
+  background: var(--kd-gradient-brand);
+  border-radius: 10px;
+  color: var(--kd-on-accent);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: "Medium";
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+/* ---------- Slideshow image picker ---------- */
+
+/* No overflow anywhere in here on purpose: the host panel owns the scroll. */
+.kd-pick {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* The host renders this outside its scroll container, so it never moves. */
+.kd-pick-tabbar {
+  flex-shrink: 0;
+  padding: 10px var(--kd-panel-pad) 0;
+}
+
+.kd-pick-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  padding: 3px;
+  border-radius: var(--kd-r-sm);
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-app);
+  box-shadow: 0 2px 8px var(--kd-shadow-color);
+}
+
+.kd-pick-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 4px;
+  border-radius: 7px;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  font-weight: 500;
+  color: var(--kd-text-muted);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.kd-pick-tab:hover:not(.kd-pick-tab-on) {
+  background: var(--kd-accent-subtle);
+  color: var(--kd-text-primary);
+}
+
+.kd-pick-tab-on {
+  background: var(--kd-bg-primary);
+  color: var(--kd-accent-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 3px var(--kd-shadow-color), 0 0 0 1px var(--kd-shadow-color);
+}
+
+.kd-pick-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 10px;
+  border: 1px dashed var(--kd-border-primary);
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.kd-pick-drop small {
+  font-size: var(--kd-fs-xs);
+  color: var(--kd-text-muted);
+}
+
+.kd-pick-drop:hover,
+.kd-pick-drop-over {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+.kd-pick-row {
+  display: flex;
+  gap: 6px;
+}
+
+.kd-pick-input {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-xs);
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+  outline: none;
+}
+
+.kd-pick-input:focus {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-pick-input::placeholder {
+  color: var(--kd-text-muted);
+}
+
+.kd-pick-textarea {
+  width: 100%;
+  padding: 8px 9px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-xs);
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+  resize: none;
+  outline: none;
+}
+
+.kd-pick-textarea:focus {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-pick-prompt-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+}
+
+.kd-pick-prompt-head small {
+  font-size: var(--kd-fs-xs);
+  color: var(--kd-text-muted);
+}
+
+.kd-pick-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 12px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-xs);
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  font-weight: 500;
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.kd-pick-btn:hover:not(:disabled) {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-accent-soft);
+}
+
+.kd-pick-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.kd-pick-btn-primary {
+  width: 100%;
+  border-color: transparent;
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  font-weight: 600;
+}
+
+.kd-pick-btn-primary:hover:not(:disabled) {
+  border-color: transparent;
+  filter: brightness(1.05);
+}
+
+.kd-pick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.kd-pick-tile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  background: var(--kd-bg-app);
+  box-shadow: 0 1px 2px var(--kd-shadow-color);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.kd-pick-tile:hover {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 6px 16px var(--kd-shadow-color);
+  transform: translateY(-2px);
+}
+
+.kd-pick-tile:focus-visible {
+  outline: 2px solid var(--kd-accent-primary);
+  outline-offset: 2px;
+}
+
+.kd-pick-tile img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.kd-pick-tile:hover img {
+  transform: scale(1.06);
+}
+
+/* A whisper of a veil on hover so the check badge always reads. */
+.kd-pick-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--kd-border) 0%, transparent 45%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.kd-pick-tile:hover::after,
+.kd-pick-tile-on::after {
+  opacity: 1;
+}
+
+.kd-pick-tile-on {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 2px var(--kd-accent-soft), 0 4px 12px var(--kd-shadow-color);
+}
+
+.kd-pick-tile-check {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  z-index: 1;
+  display: flex;
+  height: 20px;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--kd-accent-primary);
+  color: var(--kd-on-accent);
+  box-shadow: 0 0 0 2px var(--kd-bg-surface), 0 2px 6px var(--kd-shadow-color);
+}
+
+.kd-pick-note {
+  padding: 14px 8px;
+  border: 1px dashed var(--kd-border-primary);
+  border-radius: var(--kd-r-sm);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-muted);
+  text-align: center;
+}
+
+.kd-pick-error {
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-sm);
+  color: var(--kd-text-danger);
+}
+
+
+/* ============================================================================
+   09. CANVAS
+   Slide canvas, slide strip, layers, transform, snap
+   ============================================================================ */
+
+.kd-slide {
+  border: 2px solid transparent;
+}
+
+.kd-slide-inactive {
+  border-color: var(--kd-border-primary);
+}
+
+.kd-slide-active {
+  border-color: var(--kd-accent-primary);
+}
+
+/* Active slide */
+.kd-slide-preview {
+  background: var(--kd-bg-primary);
+  border: 2px solid var(--kd-border-primary);
+  border-radius: 8px;
+}
+
+.kd-slide-preview:hover {
+  border: 2px solid var(--kd-border-secondary);
+}
+
+/* Dragging state */
+.kd-slide-preview-active {
+  border: 2px solid var(--kd-border-secondary);
+}
+
+.kd-slide-options-menu {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--kd-text-primary);
+  transition: all 0.2s ease;
+}
+
+.kd-slide-options-menu:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+/* ===================================
+  Popup Container
+=================================== */
+.kd-slide-setting-popup {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 6px;
+  box-shadow: var(--kd-shadow-lg);
+  width: fit-content;
+}
+
+/* Button Style */
+.kd-slide-btn {
+  padding: 3px;
+  border-radius: 4px;
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-text-secondary);
+  color: var(--kd-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover Effect */
+.kd-slide-btn:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-slide-btn:hover svg {
+  color: var(--kd-text-secondary);
+}
+
+/* ===================================
+ kd new slide generate textarea
+=================================== */
+.kd-new-slide-generate-textarea {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  outline: none;
+  height: 100px;
+  resize: none;
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 10px;
+  padding: 5px;
+  transition: all 0.2s ease;
+}
+
+.kd-new-slide-generate-textarea:focus {
+  border-color: var(--kd-border-secondary);
+  box-shadow: var(--kd-focus-ring);
+}
+
+.kd-toolbar-section {
+  height: 21.34px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 4.27px;
+}
+
+.kd-toolbar-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--kd-divider);
+  margin: 0 6px;
+}
+
+.kd-tool-btn {
+  width: 32px;
+  height: 32px;
+}
+
+.kd-toolbar-select,
+.kd-toolbar-counter {
+  width: 32px;
+  padding: 3px;
+  font-weight: 200;
+  border-radius: 4px;
+  border: 1px solid var(--kd-border-primary);
+  background: var(--kd-bg-primary);
+  color: var(--kd-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========layer style start========== */
+.Kd-layer-text-Style {
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+}
+
+.kd-layer-row {
+  background: var(--kd-bg-app);
+  border: 1px solid var(--kd-border-subtle);
+  border-radius: 8px;
+}
+
+.kd-layer-row-selected {
+  background-color: var(--kd-accent-subtle);
+  border-color: var(--kd-accent);
+}
+
+.kd-layer-row-dragover {
+  border-top-color: var(--kd-accent);
+}
+
+.kd-layer-icon-box {
+  background-color: var(--kd-accent);
+}
+
+.kd-layer-icon-box-selected {
+  background-color: var(--kd-accent);
+}
+
+/* ================ Watermark END=============== */
+
+
+/* ============= edit item positon start =========== */
+.kd-item-position-heading-text {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text);
+
+}
+
+.kd-item-position-btn {
+  border: 0.71px solid var(--kd-border-subtle);
+  background: var(--kd-bg-sunken);
+  border-radius: 6px;
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text-muted);
+}
+
+.kd-item-position-btn:hover {
+  border: 0.71px solid var(--kd-accent);
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+
+}
+
+.kdIconPosition-input-field {
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 5.59px;
+  background: var(--kd-bg-sunken);
+  ;
+}
+
+.kdIconPosition-input-field:hover {
+  border: 0.71px solid var(--kd-accent);
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+}
+
+.kdIconPosition-input-label {
+  background: var(--kd-bg-surface);
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 100%;
+  color: var(--kd-text-muted);
+}
+
+.kdIconPosition-input-value {
+  background: var(--kd-bg-sunken);
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 100%;
+  color: var(--kd-text-muted);
+
+}
+
+/* ============= edit item positon end =========== */
+/* ============== slide setting design start ======== */
+.Kd-Slide-Setting-heding-text {
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--kd-text);
+
+}
+
+.Kd-Slide-Setting-icon {
+  color: var(--kd-text);
+  cursor: pointer;
+}
+
+.Kd-Slide-Setting-icon:hover {
+  color: var(--kd-accent);
+}
+
+/* disabled move up/down — active icon se saaf-saaf halka dikhna chahiye */
+.Kd-Slide-Setting-icon-inactive {
+  color: var(--kd-text-subtle);
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.kd-transform-control-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-primary);
+  box-shadow: var(--kd-control-shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--kd-text-accent);
+  padding: 0;
+}
+
+.kd-transform-control-btn-rotate {
+  cursor: grab;
+}
+
+.kd-transform-control-btn-move {
+  cursor: move;
+}
+
+.kd-slideshow-tray-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-muted);
+}
+
+.kd-slideshow-tray-clear {
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-danger);
+  cursor: pointer;
+}
+
+.kd-slideshow-tray-strip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.kd-slideshow-tray-thumb {
+  width: 52px;
+  flex-shrink: 0;
+}
+
+.kd-snap-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.kd-snap-guide,
+.kd-snap-spacing {
+  position: absolute;
+  background: var(--kd-snap-guide);
+}
+
+.kd-snap-spacing-pill {
+  position: absolute;
+  border-radius: 999px;
+  background: var(--kd-snap-guide);
+  color: var(--kd-on-accent);
+  font-family: var(--kd-font);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 7px;
+  white-space: nowrap;
+}
+
+
+/* ============================================================================
+   10. ELEMENT SETTINGS
+   Element toolbars aur unke setting panels
+   ============================================================================ */
+
+/* ================================ */
+/* KD CONTEXT MENU (IMAGE / TEXT)   */
+/* ================================ */
+
+.kd-context-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--kd-text-primary);
+  transition: all 0.2s ease;
+}
+
+.kd-context-item:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-context-item-danger {
+  color: var(--kd-text-red);
+}
+
+.kd-context-item-danger:hover {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-linkAdd-input {
+  width: 100%;
+  border-radius: 8px;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-accent-secondary);
+  color: var(--kd-text-primary);
+  font-size: 13px;
+}
+
+.kd-linkAdd-input:focus {
+  outline: none;
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 1px var(--kd-accent-primary);
+}
+
+/* ===================================
+ Color Cred design
+=================================== */
+.kd-color-card-box {
+  border-radius: 6px;
+  background: var(--kd-bg-tertiary);
+  border: 1px solid var(--kd-border-primary);
+  transition: all 0.2s ease;
+}
+
+.kd-custom-color-input {
+  width: 100%;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--kd-border-primary);
+  color: var(--kd-text-primary);
+  font-size: 25px;
+}
+
+.kd-color-button-box {
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-primary);
+}
+
+.kd-color-button-box-active {
+  border-color: var(--kd-border-secondary);
+  box-shadow: var(--kd-focus-ring);
+}
+
+.kd-default-styles-list :hover {
+  color: var(--kd-accent);
+
+}
+
+/* sidebar Assets Panel start */
+/* =====  Assets Panel ===== */
+/* sidebar Assets Panel end */
+
+
+/* ================================ */
+/* KD FLOATING TEXT TOOLBAR         */
+/* ================================ */
+
+/* An empty table cell reserves one line box, exactly what the browser gives it
+   the moment it becomes editable. Without this the clicked cell suddenly grows
+   and steals height from the other rows. */
+.kd-table-cell:empty::before {
+  content: "\200b";
+}
+
+.kd-text-toolbar {
+  border-radius: 5.69px;
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border-subtle);
+  box-shadow: 0px 1.42px 7.11px 0px var(--kd-shadow-color);
+
+}
+
+.kd-text-fontsize-value {
+  border: 0.71px solid var(--kd-border-subtle);
+  padding: 2px;
+  border-radius: 5px;
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  border: 1px solid var(--kd-border-subtle);
+  color: var(--kd-text);
+  background: var(--kd-border-subtle);
+
+
+
+}
+
+/* ======= coman scroll bar design End  ====== */
+
+/*Color Swatches Tool Panel*/
+
+.kdColorTextTitle {
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.kdColorPlusIcon-backbg {
+  background: var(--kd-gradient-rainbow);
+}
+
+.kdColorPlusIcon-bg {
+  background-color: var(--kd-bg-surface);
+}
+
+.kd-color-box {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--kd-border-subtle);
+  transition: all 0.2s ease;
+}
+
+.kd-color-box.selected {
+  border: 2px solid var(--kd-accent);
+}
+
+/* Spread swatch: two page-halves with a gutter of panel showing between them,
+   so the swatch previews the pair of backgrounds it actually writes. */
+.kd-spread-color-box {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+  height: 1.75rem;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.kd-spread-color-box > span {
+  flex: 1 1 0;
+  min-width: 0;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+.kd-spread-color-box > span:first-child {
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.kd-spread-color-box > span:last-child {
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.kd-spread-color-box.selected > span {
+  border: 2px solid var(--kd-accent);
+}
+
+.kd-spread-color-note {
+  font-family: var(--kd-font);
+  font-size: 0.6875rem;
+  line-height: 1.35;
+  color: var(--kd-text-muted);
+}
+
+.kd-imageTool-searchWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--kd-border-subtle);
+  border-radius: 8px;
+  background-color: var(--kd-bg-text);
+  margin-bottom: 10px;
+}
+
+/* ======more button seting design start ======= */
+.kd-btn-more-setting-border {
+  border: Mixed solid var(--kd-border);
+}
+
+.kdTextBgColorBtn {
+  border: 1px solid var(--kd-border);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  border-radius: 8px;
+  color: var(--kd-text);
+  background: var(--kd-bg-surface);
+}
+
+.kdTextBgColorBtn:hover {
+  border: 1px solid var(--kd-accent);
+  color: var(--kd-text);
+  background: var(--kd-bg-surface);
+}
+
+.kdTextBgColorBtnRemove {
+  border: 1px solid var(--kd-border);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  border-radius: 8px;
+  color: var(--kd-on-accent);
+  background: linear-gradient(var(--kd-accent), var(--kd-accent)),
+    var(--kd-gradient-brand);
+}
+
+/* ========Ask AI hero/pill design start======== */
+
+.kd-ask-ai-icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--kd-gradient-soft);
+}
+
+.kd-ask-ai-hero-text {
+  font-family: var(--kd-font);
+  font-weight: 700;
+  font-size: 18.5px;
+  line-height: 24.9px;
+  background: var(--kd-gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* font-family: "Quicksand"; */
+  font-style: Bold;
+}
+
+.kd-ask-ai-hero-hint {
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--kd-text-muted);
+}
+
+.kd-ask-ai-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: var(--kd-bg-app);
+  border: 0.71px solid var(--kd-border-subtle);
+  font-family: var(--kd-font);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--kd-text-muted);
+  transition: all 0.2s ease;
+}
+
+.kd-ask-ai-pill:hover {
+  border-color: var(--kd-accent);
+  color: var(--kd-accent);
+  background: var(--kd-accent-subtle);
+}
+
+/* ========Ask AI hero/pill design End======== */
+
+/* ================ Watermark start=============== */
+
+.kd-wm-quickadd-title {
+  font-family: var(--kd-font);
+  color: var(--kd-text-muted);
+  font-weight: 600;
+  font-style: "SemiBold";
+  font-size: 10px;
+
+}
+
+.kd-wm-quickadd-subtitle {
+  font-family: var(--kd-font);
+  color: var(--kd-text-muted);
+  font-weight: 400;
+  font-style: " Regular";
+  font-size: 9px;
+
+
+}
+
+.kd-wm-label {
+  font-family: var(--kd-font);
+  font-size: 11px;
+  color: var(--kd-text);
+}
+
+.kd-wm-empty-title {
+  font-family: var(--kd-font);
+  font-size: 12px;
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-empty-subtitle {
+  font-family: var(--kd-font);
+  font-size: 10.5px;
+  color: var(--kd-text-muted);
+}
+
+.kd-wm-row-title {
+  font-family: var(--kd-font);
+  font-size: 11px;
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-row-subtitle {
+  font-family: var(--kd-font);
+  font-size: 10px;
+  color: var(--kd-text-muted);
+}
+
+.kd-wm-dropzone-title {
+  font-family: var(--kd-font);
+  font-size: 12.5px;
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-dropzone-subtitle {
+  font-family: var(--kd-font);
+  font-size: 10px;
+  color: var(--kd-text-muted);
+}
+
+.kd-wm-helper-text {
+  font-family: var(--kd-font);
+  font-size: 10px;
+  color: var(--kd-text-muted);
+}
+
+/* ---------- Backgrounds & borders (color only) ---------- */
+
+.kd-wm-quickadd-card {
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 11px;
+  background: var(--kd-bg-app);
+  border: 0.71px solid var(--kd-border-subtle)
+}
+
+.kd-wm-preset-card {
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 8px;
+}
+
+.kd-wm-preset-label {
+  font-family: var(--kd-font);
+  display: inline-block;
+  transform: rotate(-30deg);
+  white-space: nowrap;
+  font-weight: 500;
+  font-style: "Regular";
+  font-size: 10px;
+  text-transform: uppercase;
+
+}
+
+.kd-wm-preset-card:hover {
+  border-color: var(--kd-accent-secondary);
+}
+
+.kd-wm-empty-state {
+  border-radius: 8.54px;
+  background: var(--kd-bg-sunken);
+  border: 0.71px solid var(--kd-border-subtle);
+}
+
+.kd-wm-empty-icon-circle {
+  background: var(--kd-accent-subtle);
+  border: 1.13px solid var(--kd-accent-soft);
+  border-radius: 11.32px;
+}
+
+.kd-wm-cta-btn {
+  font-family: var(--kd-font);
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 9.96px;
+}
+
+.kd-wm-cta-btn:hover {
+  opacity: 0.92;
+}
+
+.kd-wm-row {
+  background: var(--kd-bg-primary);
+  border-color: var(--kd-border-primary);
+}
+
+.kd-wm-row:hover {
+  border-color: var(--kd-accent-primary);
+}
+
+.kd-wm-row-thumb {
+  background: var(--kd-bg-tertiary);
+  border-color: var(--kd-border-primary);
+}
+
+.kd-wm-row-action {
+  color: var(--kd-text-muted);
+}
+
+.kd-wm-row-action:hover {
+  color: var(--kd-accent-primary);
+  background: var(--kd-hover-bg);
+  border-color: var(--kd-hover-border);
+}
+
+.kd-wm-row-action-danger:hover {
+  color: var(--kd-text-red);
+  background: var(--kd-danger-soft);
+  border-color: var(--kd-danger);
+}
+
+.kd-wm-tab-text {
+  font-family: var(--kd-font);
+  font-size: 12px;
+  color: var(--kd-text-muted);
+  border-radius: 5px 0 0 5px;
+
+}
+
+.kd-wm-tab-image {
+  font-family: var(--kd-font);
+  font-size: 12px;
+  color: var(--kd-text-muted);
+  border-radius: 0 5px 5px 0;
+}
+
+.kd-wm-tab-text:hover,
+.kd-wm-tab-image:hover {
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-tab-active {
+  background: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-wm-tab-active:hover {
+  color: var(--kd-text-secondary);
+}
+
+.kd-wm-style-card {
+  background: var(--kd-bg-surface);
+  border: 0.711px solid var(--kd-border);
+  border-radius: 7.115px;
+}
+
+.kd-wm-style-card:hover {
+  border-color: var(--kd-accent);
+}
+
+.kd-wm-style-card-active {
+  background: var(--kd-accent-subtle);
+  border: 0.71px solid var(--kd-accent);
+  border-radius: 5.69px;
+}
+
+.kd-wm-input {
+  font-family: var(--kd-font);
+  font-size: 10px;
+  color: var(--kd-text-muted);
+  background: var(--kd-bg-surface);
+  border: 0.711px solid var(--kd-border);
+  border-radius: 7.115px;
+}
+
+.kdwmtextedit-input,
+.kdwmtextedit-select {
+  color: var(--kd-text-muted);
+  background: var(--kd-bg-surface);
+  border: 0.711px solid var(--kd-border);
+  border-radius: 7.115px;
+  font-family: var(--kd-font);
+}
+
+.kd-wm-input::placeholder {
+  color: var(--kd-text-muted);
+  ;
+}
+
+.kd-wm-input:focus {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 2px var(--kd-hover-bg);
+}
+
+.kd-wm-select-trigger {
+  font-family: var(--kd-font);
+  font-size: 11px;
+  color: var(--kd-text-muted);
+  background: var(--kd-bg-surface);
+  border: 0.711px solid var(--kd-border);
+  border-radius: 7.115px;
+}
+
+.kd-wm-select-trigger:hover {
+  border-color: var(--kd-accent-secondary);
+}
+
+.kd-wm-select-trigger-open {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 2px var(--kd-hover-bg);
+}
+
+.kd-wm-select-menu {
+  background: var(--kd-bg-primary);
+  border-color: var(--kd-border-primary);
+}
+
+.kd-wm-select-option {
+  font-family: var(--kd-font);
+  font-size: 12.5px;
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-select-option:hover {
+  background: var(--kd-hover-bg);
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-select-option-active {
+  background: var(--kd-hover-bg);
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-pattern-btn {
+  font-family: var(--kd-font);
+  font-size: 9px;
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border);
+  color: var(--kd-text);
+  border-radius: 5.69px;
+  font-weight: 500;
+
+}
+
+.kd-wm-pattern-btn:hover {
+  border-color: var(--kd-accent-secondary);
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-pattern-btn-active {
+  background: var(--kd-accent);
+  border-color: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+}
+
+.kd-wm-pattern-btn-active:hover {
+  color: var(--kd-text-secondary);
+}
+
+.kd-wm-dropzone {
+  background: var(--kd-bg-tertiary);
+  border-color: var(--kd-border-primary);
+}
+
+.kd-wm-dropzone:hover,
+.kd-wm-dropzone-dragover {
+  border-color: var(--kd-accent-primary);
+  background: var(--kd-hover-bg);
+}
+
+.kd-wm-dropzone-icon-circle {
+  background: var(--kd-bg-primary);
+  border-color: var(--kd-hover-border);
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-image-preview {
+  background: var(--kd-bg-tertiary);
+  border-color: var(--kd-border-primary);
+}
+
+.kd-wm-image-remove-btn {
+  background: var(--kd-danger-soft);
+  color: var(--kd-text-red);
+  border-color: var(--kd-danger);
+}
+
+.kd-wm-image-remove-btn:hover {
+  background: var(--kd-text-red);
+  color: var(--kd-text-inverse);
+}
+
+.kd-wm-icon-btn-square {
+  background: var(--kd-bg-primary);
+  border-color: var(--kd-border-primary);
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-icon-btn-square:hover {
+  border-color: var(--kd-accent-primary);
+  color: var(--kd-accent-primary);
+}
+
+.kd-wm-cancel-btn {
+  font-family: var(--kd-font);
+  font-size: 12.5px;
+  background: var(--kd-bg-primary);
+  border-color: var(--kd-border-primary);
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-cancel-btn:hover {
+  background: var(--kd-bg-app);
+  border-color: var(--kd-text-muted);
+}
+
+.kd-wm-save-btn {
+  font-family: var(--kd-font);
+  font-size: 12.5px;
+  background: var(--kd-accent);
+  color: var(--kd-on-accent);
+}
+
+.kd-wm-save-btn:hover {
+  opacity: 0.9;
+}
+
+.kd-wm-save-btn:disabled {
+  opacity: 0.5;
+}
+
+.kd-wm-back-btn {
+  color: var(--kd-text-primary);
+}
+
+.kd-wm-back-btn:hover {
+  background: var(--kd-bg-tertiary);
+  color: var(--kd-accent-primary);
+}
+
+/* ============== slide seting design end ======== */
+/* ================================ */
+/* KD BUTTON SETTING PANEL (NEW)     */
+/* ================================ */
+
+
+
+.kd-btn-setting-label {
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+
+}
+
+/* .Kd-btn-Setting-Hex{
+  color: var(--kd-text);
+  font: 500 11px/1 "Inter", "sans-serif";
+} */
+
+.Kd-btn-Setting-Color {
+  /* border: 1px solid #00000026; */
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.Kd-btn-Setting-Select,
+.kd-btn-setting-input {
+  border: 1px solid var(--kd-border);
+  border-radius: 8px;
+  background-color: var(--kd-bg-surface);
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+  font-weight: 400;
+  font-style: Medium;
+  font-size: 11px;
+}
+
+.KdbuttonEditSetting-Form {
+  border: 1px solid var(--kd-border);
+  background: var(--kd-bg-surface);
+  border-radius: 10px;
+}
+
+.KdbuttonEditSetting-Form-heading {
+  background: var(--kd-bg-hover);
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 10px;
+
+
+  .KdbuttonEditSettingLabel {
+    font-family: var(--kd-font);
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 12px;
+
+  }
+
+}
+
+.KdbuttonEditSetting-Gradient-color-icon-active {
+  background-color: var(--kd-bg-hover);
+}
+
+.kd-btn-edit-seting-bg-gradient-color-Container {
+  border: 1px solid var(--kd-border);
+  background: var(--kd-bg-surface);
+  border-radius: 10px;
+}
+
+.kd-btn-setting-labe-gradient-color {
+  background: var(--kd-bg-hover);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  font-family: var(--kd-font);
+  font-weight: 500;
+  font-style: Medium;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+
+}
+
+.KdbuttonEditSetting-linear-gradient {
+  border-radius: 10px;
+  border: 1px solid var(--kd-border);
+}
+
+.kd-btn-setting-panel {
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+}
+
+.kd-btn-setting-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--kd-text-primary);
+  border-bottom: 0.71px solid var(--kd-border-subtle);
+}
+
+.kd-btn-setting-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+  padding: 4px 0;
+}
+
+/* 
+.kd-btn-setting-label {
+  font-size: 11px;
+  color: var(--kd-text-primary);
+  font-family: var(--kd-font);
+} */
+
+/* tabs */
+
+.kd-btn-setting-tabs {
+  display: flex;
+  gap: 2px;
+  border-radius: 8px;
+  background: var(--kd-bg-sunken);
+  border: 0.71px solid var(--kd-border-subtle);
+}
+
+.kd-btn-setting-tab {
+  flex: 1;
+  padding: 7px 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--kd-text-muted);
+  font-family: var(--kd-font);
+  transition: all 0.2s ease;
+}
+
+.kd-btn-setting-tab-active {
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  box-shadow: 0 1px 3px var(--kd-shadow-color);
+}
+
+/* generic input/select */
+/* .kd-btn-setting-input {
+  font-size: 11px;
+  color: var(--kd-text-primary);
+  background: var(--kd-bg-surface);
+  border: 1px solid var(--kd-border);
+  border-radius: 8px;
+  outline: none;
+} */
+
+.kd-btn-setting-input:focus-within {
+  border-color: var(--kd-accent);
+  box-shadow: 0 0 0 2px var(--kd-accent-soft);
+}
+
+.kd-btn-setting-input-suffix {
+  font-size: 10px;
+  color: var(--kd-text-muted);
+  padding-right: 4px;
+}
+
+/* color swatch */
+/* .kd-btn-setting-swatch {
+  position: relative;
+  border-radius: 6px;
+  border: 0.71px solid var(--kd-border-subtle);
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  flex-shrink: 0;
+} */
+
+/* toggle */
+.kd-btn-setting-toggle {
+  position: relative;
+  width: 34px;
+  height: 19px;
+  border-radius: 999px;
+  background: var(--kd-bg-hover);
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.kd-btn-setting-toggle-on {
+  background: var(--kd-gradient-brand);
+}
+
+.kd-btn-setting-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: var(--kd-bg-surface);
+  box-shadow: 0 1px 2px var(--kd-shadow-color);
+  transition: transform 0.2s ease;
+}
+
+.kd-btn-setting-toggle-on .kd-btn-setting-toggle-thumb {
+  transform: translateX(15px);
+}
+
+/* align buttons */
+.kd-btn-setting-align-btn {
+  border-radius: 6px;
+  color: var(--kd-text-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.kd-btn-setting-align-btn-active {
+  background: var(--kd-bg-hover);
+  color: var(--kd-text);
+}
+
+/* case buttons */
+.kd-btn-setting-case-btn {
+  border-radius: 6px;
+  /* background: #F2F2F2; */
+  color: var(--kd-text-subtle);
+
+  font-size: 10px;
+  font-weight: 600;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  transition: all 0.2s ease;
+}
+
+.kd-btn-setting-case-btn-active {
+  border-radius: 6px;
+  background: var(--kd-bg-hover);
+  color: var(--kd-text);
+
+}
+
+.kd-btn-setting-direction-btn-active {
+  background: var(--kd-bg-hover);
+  color: var(--kd-text);
+  border-radius: 6px;
+
+}
+
+.kd-btn-setting-gradient-preview {
+  border-radius: 10px;
+  border: 1px solid var(--kd-border);
+}
+
+/* border box wrapper */
+.kd-btn-setting-border-box {
+  border-radius: 8px;
+  background: var(--kd-bg-sunken);
+  border: 1px solid var(--kd-border);
+}
+
+/* shadow presets */
+.kd-btn-setting-shadow-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+  border-radius: 8px;
+  border: 0.71px solid var(--kd-border-subtle);
+  background: var(--kd-bg-sunken);
+  color: var(--kd-text-muted);
+  font-size: 10px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.kd-btn-setting-shadow-btn-active {
+  background: var(--kd-accent-soft);
+  border-color: var(--kd-accent);
+  color: var(--kd-accent);
+}
+
+.kd-btn-setting-shadow-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--kd-bg-secondary);
+}
+
+.kd-btn-setting-dropdown-trigger {
+  cursor: pointer;
+  user-select: none;
+}
+
+.kd-btn-setting-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  max-height: 220px;
+  overflow-y: auto;
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 8px;
+  box-shadow: 0px 6px 20px 0px var(--kd-shadow-color);
+  padding: 4px;
+  z-index: 50;
+  scrollbar-width: thin;
+  scrollbar-color: var(--kd-bg-hover) transparent;
+}
+
+.kd-btn-setting-dropdown-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.kd-btn-setting-dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--kd-bg-hover);
+  border-radius: 10px;
+}
+
+.kd-btn-setting-dropdown-option {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  color: var(--kd-text-primary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: var(--kd-font);
+}
+
+.kd-btn-setting-dropdown-option:hover {
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+}
+
+.kd-btn-setting-dropdown-option-active {
+  background: var(--kd-accent-soft);
+  color: var(--kd-accent);
+  font-weight: 600;
+}
+
+.kd-btn-setting-align-btn-container {
+  border: 1px solid var(--kd-border);
+  border-radius: 8px;
+}
+
+/* ======edit control transform  control ====== */
+
+
+.kd-transform-quick-controls {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 24;
+  transform: translateX(-50%);
+}
+
+.kd-transform-rotation-badge {
+  position: fixed;
+  transform: translateX(-50%);
+  border-radius: 9px;
+  background: var(--kd-bg-black);
+  color: var(--kd-on-media);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 6px 8px;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: var(--kd-control-badge-shadow);
+}
+
+.kd-transform-size-badge {
+  position: fixed;
+  border-radius: 9px;
+  background: var(--kd-bg-black);
+  color: var(--kd-on-media);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  padding: 6px 8px;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: var(--kd-control-badge-shadow);
+  white-space: nowrap;
+}
+
+.kd-context-menu {
+  min-width: 190px;
+  background: var(--kd-bg-surface);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px var(--kd-shadow-color);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kd-context-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--kd-text);
+  text-align: left;
+}
+
+.kd-context-menu-item:hover:not(.kd-context-menu-item-disabled) {
+  background: var(--kd-bg-app);
+}
+
+.kd-context-menu-item-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kd-context-menu-icon {
+  display: flex;
+  align-items: center;
+  color: var(--kd-text-muted);
+}
+
+.kd-context-menu-label {
+  flex: 1;
+}
+
+.kd-context-menu-shortcut {
+  color: var(--kd-text-subtle);
+  font-size: 11px;
+}
+
+/* ==========================================================================
+   Settings panel kit
+   The controls every element's edit panel is built from. Written against the
+   `--kd-*` tokens so a project theme (see lib/themes/themes.ts) reaches them,
+   which hard-coded panel colours never did.
+   Paired with components/HomeLayout/EditBarPanel/SettingsControls.tsx.
+   ========================================================================== */
+
+.kd-set-section {
+  padding: 12px 12px 0;
+}
+
+.kd-set-section-title {
+  padding-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--kd-text-muted);
+  font-family: var(--kd-font);
+}
+
+.kd-set-card {
+  border-radius: 8px;
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-primary);
+  overflow: hidden;
+}
+
+.kd-set-card > * + * {
+  border-top: 1px solid var(--kd-border-subtle);
+}
+
+/* Rows inside a card that group their own children must not draw the divider
+   twice, so padded blocks opt out. */
+.kd-set-block {
+  padding: 8px;
+}
+
+.kd-set-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: var(--kd-text-primary);
+}
+
+.kd-set-field-stacked {
+  display: block;
+}
+
+.kd-set-field-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kd-set-field-control {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.kd-set-hint {
+  padding: 8px 10px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--kd-text-muted);
+}
+
+/* inputs ------------------------------------------------------------------ */
+
+.kd-set-input {
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-control);
+  color: var(--kd-text-primary);
+  padding: 4px 8px;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kd-set-input:focus {
+  border-color: var(--kd-border-accent);
+  box-shadow: var(--kd-focus-ring);
+}
+
+.kd-set-input::placeholder {
+  color: var(--kd-text-muted);
+}
+
+.kd-set-input-number {
+  width: 64px;
+  text-align: right;
+}
+
+.kd-set-input-small {
+  width: 56px;
+  padding-left: 6px;
+  padding-right: 6px;
+  text-align: center;
+}
+
+.kd-set-input-text {
+  width: 112px;
+}
+
+.kd-set-input-full {
+  width: 100%;
+}
+
+/* swatch ------------------------------------------------------------------ */
+
+.kd-set-swatch {
+  position: relative;
+  display: inline-flex;
+  height: 24px;
+  width: 36px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+.kd-set-swatch-fill {
+  height: 100%;
+  width: 100%;
+}
+
+.kd-set-swatch input {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+/* segmented --------------------------------------------------------------- */
+
+.kd-set-segmented {
+  display: inline-flex;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+.kd-set-segmented-item {
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--kd-text-muted);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.kd-set-segmented-item:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-segmented-item-active,
+.kd-set-segmented-item-active:hover {
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  font-weight: 500;
+}
+
+/* switch ------------------------------------------------------------------ */
+
+.kd-set-switch {
+  position: relative;
+  height: 20px;
+  width: 36px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--kd-bg-muted);
+  transition: background 0.2s ease;
+}
+
+.kd-set-switch-on {
+  background: var(--kd-gradient-brand);
+}
+
+.kd-set-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  height: 16px;
+  width: 16px;
+  border-radius: 999px;
+  background: var(--kd-bg-surface);
+  box-shadow: 0 1px 2px var(--kd-shadow-color-strong);
+  transition: transform 0.2s ease;
+}
+
+.kd-set-switch-on .kd-set-switch-thumb {
+  transform: translateX(16px);
+}
+
+/* buttons ----------------------------------------------------------------- */
+
+.kd-set-toggle {
+  height: 24px;
+  width: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  color: var(--kd-text-muted);
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.kd-set-toggle:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-toggle-active,
+.kd-set-toggle-active:hover {
+  border-color: var(--kd-border-accent);
+  background: var(--kd-hover-bg);
+  color: var(--kd-text-accent);
+}
+
+.kd-set-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  padding: 6px 8px;
+  font-size: 11px;
+  color: var(--kd-text-primary);
+  transition: background 0.15s ease;
+}
+
+.kd-set-action:hover:not(:disabled) {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kd-set-action-primary {
+  border-color: transparent;
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+  font-weight: 600;
+}
+
+.kd-set-action-primary:hover:not(:disabled) {
+  background: var(--kd-gradient-brand);
+  filter: brightness(1.06);
+}
+
+.kd-set-icon-btn {
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  padding: 4px;
+  color: var(--kd-text-muted);
+  transition: all 0.15s ease;
+}
+
+.kd-set-icon-btn:hover:not(:disabled) {
+  background: var(--kd-hover-bg);
+  color: var(--kd-text-danger);
+}
+
+.kd-set-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* repeating item (quiz question, form field, data row) --------------------- */
+
+.kd-set-item {
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-subtle);
+  padding: 8px;
+}
+
+.kd-set-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--kd-text-muted);
+}
+
+.kd-set-error {
+  padding-top: 4px;
+  font-size: 11px;
+  color: var(--kd-text-danger);
+}
+
+/* A picker tile — chart type, layout preset, anything chosen from a grid. */
+.kd-set-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  padding: 8px 4px;
+  font-size: 11px;
+  color: var(--kd-text-muted);
+  transition: all 0.15s ease;
+}
+
+.kd-set-tile:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-tile-active,
+.kd-set-tile-active:hover {
+  border-color: var(--kd-border-accent);
+  background: var(--kd-hover-bg);
+  color: var(--kd-text-accent);
+}
+
+/* Colour dot marking which swatch a repeating row will be drawn in. */
+.kd-set-row-dot {
+  height: 16px;
+  width: 16px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+/* Round colour choice, e.g. the table palette picker. */
+.kd-set-dot-choice {
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kd-set-dot-choice:hover {
+  transform: scale(1.1);
+}
+
+.kd-set-dot-choice-active,
+.kd-set-dot-choice-active:hover {
+  transform: none;
+  box-shadow: 0 0 0 2px var(--kd-bg-primary), 0 0 0 4px var(--kd-border-accent);
+}
+
+/* Derived value shown instead of an editable control. */
+.kd-set-readout {
+  color: var(--kd-text-muted);
+}
+
+/* Image thumbnail with a remove affordance, e.g. slideshow frames. */
+.kd-set-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+.kd-set-thumb img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Play order is the only thing a slideshow thumbnail can't show on its own. */
+.kd-set-thumb-index {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--kd-bg-overlay-dark);
+  font-family: var(--kd-font);
+  font-size: 10px;
+  line-height: 1;
+  color: var(--kd-on-media);
+}
+
+.kd-set-empty {
+  padding: 14px 8px;
+  border: 1px dashed var(--kd-border-primary);
+  border-radius: var(--kd-r-sm);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-muted);
+  text-align: center;
+}
+
+/* ---------- Embed media panel ---------- */
+
+.kd-embed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kd-embed-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 10px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: var(--kd-r-sm);
+  background: var(--kd-bg-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kd-embed-input-wrap:focus-within {
+  border-color: var(--kd-accent-primary);
+  box-shadow: 0 0 0 3px var(--kd-accent-soft);
+}
+
+.kd-embed-input-icon {
+  flex-shrink: 0;
+  color: var(--kd-text-muted);
+}
+
+.kd-embed-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-primary);
+}
+
+.kd-embed-input::placeholder {
+  color: var(--kd-text-muted);
+}
+
+.kd-embed-preview {
+  overflow: hidden;
+  border: 1px solid var(--kd-accent-primary);
+  border-radius: var(--kd-r-md);
+  background: var(--kd-bg-primary);
+  box-shadow: 0 4px 14px var(--kd-shadow-color);
+}
+
+.kd-embed-preview-thumb {
+  aspect-ratio: 16 / 9;
+  background: var(--kd-bg-app);
+}
+
+.kd-embed-preview-thumb img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.kd-embed-preview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 10px;
+}
+
+.kd-embed-preview-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-lg);
+  font-weight: 600;
+  color: var(--kd-text-primary);
+}
+
+.kd-embed-badge {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--kd-accent-soft);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--kd-accent-primary);
+}
+
+.kd-embed-preview-url {
+  width: 100%;
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-xs);
+  color: var(--kd-text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kd-embed-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  aspect-ratio: 16 / 10;
+  border: 1px dashed var(--kd-border-primary);
+  border-radius: var(--kd-r-md);
+  background: var(--kd-bg-app);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-md);
+  color: var(--kd-text-muted);
+  text-align: center;
+}
+
+.kd-embed-placeholder small {
+  max-width: 80%;
+  font-size: var(--kd-fs-xs);
+}
+
+.kd-embed-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kd-embed-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.kd-embed-chip {
+  padding: 4px 9px;
+  border: 1px solid var(--kd-border-primary);
+  border-radius: 999px;
+  background: var(--kd-bg-primary);
+  font-family: var(--kd-font);
+  font-size: var(--kd-fs-sm);
+  color: var(--kd-text-primary);
+}
+
+.kd-set-thumb-remove {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  display: flex;
+  height: 18px;
+  width: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--kd-bg-overlay-dark);
+  font-size: 11px;
+  line-height: 1;
+  color: var(--kd-on-media);
+}
+
+/* A switch labelled in place, inside a repeating item rather than a Field row. */
+.kd-set-inline-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  font-size: 11px;
+  color: var(--kd-text-muted);
+}
+
+.kd-set-inline-toggle-flush {
+  padding-bottom: 0;
+}
+
+/* Native radio/checkbox marking a correct quiz answer. */
+.kd-set-mark {
+  flex-shrink: 0;
+  accent-color: var(--kd-accent-primary);
+}
+
+/* Multi-line inputs need the padding a one-line row does not. */
+textarea.kd-set-input {
+  padding: 6px 8px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+/* Wide preview image inside a card, e.g. a detected media thumbnail. */
+.kd-set-preview {
+  width: 100%;
+  height: 112px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+/* dropdown ---------------------------------------------------------------- */
+
+.kd-set-dropdown {
+  position: relative;
+}
+
+.kd-set-dropdown-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.kd-set-dropdown-menu {
+  position: absolute;
+  z-index: 40;
+  margin-top: 4px;
+  max-height: 220px;
+  width: 100%;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-primary);
+  box-shadow: var(--kd-shadow-lg);
+}
+
+.kd-set-dropdown-option {
+  cursor: pointer;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--kd-text-primary);
+}
+
+.kd-set-dropdown-option:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-dropdown-option-active {
+  background: var(--kd-hover-bg);
+  color: var(--kd-text-accent);
+  font-weight: 500;
+}
+
+/* icon segmented ---------------------------------------------------------- */
+
+.kd-set-icon-group {
+  display: inline-flex;
+  gap: 2px;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  padding: 2px;
+}
+
+.kd-set-icon-item {
+  display: flex;
+  height: 22px;
+  min-width: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--kd-text-muted);
+  transition: all 0.15s ease;
+}
+
+.kd-set-icon-item:hover {
+  background: var(--kd-hover-bg);
+}
+
+.kd-set-icon-item-active,
+.kd-set-icon-item-active:hover {
+  background: var(--kd-gradient-brand);
+  color: var(--kd-on-accent);
+}
+
+/* hex + swatch pair ------------------------------------------------------- */
+
+.kd-set-color {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+  background: var(--kd-bg-control);
+  padding-left: 8px;
+}
+
+.kd-set-color-hex {
+  min-width: 0;
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: var(--kd-text-primary);
+  outline: none;
+}
+
+.kd-set-color-chip {
+  position: relative;
+  height: 26px;
+  width: 34px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-left: 1px solid var(--kd-border-subtle);
+}
+
+.kd-set-color-chip input {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  cursor: pointer;
+  opacity: 0;
+}
+
+/* preset tile with its own sample, e.g. a shadow preset ------------------- */
+
+.kd-set-sample {
+  display: block;
+  height: 16px;
+  width: 22px;
+  border-radius: 3px;
+  background: var(--kd-bg-primary);
+  border: 1px solid var(--kd-border-subtle);
+}
+
+.kd-set-bar {
+  display: block;
+  height: 22px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid var(--kd-border-subtle);
+}
+
+
+/* ============================================================================
+   11. PREVIEW
+   Preview / book reader
+   ============================================================================ */
+
+/* ===== NAV BUTTON (Sidebar) ===== */
+
+.kd-nav-btn-container {
+  border-right: 0.71px solid var(--kd-border-subtle);
+}
+
+.kd-nav-btn-wrapper {
+  padding: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/*.kd-nav-btn-wrapper:hover {
+  background-color: var(--kd-bg-tertiary);
+}*/
+
+.kd-nav-btn-wrapper:hover .kd-nav-btn {
+  background-color: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  --icon-opacity: 1;
+}
+
+.kd-nav-btn-wrapper:hover .kd-nav-btn-label {
+  color: var(--kd-accent-primary);
+}
+
+.kd-nav-btn-active {
+  background-color: var(--kd-bg-secondary) !important;
+  color: var(--kd-on-accent) !important;
+}
+
+.kd-nav-btn-wrapper.kd-nav-btn-wrapper-active {
+  background-color: var(--kd-accent-soft);
+}
+
+.kd-nav-btn {
+  /* width: 25px;
+  height: 25px; */
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--kd-bg-tertiary);
+  color: var(--kd-text-primary);
+  /* border: none; */
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  --icon-opacity: 0.3;
+  border: 0.71px solid var(--kd-border-subtle);
+
+}
+
+.kd-nav-btn:hover {
+  background-color: var(--kd-bg-secondary);
+  color: var(--kd-on-accent);
+  --icon-opacity: 1;
+
+}
+
+.kd-nav-btn-active {
+  background-color: var(--kd-bg-secondary) !important;
+  color: var(--kd-on-accent) !important;
+  --icon-opacity: 1;
+}
+
+.kd-nav-btn-label {
+  margin-top: 4px;
+  font-weight: 500;
+  font-style: Medium;
+  /* font-size: 9px; */
+  font-size: 11px;
+  color: var(--kd-text);
+  font-family: var(--kd-font);
+  line-height: 1;
+}
+
+.kd-nav-btn-wrapper-active .kd-nav-btn-label {
+  color: var(--kd-accent-primary);
+
+}
+
+/* preview Panel start */
+/* =====  preview Panel ===== */
+.kd-preview-section-container {
+
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 5.69px;
+}
+
+.kd-preview-section-tap-btn-container {
+  background: var(--kd-bg-surface);
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 5.69px;
+  height: 32px;
+}
+
+.kd-preview-section-tab-btn {
+
+
+  background: var(--kd-bg-surface);
+  color: var(--kd-text-muted);
+}
+
+.kd-preview-section-tab-btn-active {
+  background: var(--kd-accent);
+  color: var(--kd-on-accent);
+}
+
+.kd-preview-section-layer-container {
+  border: 0.71px solid var(--kd-border-subtle);
+  border-radius: 5.69px;
+}
+
+/* ---------- Reader page list (vertical / horizontal) ---------- */
+
+/* Off-screen pages are skipped by the browser entirely. Every page of the book
+   is mounted, and painting all of them on each scroll frame is what made the
+   list stutter. The section's size comes from CSS, not its content, so size
+   containment cannot collapse it. */
+.kd-reader-page-section {
+  content-visibility: auto;
+}
+
+/* Was `transition-all`, which animated transform and layout on every scroll
+   tick; only the selected-page ring actually needs to animate. */
+.kd-reader-page-frame {
+  transition: box-shadow 0.25s ease;
+}
+
+/* ---------- Flipbook gutter ---------- */
+
+/* Sits above the page content but takes no clicks, so buttons and links on a
+   page keep working underneath it. */
+.kd-book-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 34px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.kd-book-spine-left {
+  left: 0;
+  background: linear-gradient(
+    90deg,
+    var(--kd-shadow-color) 0%,
+    var(--kd-shadow-color) 18%,
+    var(--kd-shadow-color) 42%,
+    transparent 100%
+  );
+  border-left: 1px solid var(--kd-border);
+}
+
+.kd-book-spine-right {
+  right: 0;
+  background: linear-gradient(
+    270deg,
+    var(--kd-shadow-color) 0%,
+    var(--kd-shadow-color) 18%,
+    var(--kd-shadow-color) 42%,
+    transparent 100%
+  );
+  border-right: 1px solid var(--kd-border);
+}
+
+/* ============================================================================
+   12. DARK MODE
+   Palette yahan NAHI hai - jaan-boojh ke.
+
+   Dark ka source of truth `lib/themes/themes.ts` ka `THEMES.dark`
+   hai. `app/layout.tsx` usi object se `:root[data-theme="dark"]`
+   wali CSS generate karke bhejta hai (pehle paint par flash na aaye),
+   aur header ka toggle wahi object `applyTheme` ke through inline
+   lagata hai. Agar palette yahan bhi likh dete to teen jagah sync
+   karni padti.
+
+   Rang badalna ho to sirf `lib/themes/themes.ts` chhedo.
+
+   Kaise chalta hai:
+     - `:root` (section 01)         -> light, default
+     - `[data-theme="dark"]`        -> layout.tsx se generated CSS
+     - inline vars on <html>        -> applyTheme (toggle)
+
+   DHYAN DO: canvas aur rendered book pages theme follow nahi karte.
+   Unka background user set karta hai (slide.background), theme nahi.
+   Page ke CHAARO TARAF ka mat theme follow karta hai — wo alag token
+   hai, `--kd-bg-canvas-well`. Light me wo surface ke barabar hai; dark
+   me mid-tone, taaki bright page aur well ke beech ka cliff kam ho.
+   ============================================================================ */
+
+/* ============================================================================
+   13. NARROW SHELL  (phone / tablet portrait)
+   ----------------------------------------------------------------------------
+   Editor ka stacked layout: bottom tab bar, panel sheet, aur horizontal
+   filmstrip. Sirf `isNarrow` hone par mount hota hai, isliye yahan koi media
+   query nahi hai — kaunsa shell chalega ye `useBreakpoint` tay karta hai,
+   CSS nahi. Rang sab tokens se; ek bhi literal nahi.
+   ============================================================================ */
+
+/* ---------- bottom tab bar ---------- */
+
+.kd-mobile-tabbar {
+  background: var(--kd-bg-surface);
+  border-top: 1px solid var(--kd-border-subtle);
+  /* A fixed element paints over in-flow content whatever its z-index, so the
+     bar needs a stacking context of its own to stay above the panel sheet. */
+  position: relative;
+  z-index: 90;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Tiles keep their width and run off the right edge, which is the cue that
+     the row scrolls. */
+  scroll-snap-type: x proximity;
+}
+
+.kd-mobile-tabbar::-webkit-scrollbar { display: none; }
+
+.kd-mobile-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  /* 44px is the smallest target a finger hits reliably; 72 wide fits the
+     longest label ("Interactions" truncates) and puts roughly five and a half
+     tiles on a 390px screen, so the cut-off one advertises the scroll. */
+  min-height: 44px;
+  flex: 0 0 72px;
+  scroll-snap-align: center;
+  padding: 4px 4px;
+  border-radius: 8px;
+  color: var(--kd-text-muted);
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.kd-mobile-tab:hover { color: var(--kd-text-primary); }
+
+.kd-mobile-tab-active {
+  color: var(--kd-accent-primary);
+  background: var(--kd-accent-subtle);
+}
+
+.kd-mobile-tab-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+}
+
+.kd-mobile-tab-label {
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 500;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- panel sheet ---------- */
+
+.kd-mobile-sheet-scrim {
+  background: var(--kd-bg-overlay);
+}
+
+.kd-mobile-sheet {
+  background: var(--kd-bg-surface);
+  border-top: 1px solid var(--kd-border-subtle);
+  border-radius: 14px 14px 0 0;
+  box-shadow: 0 -8px 30px var(--kd-shadow-color);
+  /* Height changes between snap points; the ease keeps that readable. */
+  transition: height 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The grab bar. Centred by the flex row it sits in, so the close button on the
+   right does not push it off-centre. */
+.kd-mobile-sheet-grip {
+  width: 38px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--kd-border-primary);
+  margin: 2px auto 2px 50%;
+  transform: translateX(-50%);
+}
+
+.kd-mobile-sheet-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 8px;
+  color: var(--kd-text-muted);
+  cursor: pointer;
+}
+
+.kd-mobile-sheet-close:hover {
+  color: var(--kd-text-primary);
+  background: var(--kd-bg-hover);
+}
+
+/* ---------- element toolbar strip ---------- */
+
+/* Eighteen buttons will never fit across a phone, so the bar scrolls instead
+   of wrapping into a second row that would eat the canvas. */
+.kd-mobile-toolstrip {
+  background: var(--kd-bg-surface);
+  border-top: 1px solid var(--kd-border-subtle);
+  scrollbar-width: none;
+  /* `safe` matters: a plain `center` centres the overflow too, which puts the
+     first buttons past the left edge with no way to scroll back to them. With
+     `safe` the bar centres while it fits and falls back to the left edge once
+     it does not. */
+  justify-content: safe center;
+}
+
+.kd-mobile-toolstrip::-webkit-scrollbar { display: none; }
+
+/* The toolbars carry `mt-4` for the desktop row, where they hang below the
+   header. Inside the strip they are already centred, and that margin pushed
+   them 3px past the bottom edge.
+   Matched by class rather than by child position: some toolbars sit inside a
+   plain wrapper div, so `> *` only ever reached the wrapper. */
+.kd-mobile-toolstrip > * {
+  flex: none;
+}
+
+.kd-mobile-toolstrip .kd-canvasheader-container {
+  margin-top: 0 !important;
+}
+
+/* ---------- slide filmstrip ---------- */
+
+.kd-mobile-filmstrip {
+  background: var(--kd-bg-app);
+  border-top: 1px solid var(--kd-border-subtle);
+}
+
+.kd-mobile-filmstrip-num {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  padding: 0 4px;
+  border-radius: 3px;
+  font-size: 9px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--kd-text-inverse);
+  background: var(--kd-control-badge-bg);
+}
+
+.kd-mobile-filmstrip-add {
+  width: 42px;
+  height: 56px;
+  color: var(--kd-text-muted);
+  border: 1px dashed var(--kd-border-primary);
+  background: var(--kd-bg-surface);
+  cursor: pointer;
+}
+
+.kd-mobile-filmstrip-add:hover {
+  color: var(--kd-accent-primary);
+  border-color: var(--kd-accent-primary);
+}
+
+/* ============================================================================
+   14. ASSET THUMBNAILS
+   Library tiles shimmer until their picture has painted.
+   ============================================================================ */
+
+.kd-thumb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.kd-thumb-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--kd-brand-200) 25%, var(--kd-brand-50) 37%, var(--kd-brand-200) 63%);
+  background-size: 400% 100%;
+  animation: kd-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+.kd-thumb-loading img { opacity: 0; }
+.kd-thumb img { transition: opacity .18s ease; }
+.kd-thumb-failed img { opacity: 0; }
+.kd-thumb-failed { background: #f3f3f7; }
+.kd-thumb-failed-icon { position: absolute; color: #b4b1c2; }
+:root[data-theme="dark"] .kd-thumb-loading::after { background: linear-gradient(90deg, #26262f 25%, #32323d 37%, #26262f 63%); background-size: 400% 100%; }
+:root[data-theme="dark"] .kd-thumb-failed { background: #26262f; }
+@media (prefers-reduced-motion: reduce) { .kd-thumb-loading::after { animation: none; } }
+
+/* ============================================================================
+   15. EDITOR HEADER
+   One purple bar: brand on the left, the book title in the middle, actions
+   on the right. Buttons are translucent pills so they read on the gradient.
+   ============================================================================ */
+
+.kd-eh {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 14px;
+  color: var(--kd-on-accent);
+  background: var(--kd-gradient-brand);
+}
+/* The bar is HEADER_H (44px) tall; every control below is 32px so each has
+   6px of air above and below. */
+.kd-eh :where(a, button, span, input) { box-sizing: border-box; }
+.kd-eh-left, .kd-eh-right { display: flex; align-items: center; gap: 8px; }
+.kd-eh-left { flex: 1; min-width: 0; }
+.kd-eh-right { flex: 1; justify-content: flex-end; }
+
+.kd-eh-home {
+  display: grid; place-items: center;
+  width: 32px; height: 32px;
+  border-radius: 9px;
+  color: var(--kd-on-accent);
+  background: color-mix(in srgb, #fff 14%, transparent);
+  flex-shrink: 0;
+}
+.kd-eh-home:hover { background: color-mix(in srgb, #fff 22%, transparent); }
+.kd-eh-logo { width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0; display: block; box-shadow: 0 0 0 1px color-mix(in srgb, #fff 30%, transparent); }
+
+/* ---- title ---- */
+.kd-eh-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.kd-eh-chip {
+  display: flex; align-items: center; gap: 6px;
+  height: 32px;
+  max-width: min(46vw, 460px);
+  padding: 0 6px 0 14px;
+  border-radius: 9px;
+  background: color-mix(in srgb, #fff 12%, transparent);
+  border: 1px solid color-mix(in srgb, #fff 17%, transparent);
+  transition: background .16s, border-color .16s;
+}
+.kd-eh-chip:hover { background: color-mix(in srgb, #fff 19%, transparent); }
+.kd-eh-chip-on { background: #fff; border-color: #fff; }
+.kd-eh-chip input {
+  min-width: 60px; max-width: 100%;
+  height: 100%;
+  border: 0; padding: 0; background: transparent;
+  font: inherit; font-size: 13px; font-weight: 600; line-height: 30px;
+  color: var(--kd-on-accent);
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.kd-eh-chip input:focus { outline: none; }
+.kd-eh-chip-on input { color: var(--kd-brand-900); cursor: text; }
+.kd-eh-chip button {
+  display: grid; place-items: center;
+  width: 22px; height: 22px;
+  border: 0; border-radius: 6px;
+  background: none; color: color-mix(in srgb, #fff 77%, transparent);
+  flex-shrink: 0;
+}
+.kd-eh-chip button:hover { background: color-mix(in srgb, #fff 18%, transparent); color: #fff; }
+.kd-eh-chip-on button { color: var(--kd-brand-500); }
+.kd-eh-chip-on button:hover { background: var(--kd-brand-100); }
+
+.kd-eh-status { font-size: 11px; color: color-mix(in srgb, #fff 78%, transparent); white-space: nowrap; }
+.kd-eh-status-busy { color: #ffe9a8; }
+
+/* ---- actions ---- */
+.kd-eh-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 32px; margin: 0; padding: 0 13px;
+  border: 1px solid color-mix(in srgb, #fff 17%, transparent); border-radius: 9px;
+  background: color-mix(in srgb, #fff 12%, transparent); color: var(--kd-on-accent);
+  font-size: 13px; font-weight: 550; line-height: 1; white-space: nowrap;
+  transition: background .16s, border-color .16s;
+}
+.kd-eh-btn:hover { background: color-mix(in srgb, #fff 20%, transparent); }
+.kd-eh-icon { padding: 0; width: 32px; }
+.kd-eh-group { display: flex; gap: 6px; }
+.kd-eh-primary { background: #fff; color: var(--kd-brand-600); border-color: #fff; font-weight: 650; }
+.kd-eh-primary:hover { background: var(--kd-brand-100); }
+.kd-eh-primary:disabled { opacity: .85; cursor: progress; }
+.kd-eh-spin { animation: kd-eh-spin 1s linear infinite; }
+@keyframes kd-eh-spin { to { transform: rotate(360deg); } }
+
+/* The shared theme switch sits in the same pill family. */
+.kd-eh .kd-theme-toggle {
+  width: 54px; height: 32px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #fff 17%, transparent);
+  background: color-mix(in srgb, #fff 12%, transparent);
+  color: var(--kd-on-accent);
+}
+.kd-eh .kd-theme-toggle:hover { background: color-mix(in srgb, #fff 20%, transparent); }
+
+@media (max-width: 1100px) {
+  .kd-eh-label { display: none; }
+  .kd-eh-btn { padding: 0 11px; }
+}
+@media (max-width: 780px) {
+  .kd-eh { gap: 6px; padding: 0 8px; }
+  .kd-eh-logo, .kd-eh-status, .kd-eh .kd-theme-toggle { display: none; }
+  .kd-eh-chip { max-width: 44vw; padding: 0 4px 0 11px; }
+  .kd-eh-btn { padding: 0 9px; }
+  .kd-eh-group { display: none; }
+}

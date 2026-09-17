@@ -1,0 +1,30 @@
+/* Buttons, form controls and other bits shared by site, admin and editor chrome. */
+/* ---------- shared bits ---------- */
+.fs-outline { background: #fff; color: var(--kd-brand-muted); border-color: var(--kd-brand-200) !important; }
+.fs-outline:hover { background: var(--kd-brand-50); }
+.fs-btn-lg { padding: 14px 24px; font-size: 15px; }
+.fs-btn-sm { padding: 6px 12px; font-size: 12px; gap: 6px; }
+.fs-danger-btn { background: #c83b3b; color: #fff; }
+.fs-danger-btn:hover { background: #a92f2f; }
+.fs-small { font-size: 12px; }
+.fs-center { display: block; text-align: center; }
+.fs-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.fs-app textarea { font: inherit; border: 1px solid #dfe2ea; border-radius: 8px; padding: 11px 13px; background: #fff; color: #202432; resize: vertical; min-width: 0; }
+.fs-app .fs-check { display: flex; align-items: flex-start; gap: 9px; font-weight: 450; font-size: 13px; color: #5d6170; }
+.fs-app .fs-check input { width: 16px; height: 16px; padding: 0; margin: 3px 0 0; accent-color: var(--kd-accent); flex-shrink: 0; }
+.fs-app .fs-check a { color: var(--kd-accent); font-weight: 600; }
+.fs-alert a, .fs-success a { color: inherit; font-weight: 650; text-decoration: underline; }
+
+/* `.fs-app a { color: inherit }` outranks single-class button colours on links. */
+.fs-app a.fs-primary, .fs-app a.fs-danger-btn { color: #fff; }
+.fs-app a.fs-white, .fs-app a.fs-outline { color: var(--kd-brand-muted); }
+
+/* Error and not-found pages */
+.fs-message-page { display: grid; place-items: center; min-height: 100dvh; padding: 24px; background: #f8f9fc; }
+.fs-message-page section { max-width: 440px; text-align: center; background: #fff; border: 1px solid var(--kd-brand-200); border-radius: 16px; padding: 36px; }
+.fs-message-icon { display: inline-grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--kd-brand-100); color: var(--kd-accent); margin-bottom: 14px; }
+.fs-app .fs-message-page h1 { font-size: 24px; margin-bottom: 8px; }
+.fs-message-page .fs-row { justify-content: center; margin: 22px 0 10px; }
+
+/* Logo tile beside the product name. */
+.fs-brand-mark { width: 35px; height: 35px; border-radius: 10px; flex-shrink: 0; display: block; }

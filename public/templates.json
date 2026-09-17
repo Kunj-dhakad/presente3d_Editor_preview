@@ -1,0 +1,444 @@
+{
+  "modern": {
+    "slides": [
+      {
+        "id": "1",
+        "elements": [
+          {
+            "id": "1-1",
+            "data": {
+              "type": "text",
+              "text": "Welcome to Our Presentation",
+              "x": 200,
+              "y": 120,
+              "width": 500,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 42,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "1-2",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
+              "x": 200,
+              "y": 210,
+              "width": 600,
+              "height": 350,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "2",
+        "elements": [
+          {
+            "id": "2-1",
+            "data": {
+              "type": "text",
+              "text": "About Us",
+              "x": 120,
+              "y": 100,
+              "width": 300,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 38,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "2-2",
+            "data": {
+              "type": "text",
+              "text": "We are a creative design & development team.",
+              "x": 120,
+              "y": 180,
+              "width": 500,
+              "height": 120,
+              "color": "#ffffff",
+              "fontSize": 22,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "2-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+              "x": 650,
+              "y": 150,
+              "width": 350,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "3",
+        "elements": [
+          {
+            "id": "3-1",
+            "data": {
+              "type": "text",
+              "text": "Our Vision",
+              "x": 100,
+              "y": 120,
+              "width": 350,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 36,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "3-2",
+            "data": {
+              "type": "text",
+              "text": "To build solutions that empower businesses globally.",
+              "x": 100,
+              "y": 200,
+              "width": 600,
+              "height": 120,
+              "color": "#ffffff",
+              "fontSize": 22,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "3-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d",
+              "x": 650,
+              "y": 150,
+              "width": 350,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "4",
+        "elements": [
+          {
+            "id": "4-1",
+            "data": {
+              "type": "text",
+              "text": "Our Services",
+              "x": 120,
+              "y": 90,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 40,
+              "fontFamily": "Inter"
+            }
+          },
+
+          {
+            "id": "4-2",
+            "data": {
+              "type": "text",
+              "text": "✔ UI/UX Design\n✔ Web Development\n✔ Branding\n✔ Product Strategy",
+              "x": 120,
+              "y": 180,
+              "width": 500,
+              "height": 200,
+              "color": "#ffffff",
+              "fontSize": 24,
+              "fontFamily": "Inter",
+              "lineHeight": 1.5
+            }
+          },
+
+          {
+            "id": "4-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1551434678-e076c223a692",
+              "x": 650,
+              "y": 150,
+              "width": 350,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "5",
+        "elements": [
+          {
+            "id": "5-1",
+            "data": {
+              "type": "text",
+              "text": "Our Team",
+              "x": 120,
+              "y": 100,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 40,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "5-2",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
+              "x": 150,
+              "y": 220,
+              "width": 300,
+              "height": 300,
+              "fit": "cover"
+            }
+          },
+          {
+            "id": "5-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+              "x": 500,
+              "y": 220,
+              "width": 300,
+              "height": 300,
+              "fit": "cover"
+            }
+          },
+          {
+            "id": "5-4",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1502685104226-ee32379fefbe",
+              "x": 850,
+              "y": 220,
+              "width": 300,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "6",
+        "elements": [
+          {
+            "id": "6-1",
+            "data": {
+              "type": "text",
+              "text": "Case Study",
+              "x": 100,
+              "y": 120,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 38,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "6-2",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f",
+              "x": 120,
+              "y": 200,
+              "width": 500,
+              "height": 300,
+              "fit": "cover"
+            }
+          },
+          {
+            "id": "6-3",
+            "data": {
+              "type": "text",
+              "text": "A digital transformation project that increased conversions by 48%.",
+              "x": 650,
+              "y": 220,
+              "width": 350,
+              "height": 200,
+              "color": "#ffffff",
+              "fontSize": 22,
+              "fontFamily": "Inter"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "7",
+        "elements": [
+          {
+            "id": "7-1",
+            "data": {
+              "type": "text",
+              "text": "Our Process",
+              "x": 130,
+              "y": 120,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 38,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "7-2",
+            "data": {
+              "type": "text",
+              "text": "1. Research\n2. Design\n3. Development\n4. Launch",
+              "x": 130,
+              "y": 200,
+              "width": 350,
+              "height": 220,
+              "color": "#ffffff",
+              "fontSize": 24,
+              "fontFamily": "Inter",
+              "lineHeight": 1.6
+            }
+          },
+          {
+            "id": "7-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1518770660439-4636190af475",
+              "x": 650,
+              "y": 200,
+              "width": 350,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "8",
+        "elements": [
+          {
+            "id": "8-1",
+            "data": {
+              "type": "text",
+              "text": "Statistics",
+              "x": 150,
+              "y": 120,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 40,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "8-2",
+            "data": {
+              "type": "text",
+              "text": "• 120+ Projects\n• 50+ Clients\n• 12 Awards\n• 98% Satisfaction",
+              "x": 150,
+              "y": 200,
+              "width": 400,
+              "height": 220,
+              "color": "#ffffff",
+              "fontSize": 26,
+              "fontFamily": "Inter",
+              "lineHeight": 1.6
+            }
+          },
+          {
+            "id": "8-3",
+            "data": {
+              "type": "image",
+              "src": "https://images.unsplash.com/photo-1556761175-5973dc0f32e7",
+              "x": 650,
+              "y": 180,
+              "width": 350,
+              "height": 300,
+              "fit": "cover"
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "9",
+        "elements": [
+          {
+            "id": "9-1",
+            "data": {
+              "type": "text",
+              "text": "Pricing Plans",
+              "x": 120,
+              "y": 120,
+              "width": 400,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 38,
+              "fontFamily": "Inter"
+            }
+          },
+
+          {
+            "id": "9-2",
+            "data": {
+              "type": "text",
+              "text": "Starter — $299\nBusiness — $899\nEnterprise — $1999",
+              "x": 120,
+              "y": 200,
+              "width": 350,
+              "height": 220,
+              "color": "#ffffff",
+              "fontSize": 28,
+              "fontFamily": "Inter",
+              "lineHeight": 1.7
+            }
+          }
+        ]
+      },
+
+      {
+        "id": "10",
+        "elements": [
+          {
+            "id": "10-1",
+            "data": {
+              "type": "text",
+              "text": "Thank You!",
+              "x": 350,
+              "y": 200,
+              "width": 500,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 52,
+              "fontFamily": "Inter"
+            }
+          },
+          {
+            "id": "10-2",
+            "data": {
+              "type": "text",
+              "text": "Let’s build something amazing together.",
+              "x": 350,
+              "y": 280,
+              "width": 500,
+              "height": 60,
+              "color": "#ffffff",
+              "fontSize": 24,
+              "fontFamily": "Inter"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

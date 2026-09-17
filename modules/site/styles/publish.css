@@ -1,0 +1,80 @@
+/* Publish page: the book's cover on the left, link / embed / visibility / QR
+   cards on the right. Colours come from the brand tokens in styles/base.css. */
+
+.fs-skeleton { background: var(--kd-gradient-skeleton); background-size: 200% 100%; animation: fs-skeleton 1.4s ease-in-out infinite; }
+@keyframes fs-skeleton { to { background-position: -200% 0; } }
+
+.fs-publish-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
+
+.fs-publish-stage { position: sticky; top: 24px; display: grid; gap: 14px; padding: 28px; border: 1px solid var(--kd-brand-200); border-radius: 20px; background: linear-gradient(180deg, var(--kd-brand-50), #f2f1f7); }
+.fs-publish-cover { height: min(62vh, 540px); min-height: 320px; }
+.fs-publish-caption { display: grid; justify-items: center; gap: 2px; text-align: center; }
+.fs-publish-caption strong { font-size: 16px; font-weight: 650; color: var(--kd-brand-900); }
+.fs-publish-caption span { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--kd-brand-muted); }
+
+.fs-publish-side { display: grid; gap: 16px; }
+.fs-publish-card { overflow: hidden; border: 1px solid var(--kd-brand-200); border-radius: 16px; background: #fff; }
+.fs-app .fs-publish-card h2 { margin: 0; padding: 12px 16px; font-size: 14px; font-weight: 600; color: var(--kd-brand-900); background: var(--kd-brand-50); border-bottom: 1px solid var(--kd-brand-200); }
+.fs-publish-card > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 16px; }
+
+.fs-publish-row { display: flex; gap: 8px; align-items: stretch; }
+.fs-publish-field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 12px; border: 1px solid var(--kd-brand-200); border-radius: 12px; color: var(--kd-brand-muted); background: #fff; }
+.fs-publish-field svg { flex-shrink: 0; }
+.fs-app .fs-publish-field input { flex: 1; width: 0; min-width: 0; height: 100%; padding: 0; border: 0; background: none; font-size: 13px; color: var(--kd-brand-900); text-overflow: ellipsis; }
+.fs-app .fs-publish-field input:focus { outline: none; }
+.fs-publish-field:focus-within { border-color: var(--kd-accent); box-shadow: var(--kd-focus-ring); }
+
+.fs-publish-icon { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border: 1px solid var(--kd-brand-200); border-radius: 12px; background: #fff; color: var(--kd-brand-muted); cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.fs-publish-icon:hover { border-color: var(--kd-brand-300); color: var(--kd-accent); background: var(--kd-brand-50); }
+.fs-publish-icon:disabled { opacity: .6; cursor: default; }
+.fs-publish-strong { background: var(--kd-accent); border-color: var(--kd-accent); color: var(--kd-on-accent); }
+.fs-publish-strong:hover { background: var(--kd-accent-hover); border-color: var(--kd-accent-hover); color: var(--kd-on-accent); }
+
+.fs-publish-social { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fs-publish-social a { display: flex; min-width: 0; white-space: nowrap; overflow: hidden; align-items: center; gap: 9px; height: 40px; padding: 0 10px; border: 1px solid var(--kd-brand-200); border-radius: 10px; font-size: 13px; color: var(--kd-brand-900); background: #fff; transition: background .15s, border-color .15s; }
+.fs-publish-social a:hover { border-color: var(--kd-brand-300); background: var(--kd-brand-50); }
+.fs-publish-social svg { flex-shrink: 0; }
+
+.fs-publish-visibility { justify-content: space-between; color: var(--kd-brand-muted); font-size: 13px; }
+.fs-publish-visibility b { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--kd-brand-900); }
+.fs-publish-choice { display: grid; gap: 8px; }
+.fs-publish-choice button { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 10px 12px; border: 1px solid var(--kd-brand-200); border-radius: 12px; background: #fff; color: var(--kd-brand-muted); text-align: left; cursor: pointer; }
+.fs-publish-choice button:hover { border-color: var(--kd-brand-300); }
+.fs-publish-choice button.on { border-color: var(--kd-accent); background: var(--kd-brand-50); color: var(--kd-accent); }
+.fs-publish-choice svg { margin-top: 2px; flex-shrink: 0; }
+.fs-publish-choice span { display: grid; }
+.fs-publish-choice strong { font-size: 13px; color: var(--kd-brand-900); }
+.fs-publish-choice small { font-size: 12px; color: var(--kd-brand-muted); }
+
+.fs-publish-qr { display: grid; grid-template-columns: 132px 1fr; gap: 12px; }
+.fs-publish-qr-code { display: grid; place-items: center; aspect-ratio: 1; padding: 6px; border: 1px solid var(--kd-brand-200); border-radius: 12px; background: #fff; color: var(--kd-brand-300); }
+.fs-publish-qr-code .fs-publish-qr-svg { width: 100%; height: 100%; }
+.fs-publish-dates { display: grid; gap: 8px; }
+.fs-publish-dates > span { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--kd-brand-200); border-radius: 12px; background: var(--kd-brand-50); color: var(--kd-accent); }
+.fs-publish-dates > span > span { display: grid; }
+.fs-publish-dates strong { font-size: 12px; font-weight: 600; color: var(--kd-brand-900); }
+.fs-publish-dates small { font-size: 11px; color: var(--kd-brand-muted); }
+.fs-publish-qr-actions { display: flex; justify-content: center; gap: 8px; }
+.fs-publish-qr-actions .fs-btn { height: 44px; }
+
+.fs-publish-note { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; color: var(--kd-brand-muted); }
+.fs-publish-private { display: grid; gap: 12px; justify-items: start; }
+
+.fs-modal.fs-publish-qr-modal { max-width: 420px; text-align: center; }
+.fs-publish-qr-big { width: min(300px, 70vw); margin: 18px auto 4px; padding: 10px; border: 1px solid var(--kd-brand-200); border-radius: 16px; background: #fff; }
+.fs-publish-qr-big svg { display: block; width: 100%; height: auto; }
+
+@media (max-width: 1100px) {
+  .fs-publish-grid { grid-template-columns: 1fr; }
+  .fs-publish-stage { position: static; }
+  .fs-publish-cover { height: 420px; }
+}
+@media (max-width: 480px) {
+  .fs-publish-stage { padding: 16px; }
+  .fs-publish-cover { height: 340px; min-height: 0; }
+  .fs-publish-qr { grid-template-columns: 1fr; }
+  .fs-publish-qr-code { width: 160px; margin: 0 auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fs-skeleton { animation: none; }
+}

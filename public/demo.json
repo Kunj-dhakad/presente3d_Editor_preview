@@ -1,0 +1,930 @@
+{
+  "slides": [
+    {
+      "id": "17833329041350.09887330501654279",
+      "height": 434,
+      "width": 350,
+      "background": "url(https://kd-presentation-editor.s3.us-east-1.amazonaws.com/File/bg_image/15.png) center/cover no-repeat",
+      "subtitle_url": "",
+      "subtitle_text": "",
+      "subtitle_json": "",
+      "thumbnail": "",
+      "elements": [
+        {
+          "id": "17833329041350.8455364333211888",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+            "x": 9,
+            "y": 4,
+            "width": 326,
+            "height": 150,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 1,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.09527748855011975",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1551836022-d5d88e9218df",
+            "x": 181,
+            "y": 297,
+            "width": 160,
+            "height": 120,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 1,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.8111468114352017",
+          "data": {
+            "type": "text",
+            "x": 12,
+            "y": 286.5,
+            "width": 298,
+            "height": 60,
+            "text": "Navigating Modern\nBusiness Landscapes",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 26,
+            "fontFamily": "Georgia",
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.15,
+            "html": "Navigating Modern\nBusiness Landscapes"
+          }
+        },
+        {
+          "id": "17833329041350.21444646639612597",
+          "data": {
+            "type": "text",
+            "x": 13.5,
+            "y": 432,
+            "width": 268,
+            "height": 15.399999999999999,
+            "text": "Understanding complexity, speed, and global change",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 11,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#333333",
+            "textAlign": "left",
+            "lineHeight": 1.4
+          }
+        },
+        {
+          "id": "17833329041350.778863374810963",
+          "data": {
+            "type": "text",
+            "x": 14,
+            "y": 523,
+            "width": 172,
+            "height": 80,
+            "text": "Markets evolve faster than ever. Digital disruption, shifting consumer values, and global competition demand clarity, agility, and resilient strategy.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 10,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#222222",
+            "textAlign": "left",
+            "lineHeight": 1.6
+          }
+        },
+        {
+          "id": "17833329041350.7824801202593251",
+          "data": {
+            "type": "text",
+            "x": 10.5,
+            "y": 694,
+            "width": 172,
+            "height": 39.199999999999996,
+            "text": "Adaptability is the new competitive advantage.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 14,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#0A1F44",
+            "textAlign": "left",
+            "lineHeight": 1.4
+          }
+        },
+        {
+          "id": "17833329041350.5248435980035987",
+          "data": {
+            "type": "text",
+            "x": 10,
+            "y": 392,
+            "width": 200,
+            "height": 10.4,
+            "text": "Global leadership summit",
+            "rotation": 0,
+            "opacity": 0.7,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.7682945833706608",
+          "data": {
+            "type": "text",
+            "x": 37,
+            "y": 489,
+            "width": 160,
+            "height": 10.4,
+            "text": "Collaborative strategy session",
+            "rotation": 0,
+            "opacity": 0.7,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.5067488201972747",
+          "data": {
+            "type": "text",
+            "x": 348,
+            "y": 787,
+            "width": 20,
+            "height": 12,
+            "text": "01",
+            "rotation": 0,
+            "opacity": 0.6,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#666666",
+            "textAlign": "right",
+            "lineHeight": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "17833329041350.6344962571884573",
+      "height": 434,
+      "width": 350,
+      "background": "url(https://kd-presentation-editor.s3.us-east-1.amazonaws.com/File/bg_image/15.png) center/cover no-repeat",
+      "subtitle_url": "",
+      "subtitle_text": "",
+      "subtitle_json": "",
+      "thumbnail": "",
+      "elements": [
+        {
+          "id": "17833329041350.2097253829859419",
+          "data": {
+            "type": "text",
+            "x": 18,
+            "y": 46.5,
+            "width": 229,
+            "height": 48.3,
+            "text": "Navigating Modern\nBusiness Landscapes",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 21,
+            "fontFamily": "Georgia",
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.15
+          }
+        },
+        {
+          "id": "17833329041350.6961966050258858",
+          "data": {
+            "type": "text",
+            "x": 29,
+            "y": 518,
+            "width": 200,
+            "height": 32,
+            "text": "Strategies for agility, resilience and growth",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 12,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#333333",
+            "textAlign": "left",
+            "lineHeight": 1.4
+          }
+        },
+        {
+          "id": "17833329041350.32024607185797926",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+            "x": 246,
+            "y": 20,
+            "width": 92,
+            "height": 150,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 2,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.10394495443528085",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+            "x": 17,
+            "y": 174,
+            "width": 289,
+            "height": 144,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 2,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.5465420213933315",
+          "data": {
+            "type": "text",
+            "x": 21,
+            "y": 639,
+            "width": 180,
+            "height": 60,
+            "text": "Global markets shift rapidly. Leaders must respond with clarity, data insight and decisive execution.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 10,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.6
+          }
+        },
+        {
+          "id": "17833329041350.02846020105397251",
+          "data": {
+            "type": "text",
+            "x": 22,
+            "y": 197,
+            "width": 223,
+            "height": 39.199999999999996,
+            "text": "Adaptability is today’s most valuable asset.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 14,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#1F3A5F",
+            "textAlign": "left",
+            "lineHeight": 1.4
+          }
+        },
+        {
+          "id": "17833329041350.7716432282862066",
+          "data": {
+            "type": "text",
+            "x": 52,
+            "y": 179,
+            "width": 92,
+            "height": 10.4,
+            "text": "Global finance hubs",
+            "rotation": 0,
+            "opacity": 0.8,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.33940691380415167",
+          "data": {
+            "type": "text",
+            "x": 25,
+            "y": 277,
+            "width": 150,
+            "height": 16,
+            "text": "Strategic leadership sessions",
+            "rotation": 0,
+            "opacity": 0.8,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.8761499532725936",
+          "data": {
+            "type": "text",
+            "x": 330,
+            "y": 625,
+            "width": 20,
+            "height": 12,
+            "text": "02",
+            "rotation": 0,
+            "opacity": 0.5,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#777777",
+            "textAlign": "right",
+            "lineHeight": 1.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "17833329041350.2145696137409715",
+      "height": 434,
+      "width": 350,
+      "background": "url(https://kd-presentation-editor.s3.us-east-1.amazonaws.com/File/bg_image/15.png) center/cover no-repeat",
+      "subtitle_url": "",
+      "subtitle_text": "",
+      "subtitle_json": "",
+      "thumbnail": "",
+      "elements": [
+        {
+          "id": "17833329041350.8244196580372058",
+          "data": {
+            "type": "text",
+            "x": 17.5,
+            "y": 49,
+            "width": 230,
+            "height": 64.39999999999999,
+            "text": "Agility in Motion",
+            "fontSize": 28,
+            "fontFamily": "Georgia",
+            "fontWeight": "bold",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.15,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3
+          }
+        },
+        {
+          "id": "17833329041350.9815900563523947",
+          "data": {
+            "type": "text",
+            "x": 22,
+            "y": 190,
+            "width": 220,
+            "height": 36,
+            "text": "Thriving amid constant disruption",
+            "fontSize": 12,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "color": "#333333",
+            "textAlign": "left",
+            "lineHeight": 1.3,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3
+          }
+        },
+        {
+          "id": "17833329041350.7928069703687777",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1492724441997-5dc865305da7",
+            "x": 236,
+            "y": 20,
+            "width": 90,
+            "height": 200,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 2,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.9482106934551299",
+          "data": {
+            "type": "text",
+            "x": 22,
+            "y": 236,
+            "width": 200,
+            "height": 90,
+            "text": "Modern markets evolve overnight. Leaders who adapt quickly, test boldly, and recalibrate strategy in real time stay ahead of uncertainty.",
+            "fontSize": 10,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "color": "#222222",
+            "textAlign": "left",
+            "lineHeight": 1.6,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3
+          }
+        },
+        {
+          "id": "17833329041350.3063648397527402",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1556761175-4b46a572b786",
+            "x": 9,
+            "y": 246,
+            "width": 328,
+            "height": 165,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 2,
+            "borderRadius": "6",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.6747683907429701",
+          "data": {
+            "type": "text",
+            "x": 24,
+            "y": 406,
+            "width": 200,
+            "height": 20,
+            "text": "Strategy workshop, 2026",
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#444444",
+            "textAlign": "left",
+            "lineHeight": 1.3,
+            "rotation": 0,
+            "opacity": 0.8,
+            "zIndex": 3
+          }
+        },
+        {
+          "id": "17833329041350.7934369575626927",
+          "data": {
+            "type": "text",
+            "x": 59,
+            "y": 429,
+            "width": 156,
+            "height": 36,
+            "text": "Speed is strategy.",
+            "fontSize": 14,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#0B3C5D",
+            "textAlign": "right",
+            "lineHeight": 1.4,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3
+          }
+        },
+        {
+          "id": "17833329041350.643842170166098",
+          "data": {
+            "type": "text",
+            "x": 328,
+            "y": 732,
+            "width": 18,
+            "height": 12,
+            "text": "03",
+            "fontSize": 8,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "color": "#888888",
+            "textAlign": "right",
+            "lineHeight": 1.2,
+            "rotation": 0,
+            "opacity": 0.6,
+            "zIndex": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "17833329041350.9845696228942923",
+      "height": 434,
+      "width": 350,
+      "background": "url(https://kd-presentation-editor.s3.us-east-1.amazonaws.com/File/bg_image/15.png) center/cover no-repeat",
+      "subtitle_url": "",
+      "subtitle_text": "",
+      "subtitle_json": "",
+      "thumbnail": "",
+      "elements": [
+        {
+          "id": "17833329041350.7611824952067273",
+          "data": {
+            "type": "text",
+            "x": 18,
+            "y": 32.5,
+            "width": 233,
+            "height": 59.8,
+            "text": "Adapting at Market Speed",
+            "fontSize": 26,
+            "fontFamily": "Helvetica",
+            "fontWeight": "bold",
+            "lineHeight": 1.15,
+            "color": "#111111",
+            "textAlign": "left"
+          }
+        },
+        {
+          "id": "17833329041350.6456864645207417",
+          "data": {
+            "type": "text",
+            "x": 34,
+            "y": 302,
+            "width": 220,
+            "height": 17,
+            "text": "Agility defines modern leadership",
+            "fontSize": 12,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "lineHeight": 1.4,
+            "color": "#333333",
+            "textAlign": "left",
+            "html": "Agility defines modern leadership"
+          }
+        },
+        {
+          "id": "17833329041350.28144573509495074",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1551836022-d5d88e9218df",
+            "x": 18,
+            "y": 93,
+            "width": 313,
+            "height": 120,
+            "objectFit": "cover",
+            "borderRadius": 6,
+            "rotation": 0
+          }
+        },
+        {
+          "id": "17833329041350.3068297226268254",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+            "x": 24,
+            "y": 262,
+            "width": 150,
+            "height": 140,
+            "objectFit": "cover",
+            "borderRadius": 6
+          }
+        },
+        {
+          "id": "17833329041350.9680969641316511",
+          "data": {
+            "type": "text",
+            "x": 335,
+            "y": 455,
+            "width": 140,
+            "height": 120,
+            "text": "Markets shift overnight. Data flows instantly. Leaders who test, learn, and pivot quickly outperform rigid competitors.",
+            "fontSize": 10,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "lineHeight": 1.6,
+            "color": "#111111",
+            "textAlign": "left"
+          }
+        },
+        {
+          "id": "17833329041350.39539928058380935",
+          "data": {
+            "type": "rect",
+            "x": 182,
+            "y": 280,
+            "width": 148,
+            "height": 90,
+            "color": "#0B3C5D",
+            "borderRadius": 8
+          }
+        },
+        {
+          "id": "17833329041350.7252608513607077",
+          "data": {
+            "type": "text",
+            "x": 327,
+            "y": 549,
+            "width": 124,
+            "height": 60,
+            "text": "Speed is strategy in motion.",
+            "fontSize": 14,
+            "fontFamily": "Georgia",
+            "fontWeight": "normal",
+            "lineHeight": 1.4,
+            "color": "#000000",
+            "textAlign": "left",
+            "html": "Speed is strategy in motion."
+          }
+        },
+        {
+          "id": "17833329041350.7770663124133437",
+          "data": {
+            "type": "text",
+            "x": 334,
+            "y": 735,
+            "width": 20,
+            "height": 10,
+            "text": "04",
+            "fontSize": 8,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "lineHeight": 1.2,
+            "color": "#555555",
+            "textAlign": "right"
+          }
+        }
+      ]
+    },
+    {
+      "id": "17833329041350.01694391481560864",
+      "height": 434,
+      "width": 350,
+      "background": "url(https://kd-presentation-editor.s3.us-east-1.amazonaws.com/File/bg_image/15.png) center/cover no-repeat",
+      "subtitle_url": "",
+      "subtitle_text": "",
+      "subtitle_json": "",
+      "thumbnail": "",
+      "elements": [
+        {
+          "id": "17833329041350.5243257412498991",
+          "data": {
+            "type": "rect",
+            "x": 60,
+            "y": 40,
+            "width": 2,
+            "height": 340,
+            "color": "#1F3A5F",
+            "rotation": 0,
+            "opacity": 0.9,
+            "zIndex": 1
+          }
+        },
+        {
+          "id": "17833329041350.648009228471377",
+          "data": {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "width": 230,
+            "height": 60,
+            "text": "The Road Ahead",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 26,
+            "fontFamily": "Helvetica",
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.15
+          }
+        },
+        {
+          "id": "17833329041350.7660400893495394",
+          "data": {
+            "type": "text",
+            "x": 84,
+            "y": 71,
+            "width": 230,
+            "height": 28,
+            "text": "Building resilient, adaptive enterprises",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 11,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#333333",
+            "textAlign": "left",
+            "lineHeight": 1.4,
+            "align": "center"
+          }
+        },
+        {
+          "id": "17833329041350.689637571862372",
+          "data": {
+            "type": "rect",
+            "x": 54,
+            "y": 110,
+            "width": 14,
+            "height": 14,
+            "color": "#1F3A5F",
+            "rotation": 45,
+            "opacity": 1,
+            "zIndex": 2
+          }
+        },
+        {
+          "id": "17833329041350.02370538676263978",
+          "data": {
+            "type": "text",
+            "x": 63,
+            "y": 142,
+            "width": 230,
+            "height": 44,
+            "text": "Reimagine value creation through digital ecosystems.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 10,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.5
+          }
+        },
+        {
+          "id": "17833329041350.08255867513508852",
+          "data": {
+            "type": "text",
+            "x": 65,
+            "y": 272,
+            "width": 180,
+            "height": 16,
+            "text": "Collaborative strategy session",
+            "rotation": 0,
+            "opacity": 0.8,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.722197876801606",
+          "data": {
+            "type": "rect",
+            "x": 54,
+            "y": 275,
+            "width": 14,
+            "height": 14,
+            "color": "#1F3A5F",
+            "rotation": 45,
+            "opacity": 1,
+            "zIndex": 2
+          }
+        },
+        {
+          "id": "17833329041350.8110575392738711",
+          "data": {
+            "type": "text",
+            "x": 69,
+            "y": 303,
+            "width": 230,
+            "height": 44,
+            "text": "Embed agility into culture, systems, and leadership.",
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 10,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#111111",
+            "textAlign": "left",
+            "lineHeight": 1.5
+          }
+        },
+        {
+          "id": "17833329041350.452889405022037",
+          "data": {
+            "type": "image",
+            "src": "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+            "x": 24,
+            "y": 248,
+            "width": 299,
+            "height": 165,
+            "rotation": 0,
+            "opacity": 1,
+            "zIndex": 2,
+            "borderRadius": "40",
+            "objectFit": "cover"
+          }
+        },
+        {
+          "id": "17833329041350.841836111807108",
+          "data": {
+            "type": "text",
+            "x": 199,
+            "y": 435,
+            "width": 140,
+            "height": 16,
+            "text": "Leadership in motion",
+            "rotation": 0,
+            "opacity": 0.8,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "italic",
+            "color": "#555555",
+            "textAlign": "left",
+            "lineHeight": 1.3
+          }
+        },
+        {
+          "id": "17833329041350.9528708605338371",
+          "data": {
+            "type": "text",
+            "x": 67,
+            "y": 371,
+            "width": 80,
+            "height": 44,
+            "text": "Adapt faster than change.",
+            "rotation": -90,
+            "opacity": 1,
+            "zIndex": 3,
+            "fontSize": 13,
+            "fontFamily": "Helvetica",
+            "fontWeight": "bold",
+            "fontStyle": "normal",
+            "color": "#1F3A5F",
+            "textAlign": "center",
+            "lineHeight": 1.2
+          }
+        },
+        {
+          "id": "17833329041350.00006368208989115942",
+          "data": {
+            "type": "text",
+            "x": 322,
+            "y": 627,
+            "width": 20,
+            "height": 12,
+            "text": "05",
+            "rotation": 0,
+            "opacity": 0.6,
+            "zIndex": 3,
+            "fontSize": 8,
+            "fontFamily": "Helvetica",
+            "fontWeight": "normal",
+            "fontStyle": "normal",
+            "color": "#888888",
+            "textAlign": "right",
+            "lineHeight": 1.2
+          }
+        }
+      ]
+    }
+  ]
+}

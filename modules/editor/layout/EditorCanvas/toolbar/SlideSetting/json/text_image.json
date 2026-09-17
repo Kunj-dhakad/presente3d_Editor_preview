@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "id": "text-image",
+    "title": "Text and Image",
+    "thumbnail": "/templates/text-image.png",
+    "description": "Large title on the left, image on the right."
+  },
+  "slide": {
+    "background": "#0b0b0b",
+    "width": 853.33,
+    "height": 480,
+    "elements": [
+      {
+        "id": "t1",
+        "data": {
+          "type": "text",
+          "text": "Your headline here",
+          "x": 40,
+          "y": 60,
+          "width": 420,
+          "height": 140,
+          "fontSize": 36,
+          "fontFamily": "Inter",
+          "textColor": "#FFFFFF",
+          "textAlign": "left"
+        }
+      },
+      {
+        "id": "i1",
+        "data": {
+          "type": "image",
+          "src": "/placeholders/portrait-1.jpg",
+          "x": 490,
+          "y": 60,
+          "width": 300,
+          "height": 300,
+          "fit": "cover",
+          "borderRadius": "8px"
+        }
+      }
+    ]
+  }
+}

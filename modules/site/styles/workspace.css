@@ -197,3 +197,11 @@
   .fs-workspace .fs-page-panel, .fs-workspace .fs-ai-page { padding: 20px; }
   .fs-workspace .fs-book-grid { grid-template-columns: 1fr; }
 }
+
+/* Trash: restore or delete forever */
+.fs-trash-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 16px; padding: 10px 14px; border: 1px solid #f3d2d2; border-radius: 12px; background: #fff7f7; }
+.fs-trash-bar p { margin: 0; font-size: 13px; color: #8a4b4b; }
+.fs-trash-bar .fs-btn { display: inline-flex; align-items: center; gap: 6px; }
+.fs-workspace .fs-book-actions .fs-book-purge { margin-left: auto; color: #c83b3b; }
+.fs-workspace .fs-book-actions .fs-book-purge:hover { background: #fdecec; color: #a92f2f; }
+@media (max-width: 600px) { .fs-trash-bar { flex-direction: column; align-items: stretch; } }

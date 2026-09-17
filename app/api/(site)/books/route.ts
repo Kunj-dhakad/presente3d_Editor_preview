@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { RowDataPacket } from "mysql2";
 import { db } from "@shared/server/db";
 import { requireUser, apiError, jsonBody, consumeLimit } from "@shared/server/api";
-import { createBook } from "@shared/server/books";
+import { createBook, purgeBooks } from "@shared/server/books";
 export async function GET(request: Request) {
   try {
     const user = await requireUser(request);
@@ -19,3 +19,13 @@ export async function POST(request: Request) {
   } catch(e) { return apiError(e); }
 }
 
+
+/** DELETE /api/books?trash=true empties the trash for good. */
+export async function DELETE(request: Request) {
+  try {
+    const user = await requireUser(request);
+    if (new URL(request.url).searchParams.get("trash") !== "true") return NextResponse.json({ error: "Only the trash can be emptied." }, { status: 400 });
+    await consumeLimit(user.id, "empty-trash", 10);
+    return NextResponse.json({ deleted: await purgeBooks(user.id) });
+  } catch(e) { return apiError(e); }
+}

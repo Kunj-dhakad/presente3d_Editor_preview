@@ -42,18 +42,32 @@ export default function BookLibrary() {
   // No books at all (and not searching or in the trash): show the welcome page.
   const firstRun = !loading && !error && !trash && !search && books.length === 0;
 
-  async function action(book: Book, kind: "duplicate" | "restore" | "trash") {
+  async function action(book: Book, kind: "duplicate" | "restore" | "trash" | "purge") {
+    if (kind === "purge" && !confirm(`Delete "${book.title}" forever? This cannot be undone. Its public link and form responses are removed too.`)) return;
     setBusy(true); setError("");
     try {
-      const res = await fetch("/api/books/" + book.id, {
-        method: kind === "trash" ? "DELETE" : "PATCH",
+      const remove = kind === "trash" || kind === "purge";
+      const res = await fetch("/api/books/" + book.id + (kind === "purge" ? "?permanent=true" : ""), {
+        method: remove ? "DELETE" : "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: kind === "trash" ? undefined : JSON.stringify({ action: kind }),
+        body: remove ? undefined : JSON.stringify({ action: kind }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       await load();
     } catch (e) { setError(e instanceof Error ? e.message : "Action failed."); }
+    finally { setBusy(false); }
+  }
+
+  async function emptyTrash() {
+    if (!confirm(`Delete all ${books.length} ${books.length === 1 ? "book" : "books"} in the trash forever? This cannot be undone.`)) return;
+    setBusy(true); setError("");
+    try {
+      const res = await fetch("/api/books?trash=true", { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      await load();
+    } catch (e) { setError(e instanceof Error ? e.message : "Could not empty the trash."); }
     finally { setBusy(false); }
   }
 
@@ -111,6 +125,10 @@ export default function BookLibrary() {
             <option value="title">Title A–Z</option>
           </select>
         </div>
+        {trash && !loading && books.length > 0 && <div className="fs-trash-bar">
+          <p>Books in the trash can be restored, or deleted forever.</p>
+          <button className="fs-btn fs-danger-btn fs-btn-sm" disabled={busy} onClick={() => void emptyTrash()}><Trash2 size={15} />Empty trash</button>
+        </div>}
 
         {error && <p className="fs-alert" role="alert">{error}{/plan/i.test(error) && <> <Link href="/billing">See plans</Link></>}</p>}
 
@@ -123,7 +141,10 @@ export default function BookLibrary() {
               <h3>{book.title}</h3>
               <p>{book.page_count} {book.page_count === 1 ? "page" : "pages"} · {new Date(book.updated_at).toLocaleDateString("en-US")}</p>
               <div className="fs-book-actions">
-                {trash ? <button disabled={busy} onClick={() => action(book, "restore")}><RotateCcw size={15} />Restore</button> : <>
+                {trash ? <>
+                  <button disabled={busy} onClick={() => action(book, "restore")}><RotateCcw size={15} />Restore</button>
+                  <button className="fs-book-purge" disabled={busy} aria-label={"Delete " + book.title + " forever"} onClick={() => action(book, "purge")}><Trash2 size={15} />Delete forever</button>
+                </> : <>
                   <Link href={bookPath(book)}>Open editor <ArrowUpRight size={14} /></Link>
                   <button title={favorites.includes(book.id) ? "Remove from favourites" : "Add to favourites"} aria-label={"Favourite " + book.title} aria-pressed={favorites.includes(book.id)} onClick={() => toggleFavorite(book.id)}><Star size={15} fill={favorites.includes(book.id) ? "currentColor" : "none"} /></button>
                   <button title="Rename" aria-label={"Rename " + book.title} disabled={busy} onClick={() => setModal(book)}><Pencil size={15} /></button>

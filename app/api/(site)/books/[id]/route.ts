@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@shared/server/db";
 import { requireUser, apiError, jsonBody, ApiError } from "@shared/server/api";
-import { ownedBook, readDocument, saveBook, createBook } from "@shared/server/books";
+import { ownedBook, readDocument, saveBook, createBook, purgeBooks } from "@shared/server/books";
 import { bookTitle } from "@shared/server/document";
 import { assertBookQuota } from "@shared/server/limits";
 type Context = { params: Promise<{id: string}> };
@@ -33,6 +33,13 @@ export async function PATCH(request: Request, context: Context) {
 export async function DELETE(request: Request, context: Context) {
   try {
     const user = await requireUser(request); const {id} = await context.params;
+    // ?permanent=true deletes a book that is already in the trash, for good.
+    if (new URL(request.url).searchParams.get("permanent") === "true") {
+      const book = await ownedBook(id,user.id,true);
+      if (!book.deleted_at) throw new ApiError(400,"Move the book to the trash before deleting it forever.");
+      await purgeBooks(user.id,[String(book.id)]);
+      return NextResponse.json({success:true});
+    }
     const bookId = String((await ownedBook(id,user.id)).id);
     await db.execute("UPDATE books SET deleted_at=UTC_TIMESTAMP(3) WHERE id=? AND user_id=?",[bookId,user.id]);
     await db.execute("DELETE FROM book_shares WHERE book_id=?",[bookId]);

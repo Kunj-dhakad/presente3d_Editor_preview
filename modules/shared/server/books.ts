@@ -61,3 +61,23 @@ export async function saveBook(id: string, userId: string, input: unknown, versi
     await conn.rollback(); await removeObject(key).catch(() => {}); throw e;
   } finally { conn.release(); }
 }
+
+/**
+ * Deletes books from the trash for good: the rows, their revisions, shares and
+ * form responses, and the stored documents. Only books already in the trash are
+ * touched; with no ids, the whole trash is emptied. Media stays in the library.
+ */
+export async function purgeBooks(userId: string, ids?: string[]) {
+  const [books] = ids
+    ? await db.query<RowDataPacket[]>("SELECT id, document_key FROM books WHERE user_id=? AND deleted_at IS NOT NULL AND id IN (?)", [userId, ids.length ? ids : [""]])
+    : await db.query<RowDataPacket[]>("SELECT id, document_key FROM books WHERE user_id=? AND deleted_at IS NOT NULL", [userId]);
+  if (!books.length) return 0;
+  const bookIds = books.map(book => String(book.id));
+  const [revisions] = await db.query<RowDataPacket[]>("SELECT document_key FROM book_revisions WHERE book_id IN (?)", [bookIds]);
+  const keys = new Set<string>([...books.map(book => String(book.document_key)), ...revisions.map(revision => String(revision.document_key))]);
+  await db.query("DELETE FROM book_responses WHERE book_id IN (?)", [bookIds]);
+  // Shares and revisions cascade from books.
+  await db.query("DELETE FROM books WHERE user_id=? AND deleted_at IS NOT NULL AND id IN (?)", [userId, bookIds]);
+  await Promise.all([...keys].map(key => removeObject(key).catch(() => {})));
+  return books.length;
+}

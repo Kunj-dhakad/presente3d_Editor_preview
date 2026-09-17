@@ -2,11 +2,13 @@ import {protectedRoute} from "@shared/server/protected-route";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const client = new OpenAI({
+// Created on first use, so building the app does not need the API key.
+let openai: OpenAI | null = null;
+const client = () => (openai ??= new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
   timeout: 120000,
   maxRetries: 2,
-});
+}));
 
 type PageContent = {
   title?: string;
@@ -303,7 +305,7 @@ async function handlePOST(req: Request) {
       return NextResponse.json({ success: false, error: "Prompt required" }, { status: 400 });
     }
 
-    const ai = await client.chat.completions.create({
+    const ai = await client().chat.completions.create({
       model: "gpt-4o-mini",
       response_format: { type: "json_object" },
       messages: [

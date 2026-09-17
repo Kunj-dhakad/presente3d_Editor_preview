@@ -4,9 +4,11 @@ import {protectedRoute} from "@shared/server/protected-route";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const client = new OpenAI({
+// Created on first use, so building the app does not need the API key.
+let openai: OpenAI | null = null;
+const client = () => (openai ??= new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
-});
+}));
 
 async function handlePOST(req: Request) {
   const { prompt } = await req.json();
@@ -256,7 +258,7 @@ Return exactly ONE slide inside:
 }
 `;
 
-    const completion = await client.chat.completions.create({
+    const completion = await client().chat.completions.create({
       model: "gpt-5.2",
       response_format: { type: "json_object" },
       messages: [

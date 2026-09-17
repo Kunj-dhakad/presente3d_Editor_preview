@@ -2,11 +2,13 @@ import {protectedRoute} from "@shared/server/protected-route";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
-const client = new OpenAI({
+// Created on first use, so building the app does not need the API key.
+let openai: OpenAI | null = null;
+const client = () => (openai ??= new OpenAI({
   apiKey: process.env.OPENAI_API_KEY!,
   timeout: 60000,
   maxRetries: 2,
-});
+}));
 
 type QuizAiOption = { text: string; correct: boolean };
 type QuizAiQuestion = { question: string; options: QuizAiOption[] };
@@ -23,7 +25,7 @@ async function handlePOST(req: Request) {
     }
 
     if (mode === "question") {
-      const ai = await client.chat.completions.create({
+      const ai = await client().chat.completions.create({
         model: "gpt-4o-mini",
         response_format: { type: "json_object" },
         messages: [
@@ -53,7 +55,7 @@ async function handlePOST(req: Request) {
 
     // mode === "quiz"
     const questionCount = Math.min(Math.max(Number(count) || 3, 1), 8);
-    const ai = await client.chat.completions.create({
+    const ai = await client().chat.completions.create({
       model: "gpt-4o-mini",
       response_format: { type: "json_object" },
       messages: [

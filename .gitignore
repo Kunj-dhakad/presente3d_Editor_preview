@@ -63,3 +63,4 @@ next-env.d.ts
 # one-off developer scripts (only scripts/setup.cjs runs on the server: npm run db:setup)
 /scripts/*
 !/scripts/setup.cjs
+!/scripts/amplify-env.cjs

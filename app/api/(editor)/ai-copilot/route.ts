@@ -6,11 +6,13 @@ import type { ChatTurn, CopilotContext } from "@editor/lib/ai/types";
 
 export const runtime = "nodejs";
 
-const client = new OpenAI({
+// Created on first use, so building the app does not need the API key.
+let openai: OpenAI | null = null;
+const client = () => (openai ??= new OpenAI({
     apiKey: process.env.OPENAI_API_KEY!,
     timeout: 60000,
     maxRetries: 1,
-});
+}));
 
 /** Recent turns only — context must not grow without bound. */
 const MAX_HISTORY_TURNS = 6;
@@ -37,7 +39,7 @@ async function handlePOST(req: Request) {
             .filter((turn) => turn && (turn.role === "user" || turn.role === "assistant") && typeof turn.content === "string")
             .map((turn) => ({ role: turn.role, content: turn.content.slice(0, 600) }));
 
-        const completion = await client.chat.completions.create({
+        const completion = await client().chat.completions.create({
             model: "gpt-4o",
             response_format: { type: "json_object" },
             temperature: 0.2,

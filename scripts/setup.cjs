@@ -60,18 +60,20 @@ async function main() {
     console.log("Authentication tables are ready.");
     await pool.query("INSERT IGNORE INTO user_plans (user_id, plan) SELECT id, 'free' FROM `user`");
     console.log("Existing accounts have a plan.");
-    const legacy = process.env.LEGACY_LIBRARY_DATABASE;
-    if (legacy && legacy !== "FS_BookEditor" && /^[a-zA-Z0-9_]+$/.test(legacy)) {
-      for (const [table, kind] of [["templates", "template"], ["text_templates", "text"], ["elements", "element"], ["bg_images", "background"]]) {
-        try {
-          const [rows] = await pool.query("SELECT * FROM ?? . ??", [legacy, table]);
-          for (const row of rows) {
-            const id = crypto.createHash("sha256").update(kind + ":" + row.id).digest("hex").slice(0, 36);
-            await pool.execute("INSERT IGNORE INTO library_items (id, kind, title, data) VALUES (?, ?, ?, ?)", [id, kind, String(row.title || row.name || kind).slice(0, 160), JSON.stringify(row)]);
-          }
-          console.log("Imported " + rows.length + " " + kind + " library entries.");
-        } catch (error) { console.log("Optional " + kind + " library import skipped: " + (error.code || "unavailable")); }
+    // Everything lives in this one database. The editor reads its library from
+    // library_items, so rows loaded into the library tables below are copied
+    // across; running setup again only adds rows that are new.
+    for (const [table, kind] of [["templates", "template"], ["text_templates", "text"], ["elements", "element"], ["bg_images", "background"]]) {
+      const [exists] = await pool.query("SHOW TABLES LIKE ?", [table]);
+      if (!exists.length) continue;
+      const [rows] = await pool.query("SELECT * FROM ??", [table]);
+      let added = 0;
+      for (const row of rows) {
+        const id = crypto.createHash("sha256").update(kind + ":" + row.id).digest("hex").slice(0, 36);
+        const [result] = await pool.execute("INSERT IGNORE INTO library_items (id, kind, title, data) VALUES (?, ?, ?, ?)", [id, kind, String(row.title || row.name || kind).slice(0, 160), JSON.stringify(row)]);
+        added += result.affectedRows;
       }
+      console.log(`Library ${kind}: ${rows.length} in ${table}, ${added} newly added.`);
     }
   } finally { await pool.end(); }
 }

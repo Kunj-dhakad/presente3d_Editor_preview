@@ -8,9 +8,11 @@
 export type AiBookRequest = {
   prompt: string; pages: number; size: string;
   category?: string; tone?: string; audience?: string;
+  /** "agent" books are published as soon as they are saved. */
+  kind?: "ai" | "agent";
 };
 export type AiBookProgress = { stage: "planning" | "writing" | "saving"; done: number; total: number; title?: string };
-export type CreatedBook = { id: string; short_id: string | null; title: string; pages: number };
+export type CreatedBook = { id: string; short_id: string | null; title: string; pages: number; readPath?: string };
 
 type Brief = { heading: string; summary: string; layout: string; chapter?: string };
 type Outline = { title: string; subtitle: string; pages: Brief[] };
@@ -69,7 +71,13 @@ export async function generateAiBook(request: AiBookRequest, onProgress: (progre
   onProgress({ stage: "saving", done: items.length, total: items.length, title: outline.title });
   const book = await post<{ id: string; short_id: string | null; title: string }>("/api/books", {
     title: outline.title,
+    kind: request.kind ?? "ai",
     document,
   });
-  return { ...book, pages: document.slides.length };
+  let readPath: string | undefined;
+  if (request.kind === "agent") {
+    // A chat-made book goes live straight away; if that fails it stays a draft.
+    readPath = await post<{ path: string }>(`/api/books/${book.short_id ?? book.id}/share`, {}).then(share => share.path).catch(() => undefined);
+  }
+  return { ...book, pages: document.slides.length, readPath };
 }

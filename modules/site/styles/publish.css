@@ -1,13 +1,11 @@
 /* Publish page: the book's cover on the left, link / embed / visibility / QR
    cards on the right. Colours come from the brand tokens in styles/base.css. */
 
-.fs-skeleton { background: var(--kd-gradient-skeleton); background-size: 200% 100%; animation: fs-skeleton 1.4s ease-in-out infinite; }
-@keyframes fs-skeleton { to { background-position: -200% 0; } }
-
 .fs-publish-grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; }
 
 .fs-publish-stage { position: sticky; top: 24px; display: grid; gap: 14px; padding: 28px; border: 1px solid var(--kd-brand-200); border-radius: 20px; background: linear-gradient(180deg, var(--kd-brand-50), #f2f1f7); }
 .fs-publish-cover { height: min(62vh, 540px); min-height: 320px; }
+.fs-publish-cover-image { display: block; height: 100%; max-width: 100%; margin: 0 auto; object-fit: contain; border-radius: 12px; box-shadow: 0 18px 40px color-mix(in srgb, var(--kd-brand-900) 18%, transparent); }
 .fs-publish-caption { display: grid; justify-items: center; gap: 2px; text-align: center; }
 .fs-publish-caption strong { font-size: 16px; font-weight: 650; color: var(--kd-brand-900); }
 .fs-publish-caption span { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--kd-brand-muted); }
@@ -37,6 +35,15 @@
 
 .fs-publish-visibility { justify-content: space-between; color: var(--kd-brand-muted); font-size: 13px; }
 .fs-publish-visibility b { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--kd-brand-900); }
+.fs-publish-row:has(.fs-switch) .fs-publish-field { height: auto; min-height: 44px; padding: 10px 12px; gap: 12px; }
+.fs-publish-switch-label { display: grid; gap: 2px; color: var(--kd-brand-900); font-weight: 600; }
+.fs-publish-switch-label small { font-size: 11px; font-weight: 400; color: var(--kd-brand-muted); line-height: 1.35; }
+.fs-switch { position: relative; flex-shrink: 0; width: 42px; height: 24px; padding: 0; border: 0; border-radius: 999px; background: #cfd3dc; cursor: pointer; transition: background .18s; }
+.fs-switch i { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0003; transition: transform .18s; }
+.fs-switch.on { background: var(--kd-accent); }
+.fs-switch.on i { transform: translateX(18px); }
+.fs-switch:disabled { opacity: .6; cursor: progress; }
+.fs-switch:focus-visible { outline: 3px solid var(--kd-brand-300); outline-offset: 2px; }
 .fs-publish-choice { display: grid; gap: 8px; }
 .fs-publish-choice button { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 10px 12px; border: 1px solid var(--kd-brand-200); border-radius: 12px; background: #fff; color: var(--kd-brand-muted); text-align: left; cursor: pointer; }
 .fs-publish-choice button:hover { border-color: var(--kd-brand-300); }
@@ -74,7 +81,4 @@
   .fs-publish-cover { height: 340px; min-height: 0; }
   .fs-publish-qr { grid-template-columns: 1fr; }
   .fs-publish-qr-code { width: 160px; margin: 0 auto; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .fs-skeleton { animation: none; }
 }

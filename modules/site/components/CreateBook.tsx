@@ -20,7 +20,7 @@ export default function CreateBook({ initialTemplate = "blank" }: { initialTempl
         if (!response.ok) throw new Error("Could not load the template. Please try again.");
         document = await response.json();
       }
-      const response = await fetch("/api/books", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title, document }) });
+      const response = await fetch("/api/books", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title, document, kind: template === "blank" ? "blank" : "template" }) });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Could not create your book.");
       window.location.assign(bookPath(data));

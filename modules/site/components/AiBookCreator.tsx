@@ -144,7 +144,7 @@ export default function AiBookCreator() {
       if (failed) throw failed.reason instanceof Error ? failed.reason : new Error("Some pages could not be completed. Retry to finish the missing pages.");
       if (slides.current.size !== plan.outline.pages.length + 1 || !extras.current) throw new Error("Some pages are missing. Retry to finish your book.");
       setPhase("saving");
-      const book = await post<{ id: string; short_id: string | null; title: string }>("/api/books", { title: plan.outline.title, document: { slides: assembleBook(slides.current, plan.outline.pages.length, extras.current) } });
+      const book = await post<{ id: string; short_id: string | null; title: string }>("/api/books", { title: plan.outline.title, kind: "ai", document: { slides: assembleBook(slides.current, plan.outline.pages.length, extras.current) } });
       opening.current = true;
       window.location.assign(bookPath(book));
     } catch (e) { setError(e instanceof Error ? e.message : "Could not finish your book."); setPhase("failed"); }

@@ -8,6 +8,7 @@ import NavButton from "./NavButton";
 import PreviewHeader from "./PreviewHeader";
 import ReaderStage from "./ReaderStage";
 import PagesThumbnailPanel from "./PagesThumbnailPanel";
+import ReaderEngagement from "./ReaderEngagement";
 
 export interface BookPreviewProps {
   
@@ -17,6 +18,8 @@ export interface BookPreviewProps {
   
   mode?: PreviewMode;
   onClose?: () => void;
+  /** Share code of a published book: turns on view tracking, the lead form and ratings. */
+  engagementToken?: string;
 }
 
 function AutoplayInteractionGuard() {
@@ -56,6 +59,7 @@ export default function BookPreview({
   jsonUrl,
   mode = "page",
   onClose,
+  engagementToken,
 }: BookPreviewProps) {
   return (
     <BookPreviewProvider json={json} jsonUrl={jsonUrl}>
@@ -65,6 +69,7 @@ export default function BookPreview({
         } w-full select-none flex-col overflow-hidden bg-slate-50 font-sans text-slate-900 antialiased selection:bg-(--kd-accent)/20 selection:text-(--kd-brand-900)`}
       >
         <AutoplayInteractionGuard />
+        {engagementToken && <ReaderEngagement token={engagementToken} />}
 
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.03),transparent_55%)]" />
 

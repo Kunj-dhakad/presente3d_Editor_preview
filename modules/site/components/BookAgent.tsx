@@ -2,7 +2,6 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
-  ArrowRight,
   BookOpen,
   Check,
   ChevronDown,
@@ -10,6 +9,7 @@ import {
   LoaderCircle,
   Mic,
   MicOff,
+  Pencil,
   RotateCcw,
   Send,
   Sparkles,
@@ -167,6 +167,7 @@ export default function BookAgent({ userName = "" }: { userName?: string }) {
           tone: brief.tone,
           audience: brief.audience,
           category: brief.category,
+          kind: "agent",
         },
         (progress) => update(id, { progress }),
       );
@@ -528,16 +529,26 @@ export default function BookAgent({ userName = "" }: { userName?: string }) {
                   <Check size={16} />
                 </span>
                 <strong>{message.book.title}</strong>
-                <small>{message.book.pages} pages ready</small>
+                <small>
+                  {message.book.pages} pages ready
+                  {message.book.readPath ? " · Published" : ""}
+                </small>
                 <div className="fs-row">
+                  {message.book.readPath && (
+                    <a
+                      className="fs-btn fs-primary fs-btn-sm"
+                      href={message.book.readPath}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <BookOpen size={14} /> Read book
+                    </a>
+                  )}
                   <Link
-                    className="fs-btn fs-primary fs-btn-sm"
+                    className={`fs-btn ${message.book.readPath ? "fs-outline" : "fs-primary"} fs-btn-sm`}
                     href={bookPath(message.book)}
                   >
-                    Open in editor <ArrowRight size={14} />
-                  </Link>
-                  <Link className="fs-btn fs-outline fs-btn-sm" href="/books">
-                    All books
+                    <Pencil size={14} /> Edit book
                   </Link>
                 </div>
               </div>

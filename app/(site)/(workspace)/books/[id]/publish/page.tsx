@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { auth } from "@shared/auth";
-import { ownedBook } from "@shared/server/books";
+import { coverUrl, ownedBook } from "@shared/server/books";
 import { bookShare } from "@shared/server/shares";
 import PublishBook from "@site/components/PublishBook";
 
@@ -31,6 +31,9 @@ export default async function Page({ params, searchParams }: {
         title,
         pages: Number(book.page_count),
         updatedAt: new Date(book.updated_at).toISOString(),
+        leadForm: Boolean(book.lead_form),
+        // A stored cover is used only while it still matches page 1.
+        cover: book.cover_key && book.cover_hash === book.page_hash ? coverUrl(book) : null,
       }}
       initialShare={await bookShare(String(book.id), title)}
       origin={`${protocol}://${host}`}

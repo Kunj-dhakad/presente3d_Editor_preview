@@ -44,6 +44,22 @@ async function main() {
       }
     }
     if (openShares.length) console.log("Gave " + openShares.length + " published book(s) a short reader link.");
+    // Book type, publishing, lead form and cover columns (added after launch).
+    const bookColumns = [
+      ["kind", "varchar(16) NOT NULL DEFAULT 'ai'"],
+      ["published_at", "datetime(3) NULL"],
+      ["lead_form", "tinyint(1) NOT NULL DEFAULT 1"],
+      ["cover_key", "varchar(512) NULL"],
+      ["cover_hash", "char(64) NULL"],
+      ["page_hash", "char(64) NULL"],
+    ];
+    for (const [name, definition] of bookColumns) {
+      const [found] = await connection.query("SHOW COLUMNS FROM books LIKE ?", [name]);
+      if (!found.length) { await connection.query(`ALTER TABLE books ADD COLUMN ${name} ${definition}`); console.log("Added books." + name + "."); }
+    }
+    // Books that were already shared count as published.
+    const [published] = await connection.query("UPDATE books b JOIN book_shares s ON s.book_id = b.id SET b.published_at = s.created_at WHERE b.published_at IS NULL");
+    if (published.affectedRows) console.log("Marked " + published.affectedRows + " shared book(s) as published.");
     console.log("FS_BookEditor database and application tables are ready.");
   } finally { await connection.end(); }
   const pool = mysql.createPool({

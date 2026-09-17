@@ -5,6 +5,7 @@ import useEditorUIStore from "@editor/store/useEditorUIStore";
 import { CanvasDragDrop } from "@editor/layout/EditorCanvas/RenderElement/CanvasDragDrop";
 import { PageClipBounds } from "@editor/layout/EditorCanvas/RenderElement/pageClip";
 import ElementContextMenu from "@editor/layout/EditorCanvas/toolbar/EditTool/ComanEditTool/ElementContextMenu";
+import { shapeMarkup as legacyShape } from "@shared/shapeMarkup";
 import { useElementContextMenu } from "@editor/layout/EditorCanvas/RenderElement/useElementContextMenu";
 import {
     buildShapeFilter,
@@ -86,7 +87,7 @@ const RenderShape: React.FC<{
     const gradient = svgGradientVector(shapeData.gradientDirection);
     const useGradient = hasGradientFill(shapeData);
     const fillValue = resolveShapePaint(shapeData, gradientId);
-    const shapeMarkup = stripPaintableFills(shapeData.shape ?? "");
+    const shapeMarkup = stripPaintableFills(legacyShape(shapeData.shape));
     const markup = useGradient
         ? `<defs><linearGradient id="${gradientId}" ` +
           `x1="${gradient.x1}" y1="${gradient.y1}" x2="${gradient.x2}" y2="${gradient.y2}">` +

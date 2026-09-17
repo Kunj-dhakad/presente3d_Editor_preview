@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArrowRight, LoaderCircle, Search, Users } from "lucide-react";
 
 type Lead = { id: string; book_title: string; created_at: string; data: { kind?: string; title?: string; answers?: Record<string, unknown> } };
-const labels: Record<string, string> = { "contact-form": "Contact form", quiz: "Quiz", question: "Question" };
+const labels: Record<string, string> = { lead: "Lead form", "contact-form": "Contact form", quiz: "Quiz", question: "Question" };
 function answer(value: unknown): string { return typeof value === "string" ? value : JSON.stringify(value) ?? "—"; }
 export default function Leads() {
   const [leads, setLeads] = useState<Lead[]>([]);

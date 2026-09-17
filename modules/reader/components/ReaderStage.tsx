@@ -2,6 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useBookPreview } from "../context/BookPreviewContext";
+import { BookLoader } from "@shared/components/BookLoader";
 import FlipbookReader from "./FlipbookReader";
 import HorizontalReader from "./HorizontalReader";
 import PageDirectory from "./PageDirectory";
@@ -53,7 +54,7 @@ export default function ReaderStage() {
   }
 
   if (loading) {
-    return <EmptyState title="Loading book…" body="Fetching the book data." />;
+    return <BookLoader label="Opening the book" size={1.2} />;
   }
 
   if (pages.length === 0) {

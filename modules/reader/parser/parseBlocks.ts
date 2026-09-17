@@ -1,3 +1,4 @@
+import { shapeMarkup } from "@shared/shapeMarkup";
 import type {
   BlockBase,
   BlockStroke,
@@ -233,7 +234,7 @@ const parseButton = (id: string, data: RawRecord): ButtonBlock => ({
 const parseShape = (id: string, data: RawRecord): ShapeBlock => ({
   ...parseBase(id, "shape", data),
   kind: "shape",
-  svg: str(data.shape),
+  svg: shapeMarkup(str(data.shape)),
   color: str(data.color, "") || str(data.fill, "#000000"),
   flipX: bool(data.flipX),
   flipY: bool(data.flipY),

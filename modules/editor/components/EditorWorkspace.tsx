@@ -11,7 +11,7 @@ import Link from "next/link";
 import BookEditor from "./BookEditor";
 import useEditorStore, { type SlideType } from "@editor/store/editorStore";
 import useProjectInfoStore from "@editor/store/projectInfoStore";
-import { LoaderCircle } from "lucide-react";
+import { BookLoader } from "@shared/components/BookLoader";
 type SaveContext = {
   status: string;
   save: () => Promise<void>;
@@ -222,8 +222,7 @@ export default function EditorWorkspace({
   if (!ready)
     return (
       <main className="fs-app fs-editor-loading">
-        <LoaderCircle className="fs-spin" />
-        <p>Opening your book…</p>
+        <BookLoader label="Opening your book" size={1.2} />
       </main>
     );
   return (

@@ -38,3 +38,8 @@ export function slugify(title: string) {
 export function bookPath(book: { short_id?: string | null; id: string; title: string }) {
   return book.short_id ? `/editor/${book.short_id}/${slugify(book.title)}` : `/editor/${book.id}`;
 }
+
+/** The owner's full-page preview: /preview/<id>/<title>. */
+export function previewPath(book: { short_id?: string | null; id: string; title: string }) {
+  return `/preview/${book.short_id ?? book.id}/${slugify(book.title)}`;
+}

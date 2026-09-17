@@ -23,8 +23,9 @@ export async function PATCH(request: Request, context: Context) {
   try {
     const user = await requireUser(request); const {id} = await context.params;
     const body = await jsonBody(request,4096); const book = await ownedBook(id,user.id,true);
-    if (body.action === "duplicate") return NextResponse.json(await createBook(user.id,`${book.title.slice(0,150)} (copy)`,await readDocument(book.document_key)),{status:201});
+    if (body.action === "duplicate") return NextResponse.json(await createBook(user.id,`${book.title.slice(0,150)} (copy)`,await readDocument(book.document_key),book.kind),{status:201});
     if (body.action === "restore") { if (book.deleted_at) await assertBookQuota(user.id); await db.execute("UPDATE books SET deleted_at=NULL, updated_at=UTC_TIMESTAMP(3) WHERE id=? AND user_id=?",[book.id,user.id]); }
+    else if (typeof body.leadForm === "boolean") await db.execute("UPDATE books SET lead_form=? WHERE id=? AND user_id=?",[body.leadForm ? 1 : 0,book.id,user.id]);
     else if (body.title !== undefined) await db.execute("UPDATE books SET title=?, updated_at=UTC_TIMESTAMP(3) WHERE id=? AND user_id=?",[bookTitle(body.title),book.id,user.id]);
     else throw new ApiError(400,"Unknown book action.");
     return NextResponse.json({success:true});

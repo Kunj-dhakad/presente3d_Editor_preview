@@ -312,7 +312,7 @@ async function handlePOST(req: NextRequest) {
                         y: pxToIn(data.y),
                         w: pxToIn(data.width),
                         h: pxToIn(data.height),
-                        fill: { color: data.fill },
+                        fill: { color: data.fill, transparency: Math.round((1 - Math.min(Math.max(Number(data.opacity ?? 1), 0), 1)) * 100) },
                         line: {
                             color: data.stroke || "FFFFFF",
                             width: data.strokeWidth || 0,

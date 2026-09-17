@@ -292,6 +292,7 @@
 
 "use client";
 import React, { useEffect, useMemo } from "react";
+import { shapeMarkup as legacyShape } from "@shared/shapeMarkup";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useImageFallback } from "@editor/lib/ui/imageFallback";
@@ -635,7 +636,7 @@ const ShapeElement = React.memo(({ data, id }: { data: ShapeData; id: string }) 
   const gradientId = `shape-grad-preview-${id}`;
   const gradient = svgGradientVector(data.gradientDirection);
   const paint = resolveShapePaint(data, gradientId);
-  const cleanShape = stripPaintableFills(data.shape || "");
+  const cleanShape = stripPaintableFills(legacyShape(data.shape));
 
   return (
     <div

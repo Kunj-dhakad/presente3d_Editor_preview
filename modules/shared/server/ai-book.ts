@@ -8,6 +8,7 @@ import { paginateBookIndex } from "@editor/blocks/Index/lib/BookIndexPaginator";
 import type { ChapterEntry } from "@editor/blocks/Index/lib/ChapterManager";
 import type { TextData } from "@editor/store/editorStore";
 import { chapterMarks, MAX_CHAPTER_PAGES, type ChapterMark } from "@shared/bookChapters";
+import { roundedRect } from "@shared/shapeMarkup";
 
 export { chapterMarks };
 
@@ -319,7 +320,7 @@ function panel(color: string, frame: Frame, radius = "8px", zIndex = 0, opacity 
   return {
     id: randomUUID(),
     data: {
-      type: "shape", shape: "rectangle", fill: color, color, x: Math.round(frame.x), y: Math.round(frame.y),
+      type: "shape", shape: roundedRect(frame.width, frame.height, parseFloat(radius) || 0), fill: color, color, x: Math.round(frame.x), y: Math.round(frame.y),
       width: Math.round(frame.width), height: Math.round(frame.height), rotation: 0, opacity, zIndex, borderRadius: radius,
     },
   };

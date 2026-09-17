@@ -841,11 +841,14 @@ async function handlePOST(req: NextRequest) {
             const strokeColor = hexToRgb(data.stroke || "#000000");
             const strokeWidth = Number(data.strokeWidth) || 0;
 
+            const opacity = Number.isFinite(Number(data.opacity)) ? Math.min(Math.max(Number(data.opacity), 0), 1) : 1;
             page.drawRectangle({
               x, y: CANVAS_HEIGHT - yTop - h, width: w, height: h,
               color: fill,
+              opacity,
               borderColor: strokeWidth > 0 ? strokeColor : undefined,
               borderWidth: strokeWidth > 0 ? strokeWidth : undefined,
+              borderOpacity: opacity,
             });
           }
 

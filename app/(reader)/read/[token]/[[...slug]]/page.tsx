@@ -6,5 +6,5 @@ export const metadata = { title: "Read a book — AI Book Creator", robots: { in
 //   /read/k7m2x9qp4t/celebrating-diwali
 export default async function Page({ params }: { params: Promise<{ token: string; slug?: string[] }> }) {
   const { token } = await params;
-  return <BookPreview jsonUrl={`/api/read/${encodeURIComponent(token)}`} mode="page" />;
+  return <BookPreview jsonUrl={`/api/read/${encodeURIComponent(token)}`} mode="page" engagementToken={token} />;
 }

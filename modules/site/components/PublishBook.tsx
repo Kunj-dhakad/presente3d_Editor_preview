@@ -12,7 +12,7 @@ import { BookCover } from "@reader/index";
 import { bookPath } from "@shared/bookUrl";
 import { SITE } from "@shared/site";
 
-type Book = { id: string; uuid: string; title: string; pages: number; updatedAt: string };
+type Book = { id: string; uuid: string; title: string; pages: number; updatedAt: string; leadForm: boolean; cover: string | null };
 type Share = { path: string; publishedAt: string } | null;
 
 const SOCIAL = [
@@ -36,6 +36,8 @@ export default function PublishBook({ book, initialShare, origin, autoPublish }:
   const [copied, setCopied] = useState("");
   const [editVisibility, setEditVisibility] = useState(false);
   const [bigQr, setBigQr] = useState(false);
+  const [leadForm, setLeadForm] = useState(book.leadForm);
+  const [savingLead, setSavingLead] = useState(false);
   const arrived = useRef(false);
 
   const url = share ? origin + share.path : "";
@@ -73,6 +75,16 @@ export default function PublishBook({ book, initialShare, origin, autoPublish }:
     setTimeout(() => setCopied(current => current === what ? "" : current), 1800);
   }
 
+  async function toggleLeadForm() {
+    const next = !leadForm;
+    setLeadForm(next); setSavingLead(true); setError("");
+    try {
+      const res = await fetch(`/api/books/${book.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ leadForm: next }) });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Could not change the lead form.");
+    } catch (e) { setLeadForm(!next); setError(e instanceof Error ? e.message : "Could not change the lead form."); }
+    finally { setSavingLead(false); }
+  }
+
   function makePrivate() {
     if (confirm("Make this book private? The current link, embed code and QR code will stop working.")) void setPublic(false);
   }
@@ -89,7 +101,10 @@ export default function PublishBook({ book, initialShare, origin, autoPublish }:
 
     <div className="fs-publish-grid">
       <section className="fs-publish-stage" aria-label="Book cover">
-        <div className="fs-publish-cover"><BookCover jsonUrl={`/api/books/${book.id}`} /></div>
+        <div className="fs-publish-cover">
+          {/* eslint-disable-next-line @next/next/no-img-element -- owner-only cover served by our API */}
+          {book.cover ? <img className="fs-publish-cover-image" src={book.cover} alt={`Cover of ${book.title}`} /> : <BookCover jsonUrl={`/api/books/${book.id}`} />}
+        </div>
         <div className="fs-publish-caption">
           <strong>{book.title}</strong>
           <span>{book.pages} {book.pages === 1 ? "page" : "pages"} · {share ? <><Globe size={13} /> Public</> : <><Lock size={13} /> Private</>}</span>
@@ -126,6 +141,12 @@ export default function PublishBook({ book, initialShare, origin, autoPublish }:
               <b>{busy ? <LoaderCircle className="fs-spin" size={14} /> : share ? <Globe size={14} /> : <Lock size={14} />}{share ? "Public" : "Private"}</b>
             </span>
             <button className="fs-publish-icon" onClick={() => setEditVisibility(open => !open)} aria-expanded={editVisibility} aria-label="Change visibility" title="Change visibility" disabled={busy}><PencilLine size={17} /></button>
+          </div>
+          <div className="fs-publish-row">
+            <span className="fs-publish-field fs-publish-visibility">
+              <span className="fs-publish-switch-label">Lead form<small>Asks readers for their name and email once, after 15 seconds or on page 3.</small></span>
+              <button type="button" role="switch" aria-checked={leadForm} aria-label="Lead form" disabled={savingLead} className={`fs-switch${leadForm ? " on" : ""}`} onClick={() => void toggleLeadForm()}><i /></button>
+            </span>
           </div>
           {editVisibility && <div className="fs-publish-choice" role="group" aria-label="Visibility">
             <button className={share ? "on" : ""} onClick={() => share ? setEditVisibility(false) : void setPublic(true)}>

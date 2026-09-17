@@ -2,6 +2,8 @@ CREATE TABLE IF NOT EXISTS books (
  id varchar(36) PRIMARY KEY, short_id char(8) NULL UNIQUE, user_id varchar(64) NOT NULL, title varchar(160) NOT NULL,
  document_key varchar(512) NOT NULL, version int unsigned NOT NULL DEFAULT 1,
  page_count int unsigned NOT NULL DEFAULT 1, deleted_at datetime(3) NULL,
+ kind varchar(16) NOT NULL DEFAULT 'ai', published_at datetime(3) NULL, lead_form tinyint(1) NOT NULL DEFAULT 1,
+ cover_key varchar(512) NULL, cover_hash char(64) NULL, page_hash char(64) NULL,
  created_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
  updated_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3), INDEX books_owner (user_id, deleted_at, updated_at)
 ) ENGINE=InnoDB;
@@ -36,6 +38,19 @@ CREATE TABLE IF NOT EXISTS book_shares (
 CREATE TABLE IF NOT EXISTS book_responses (
  id varchar(36) PRIMARY KEY, book_id varchar(36) NOT NULL, data json NOT NULL,
  created_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3), INDEX responses_book (book_id)
+) ENGINE=InnoDB;
+-- One row per reading session: a visitor returning within 30 minutes continues the same view.
+CREATE TABLE IF NOT EXISTS book_views (
+ id varchar(36) PRIMARY KEY, book_id varchar(36) NOT NULL, visitor char(64) NOT NULL,
+ max_page int unsigned NOT NULL DEFAULT 1, total_pages int unsigned NOT NULL DEFAULT 1, completed tinyint(1) NOT NULL DEFAULT 0,
+ started_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3), last_seen_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+ INDEX views_visit (book_id, visitor, last_seen_at), FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS book_ratings (
+ id varchar(36) PRIMARY KEY, book_id varchar(36) NOT NULL, visitor char(64) NOT NULL,
+ stars tinyint unsigned NOT NULL, comment varchar(500) NULL,
+ created_at datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+ UNIQUE KEY rating_visitor (book_id, visitor), FOREIGN KEY (book_id) REFERENCES books(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS user_plans (

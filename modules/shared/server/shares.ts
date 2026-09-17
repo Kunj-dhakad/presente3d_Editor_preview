@@ -11,11 +11,22 @@ export async function sharedBook(token:string){
  if(!column)throw new ApiError(404,"This book is not shared.");
  const[rows]=await db.execute<RowDataPacket[]>(`SELECT b.* FROM book_shares s JOIN books b ON b.id=s.book_id WHERE s.${column}=? AND b.deleted_at IS NULL`,[token]);
  if(!rows.length)throw new ApiError(404,"This book is not shared.");
- return {id:String(rows[0].id),user_id:String(rows[0].user_id),title:String(rows[0].title),document:await readDocument(rows[0].document_key)};
+ return {id:String(rows[0].id),user_id:String(rows[0].user_id),title:String(rows[0].title),leadForm:Boolean(rows[0].lead_form),document:await readDocument(rows[0].document_key)};
+}
+
+/** A shared book's id and settings without loading its document (for reader tracking). */
+export async function sharedBookInfo(token:string){
+ const column=isShareToken(token)?"short_token":/^[a-f0-9]{48}$/.test(token)?"token":null;
+ if(!column)throw new ApiError(404,"This book is not shared.");
+ const[rows]=await db.execute<RowDataPacket[]>(`SELECT b.id,b.lead_form,b.page_count FROM book_shares s JOIN books b ON b.id=s.book_id WHERE s.${column}=? AND b.deleted_at IS NULL`,[token]);
+ if(!rows.length)throw new ApiError(404,"This book is not shared.");
+ return {id:String(rows[0].id),leadForm:Boolean(rows[0].lead_form),pages:Number(rows[0].page_count)};
 }
 
 /** Publishes a book (or returns its existing link) as /read/<code>/<title>. */
 export async function publishBook(bookId:string,title:string){
+ // First publication is remembered, so a book made private later is not a draft.
+ await db.execute("UPDATE books SET published_at=UTC_TIMESTAMP(3) WHERE id=? AND published_at IS NULL",[bookId]);
  for(let attempt=0;attempt<6;attempt++){
   // Re-read each time: a second tab may have published the book in between.
   const[existing]=await db.execute<RowDataPacket[]>("SELECT short_token FROM book_shares WHERE book_id=?",[bookId]);

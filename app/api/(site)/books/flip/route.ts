@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     }
 
     const { slides } = flipDocument(pictures);
-    const book = await createBook(user.id, title, { slides });
+    const book = await createBook(user.id, title, { slides }, "flip");
     return NextResponse.json({ ...book, pages: slides.length }, { status: 201 });
   } catch (error) { return apiError(error); }
 }

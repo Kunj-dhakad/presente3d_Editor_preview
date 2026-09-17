@@ -64,9 +64,9 @@ export async function accountUsage(userId: string) {
 
 /** Removes everything the app stores for a user. Auth rows are removed by better-auth. */
 export async function deleteUserData(userId: string) {
-  const [books] = await db.execute<RowDataPacket[]>("SELECT id, document_key FROM books WHERE user_id=?", [userId]);
+  const [books] = await db.execute<RowDataPacket[]>("SELECT id, document_key, cover_key FROM books WHERE user_id=?", [userId]);
   const [assets] = await db.execute<RowDataPacket[]>("SELECT object_key FROM assets WHERE user_id=?", [userId]);
-  const keys: string[] = [...books.map(b => b.document_key), ...assets.map(a => a.object_key)];
+  const keys: string[] = [...books.map(b => b.document_key), ...books.filter(b => b.cover_key).map(b => b.cover_key), ...assets.map(a => a.object_key)];
   if (books.length) {
     const ids = books.map(b => b.id);
     const [revisions] = await db.query<RowDataPacket[]>("SELECT document_key FROM book_revisions WHERE book_id IN (?)", [ids]);

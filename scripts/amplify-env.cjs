@@ -60,6 +60,11 @@ fs.appendFileSync(".env.production", lines.join("\n") + "\n");
 console.log(`amplify-env: wrote ${lines.length} settings to .env.production (${fromSecrets} from Secrets)`);
 const missing = REQUIRED.filter(name => !values[name]);
 if (missing.length) {
+  // Say where nothing arrived from, which is usually the actual problem.
+  if (process.env.secrets === undefined) console.error("amplify-env: no Secrets reached the build ($secrets is unset). Check that parameters exist under /amplify/<app-id>/<branch>/ in SSM Parameter Store and that the app's service role may read them.");
+  else if (!Object.keys(secrets).length) console.error("amplify-env: $secrets is empty. No parameters were found under /amplify/<app-id>/<branch>/.");
+  const fromEnv = NAMES.filter(name => process.env[name]).length;
+  if (!fromEnv) console.error("amplify-env: none of these names are set as Environment variables for this branch either.");
   console.error(`amplify-env: missing ${missing.join(", ")}. Add them in the Amplify console (see the list in this file).`);
   process.exit(1);
 }

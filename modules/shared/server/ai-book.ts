@@ -205,18 +205,28 @@ export function photoQuery(topic: string) {
   return (words.slice(0, 3).join(" ") || topic.slice(0, 40)).trim();
 }
 
-export async function stockPhotos(query: string, count = 10): Promise<string[]> {
-  if (!process.env.PEXELS_API_KEY) return [];
+/** Why a book came out without photos — safe to show to the signed-in author. */
+export type PhotoIssue = "not-configured" | "search-failed" | "no-results" | "download-failed";
+
+export async function stockPhotos(query: string, count = 10): Promise<{ urls: string[]; issue?: PhotoIssue }> {
+  if (!process.env.PEXELS_API_KEY) return { urls: [], issue: "not-configured" };
   try {
     const params = new URLSearchParams({ query: query || "book", per_page: String(count) });
     const response = await fetch(`https://api.pexels.com/v1/search?${params}`, {
       headers: { Authorization: process.env.PEXELS_API_KEY },
       signal: AbortSignal.timeout(12_000),
     });
-    if (!response.ok) return [];
+    if (!response.ok) {
+      console.warn(`Pexels search failed: HTTP ${response.status}`);
+      return { urls: [], issue: "search-failed" };
+    }
     const data = await response.json() as { photos?: { src?: { large?: string } }[] };
-    return (data.photos || []).map(photo => photo.src?.large).filter((src): src is string => typeof src === "string" && src.startsWith("https://"));
-  } catch { return []; }
+    const urls = (data.photos || []).map(photo => photo.src?.large).filter((src): src is string => typeof src === "string" && src.startsWith("https://"));
+    return urls.length ? { urls } : { urls, issue: "no-results" };
+  } catch (error) {
+    console.warn("Pexels search failed:", error instanceof Error ? error.message : error);
+    return { urls: [], issue: "search-failed" };
+  }
 }
 
 /**
@@ -224,17 +234,23 @@ export async function stockPhotos(query: string, count = 10): Promise<string[]> 
  * outline call. Pages then point at stored files, so saving the book copies
  * nothing — that alone took a third of the time for a 30-page book.
  */
-export async function prepareImages(userId: string, topic: string, count = 10): Promise<string[]> {
-  const photos = await stockPhotos(photoQuery(topic), count);
-  const stored = await Promise.all(photos.map(async url => {
+export async function prepareImages(userId: string, topic: string, count = 10): Promise<{ photos: string[]; photoIssue?: PhotoIssue }> {
+  const found = await stockPhotos(photoQuery(topic), count);
+  // A narrow phrase can find nothing; the first word alone usually does.
+  const search = found.issue === "no-results" ? await stockPhotos(photoQuery(topic).split(" ")[0] || "book", count) : found;
+  if (!search.urls.length) return { photos: [], photoIssue: search.issue };
+  let lastError = "";
+  const stored = await Promise.all(search.urls.map(async url => {
     try {
       const { bytes, contentType } = await downloadRemote(url, 15 * 1024 * 1024);
       if (!contentType.startsWith("image/")) return null;
       const asset = await saveAsset(userId, bytes, "images", "AI book photo.webp", contentType, contentType === "image/gif" ? "gif" : "webp");
       return asset.url;
-    } catch { return null; }
+    } catch (error) { lastError = error instanceof Error ? error.message : String(error); return null; }
   }));
-  return stored.filter((url): url is string => Boolean(url));
+  const photos = stored.filter((url): url is string => Boolean(url));
+  if (!photos.length) console.warn("AI book photos could not be stored:", lastError);
+  return photos.length ? { photos } : { photos, photoIssue: "download-failed" };
 }
 
 /* ------------------------------------------------------------------ drawing */

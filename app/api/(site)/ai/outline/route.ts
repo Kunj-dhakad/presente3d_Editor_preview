@@ -23,9 +23,10 @@ export async function POST(request: Request) {
     // A typed description is a fine photo search, so the photos download while the
     // outline is written. With an imported PDF or URL the prompt is only a file or
     // page name, so wait for the outline's own photo subject instead.
-    const [outline, photos] = options.sourceText
+    const [outline, { photos, photoIssue }] = options.sourceText
       ? await planBook(topic, count, language, options).then(async plan => [plan, await prepareImages(user.id, plan.imageQuery)] as const)
       : await Promise.all([planBook(topic, count, language, options), prepareImages(user.id, topic)]);
-    return NextResponse.json({ outline, photos, size, language, topic }, { headers: { "Cache-Control": "private, no-store" } });
+    // photoIssue says why a book has no photos (e.g. the stock photo key is not set on this server).
+    return NextResponse.json({ outline, photos, photoIssue, size, language, topic }, { headers: { "Cache-Control": "private, no-store" } });
   } catch (e) { return apiError(e); }
 }

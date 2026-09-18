@@ -36,7 +36,6 @@ const HTMLFlipBook = dynamic(() => import("react-pageflip"), {
   FlipBookProps & React.RefAttributes<unknown>
 >;
 
-const PAGES_PANEL_OFFSET_PX = 160;
 
 function SpineShadow({ pageWidth }: { pageWidth: number }) {
   return (
@@ -295,6 +294,8 @@ export default function FlipbookReader() {
   const stageRef = useRef<HTMLDivElement>(null);
   const flipRef = useRef<unknown>(null);
   const [scale, setScale] = useState(1);
+  /* Side padding that keeps the spread clear of the round prev/next buttons (and the Pages panel). */
+  const [inset, setInset] = useState({ left: 96, right: 96 });
   const [ready, setReady] = useState(false);
   const [isFlipping, setIsFlipping] = useState(false);
   const [clipLifted, setClipLifted] = useState(false);
@@ -343,24 +344,24 @@ export default function FlipbookReader() {
 
     const fit = () => {
       /*
-       * Content box of the stage. Padding is responsive (p-3 / md:p-8), so
-       * read it; the left side is taken from the right while it animates
-       * to/from the Pages panel offset.
+       * The spread sits between the prev/next buttons (NavButton: 48px at
+       * 16px from the edge, 56px at 24px from md up), with the Pages panel on
+       * the left when it is open, and keeps a little air around it.
        */
+      const md = window.innerWidth >= 768;
+      const nav = md ? 24 + 56 + 16 : 16 + 48 + 8;
+      const left = isPagesPanelOpen ? (md ? 168 + 56 + 16 : 152 + 48 + 8) : nav;
+      setInset(current => current.left === left && current.right === nav ? current : { left, right: nav });
       const cs = window.getComputedStyle(stage);
       const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-      const padRight = parseFloat(cs.paddingRight);
       const availableHeight = stage.clientHeight - padY;
-      const availableWidth =
-        stage.clientWidth -
-        (isPagesPanelOpen ? PAGES_PANEL_OFFSET_PX : padRight) -
-        padRight;
+      const availableWidth = stage.clientWidth - left - nav;
 
       const next = Math.min(
         1,
         availableWidth / (theme.pageWidth * 2),
         availableHeight / theme.pageHeight,
-      );
+      ) * 0.97;
       setScale(next > 0.1 ? next : 0.1);
     };
 
@@ -426,9 +427,10 @@ export default function FlipbookReader() {
   return (
     <div
       ref={stageRef}
-      className="flex h-full w-full bg-slate-200 p-3 transition-[padding] duration-200 md:p-8"
+      className="flex h-full w-full bg-slate-200 py-3 transition-[padding] duration-200 md:py-8"
       style={{
-        paddingLeft: isPagesPanelOpen ? PAGES_PANEL_OFFSET_PX : undefined,
+        paddingLeft: inset.left,
+        paddingRight: inset.right,
         overflow: isZoomedIn ? "auto" : clipLifted ? "visible" : "hidden",
       }}
     >

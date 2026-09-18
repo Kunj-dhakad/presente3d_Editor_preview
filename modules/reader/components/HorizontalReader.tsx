@@ -95,6 +95,9 @@ function computeEdgeSpacerPx(
   );
 }
 
+/** A drag longer than this always turns the page, even if it stops short of halfway. */
+const DRAG_FLICK_PX = 50;
+
 export default function HorizontalReader() {
   const {
     pages,
@@ -207,6 +210,7 @@ export default function HorizontalReader() {
 
         if (Math.abs(delta) < 0.5) {
           programmaticRef.current = false;
+          viewport.style.scrollSnapType = "";
           return;
         }
 
@@ -220,7 +224,8 @@ export default function HorizontalReader() {
            * snap-mandatory active, many browsers interrupt or "jump"
            * programmatic smooth scrolls to the nearest snap point.
            */
-          const prevSnap = viewport.style.scrollSnapType;
+          // Snap is only ever switched off inline (here and while dragging),
+          // so finishing always hands it back to the stylesheet.
           viewport.style.scrollSnapType = "none";
 
           viewport.scrollTo({ left: target, behavior: "smooth" });
@@ -249,7 +254,7 @@ export default function HorizontalReader() {
           function finish() {
             cleanup();
             if (generation !== navGenerationRef.current) return;
-            viewport!.style.scrollSnapType = prevSnap || "";
+            viewport!.style.scrollSnapType = "";
             programmaticRef.current = false;
             scrollEndCleanupRef.current = null;
           }
@@ -259,7 +264,7 @@ export default function HorizontalReader() {
 
           scrollEndCleanupRef.current = () => {
             cleanup();
-            viewport.style.scrollSnapType = prevSnap || "";
+            viewport.style.scrollSnapType = "";
           };
         } else {
           viewport.scrollTo({ left: target, behavior: "auto" });
@@ -419,7 +424,12 @@ export default function HorizontalReader() {
     );
   };
 
-  const settleToNearestPage = useCallback(() => {
+  /**
+   * After a drag: the page nearest the centre, except that a short, decisive
+   * drag (over DRAG_FLICK_PX) always moves one page in the drag direction,
+   * like a carousel.
+   */
+  const settleToNearestPage = useCallback((startPage?: number, dragDelta = 0) => {
     const viewport = viewportRef.current;
     if (!viewport || pages.length === 0) return;
 
@@ -446,6 +456,10 @@ export default function HorizontalReader() {
       }
     }
 
+    if (startPage !== undefined && bestPage === startPage && Math.abs(dragDelta) > DRAG_FLICK_PX) {
+      bestPage = Math.min(pages.length, Math.max(1, startPage + (dragDelta < 0 ? 1 : -1)));
+    }
+
     syncedPageRef.current = bestPage;
     setCurrentPage(bestPage);
     scrollPageIntoVisibleCenter(bestPage, "smooth");
@@ -469,12 +483,18 @@ export default function HorizontalReader() {
     setIsDragging(true);
     dragStartXRef.current = event.clientX;
     dragStartScrollLeftRef.current = viewport.scrollLeft;
+    // Mandatory snap pulls the strip back on every move, so the page would
+    // not follow the cursor; it is off until the settle scroll finishes.
+    viewport.style.scrollSnapType = "none";
+    const startPage = syncedPageRef.current ?? currentPage;
+    let lastX = event.clientX;
     event.preventDefault();
 
     const onMove = (e: MouseEvent) => {
       if (!isDraggingRef.current) return;
       const vp = viewportRef.current;
       if (!vp) return;
+      lastX = e.clientX;
       const delta = e.clientX - dragStartXRef.current;
       vp.scrollLeft = dragStartScrollLeftRef.current - delta;
     };
@@ -485,7 +505,9 @@ export default function HorizontalReader() {
       setIsDragging(false);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", onUp);
-      settleToNearestPage();
+      const delta = lastX - dragStartXRef.current;
+      if (Math.abs(delta) < 3) { viewportRef.current!.style.scrollSnapType = ""; return; } // a click, not a drag
+      settleToNearestPage(startPage, delta);
     };
 
     document.addEventListener("mousemove", onMove);

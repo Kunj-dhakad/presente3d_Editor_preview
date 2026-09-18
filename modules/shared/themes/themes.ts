@@ -17,6 +17,8 @@ export const THEMES: Record<string, Record<string, string>> = {
     // sticker nahi.
     "--kd-accent-subtle": "#252236",
     "--kd-on-accent": "#ffffff",
+    "--kd-scrollbar-thumb": "#4a4466",
+    "--kd-scrollbar-thumb-hover": "#6b6394",
 
     /* Surfaces
        Dark me depth shadow se NAHI aati (black-on-black invisible hai) —

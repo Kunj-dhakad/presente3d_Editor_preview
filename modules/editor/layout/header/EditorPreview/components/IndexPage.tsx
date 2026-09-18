@@ -27,7 +27,6 @@ export function IndexPage() {
       id="index-page-view"
       className="w-full h-full kd-bg-sunken overflow-y-auto px-4 py-6 md:px-8 md:py-8 select-none"
       style={{
-        scrollbarWidth: 'thin',
       }}
     >
       <div className="max-w-6xl mx-auto">

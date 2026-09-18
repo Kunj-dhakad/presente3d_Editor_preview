@@ -677,3 +677,31 @@ input[type="range"]::-moz-range-thumb {
   border: none;
   cursor: pointer;
 }
+
+/* ---------- Scrollbars ----------
+   Ek hi design poore project me (site, admin, editor, reader): patla,
+   gol thumb, brand rang, koi arrow button nahi. Rang tokens se aate hain,
+   dark theme unhe badal deta hai. Jahan scrollbar chhupana ho wahan
+   `scrollbar-width: none` lagao — wo is rule se upar rahega. */
+:root {
+  --kd-scrollbar-thumb: var(--kd-brand-300);
+  --kd-scrollbar-thumb-hover: var(--kd-brand-400);
+}
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar { width: 10px; height: 10px; background: transparent; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    min-height: 36px; min-width: 36px;
+    border: 3px solid transparent; border-radius: 999px;
+    background: var(--kd-scrollbar-thumb) padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background-color: var(--kd-scrollbar-thumb-hover); border-width: 2px; }
+  ::-webkit-scrollbar-thumb:active { background-color: var(--kd-accent); }
+  ::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+}
+/* Firefox has no ::-webkit-scrollbar: thin bar in the same colours. */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: var(--kd-scrollbar-thumb) transparent; }
+}
+

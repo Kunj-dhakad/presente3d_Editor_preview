@@ -74,11 +74,3 @@
   .kd-loader-book, .kd-loader-page, .kd-loader-shadow, .kd-loader-spark, .kd-loader-label::after { animation: none; }
   .kd-loader-page.p1 { transform: rotateY(-120deg) skewY(-4deg); }
 }
-
-/* Slim brand scrollbar for side panels. */
-.kd-thin-scroll { scrollbar-width: thin; scrollbar-color: var(--kd-brand-300) transparent; }
-.kd-thin-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-.kd-thin-scroll::-webkit-scrollbar-track { background: transparent; }
-.kd-thin-scroll::-webkit-scrollbar-thumb { background: var(--kd-brand-300); border-radius: 999px; }
-.kd-thin-scroll::-webkit-scrollbar-thumb:hover { background: var(--kd-brand-400); }
-.kd-thin-scroll::-webkit-scrollbar-button { display: none; height: 0; }

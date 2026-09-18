@@ -63,7 +63,7 @@ export default function PagesThumbnailPanel() {
         </button>
       </div>
 
-      <div className="kd-thin-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2 py-3" style={{ scrollbarGutter: "stable both-edges" }}>
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2 py-3" style={{ scrollbarGutter: "stable both-edges" }}>
         <div className="flex flex-col items-center gap-3">
           {pages.map((page, index) => {
             const pageNumber = index + 1;

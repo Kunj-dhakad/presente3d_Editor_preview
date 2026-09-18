@@ -162,12 +162,12 @@ Return ONLY JSON: {"pages":[{"chapter":"chapter title, max 4 short words","headi
 
 /** How much copy each layout holds — asking for the right length beats trimming. */
 const COPY_SHAPE: Record<Layout, string> = {
-  hero: `{"heading":"max 6 words","intro":"18-24 words","caption":"max 6 words"}`,
-  split: `{"heading":"max 6 words","intro":"28-36 words","body":"40-52 words","caption":"max 6 words"}`,
-  gallery: `{"heading":"max 5 words","intro":"26-34 words","caption":"max 6 words"}`,
-  text: `{"heading":"max 6 words","intro":"38-48 words","body":"95-120 words"}`,
-  quote: `{"heading":"max 5 words","quote":"a memorable sentence, max 16 words","body":"38-48 words explaining it"}`,
-  bullets: `{"heading":"max 5 words","intro":"22-30 words","bullets":["4 points, 7-11 words each"]}`,
+  hero: `{"heading":"max 6 words","intro":"12-16 words","caption":"max 6 words"}`,
+  split: `{"heading":"max 6 words","intro":"14-20 words","body":"16-22 words","caption":"max 6 words"}`,
+  gallery: `{"heading":"max 5 words","intro":"12-16 words","caption":"max 6 words"}`,
+  text: `{"heading":"max 6 words","intro":"16-22 words","body":"26-34 words"}`,
+  quote: `{"heading":"max 5 words","quote":"a memorable sentence, max 12 words","body":"12-18 words explaining it"}`,
+  bullets: `{"heading":"max 5 words","intro":"10-15 words","bullets":["4 points, 4-7 words each"]}`,
 };
 
 /** Writes the copy for one page. Small output on purpose — it keeps the call short. */
@@ -180,7 +180,7 @@ export async function writePage(topic: string, brief: Brief, language: string, o
       content: `${writingContext(options)}\nBook topic: "${topic}". Write one page in ${language}.
 ${brief.chapter ? `Chapter: "${brief.chapter}". ` : ""}Page heading: "${brief.heading}". This page covers: ${brief.summary}
 Return ONLY JSON: ${COPY_SHAPE[brief.layout]}
-Stay inside the word counts — the page has a fixed amount of room. Write for a reader. No markdown, no headings inside the text.`,
+Stay inside the word counts — the page has a fixed amount of room and the text must stay large enough to read comfortably. Write for a reader; short, clear sentences. No markdown, no headings inside the text.`,
     }],
   });
   const raw = response.choices[0]?.message?.content;
@@ -305,8 +305,14 @@ function trimTo(value: string, width: number, fontSize: number, lineHeight: numb
 function fitted(value: string, frame: Frame, options: { min: number; max: number; lineHeight?: number; color: string; weight?: number; font?: string; align?: string; zIndex?: number }): Element {
   const lineHeight = options.lineHeight ?? 1.5;
   const room = frame.height - 4;
+  // The longest word must fit on a line too, or the browser breaks it mid-word
+  // ("Understandin / g") in narrow columns. Headings may go a little smaller for that.
+  const longest = Math.max(0, ...value.split(/\s+/).map(word => word.length));
+  // Measured per word at a wider (safer) glyph width than the line estimate uses.
+  const wordFits = (px: number) => longest * px * (indic(value) ? 0.72 : 0.62) <= frame.width;
   let size = Math.max(options.min, options.max);
-  while (size > options.min && measure(value, frame.width, size, lineHeight) > room) size -= 1;
+  while (size > options.min && (measure(value, frame.width, size, lineHeight) > room || !wordFits(size))) size -= 1;
+  while (size > 8 && !wordFits(size)) size -= 1;
   const text = measure(value, frame.width, size, lineHeight) > room ? trimTo(value, frame.width, size, lineHeight, room) : value;
   return {
     id: randomUUID(),
@@ -453,7 +459,10 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
   const unit = Math.min(width, height);
   const gap = Math.round(unit * 0.035);
   const headingMax = Math.round(unit * 0.075);
-  const bodyMax = Math.max(10, Math.round(unit * 0.033));
+  // Body copy stays readable: the writer is asked for little enough text that it
+  // fits at these sizes, and it is never shrunk below bodyMin.
+  const bodyMax = Math.max(13, Math.round(unit * 0.038));
+  const bodyMin = Math.max(11, Math.round(unit * 0.027));
   const footerTop = height - Math.round(height * 0.055);
   const elements: Element[] = [];
 
@@ -487,7 +496,7 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
     title({ x: pad, y: height * 0.6, width: inner, height: height * 0.16 },
       { min: 13, max: headingMax, lineHeight: 1.2, color: "#ffffff", zIndex: 3 }, "#e6e1ef");
     elements.push(fitted(copy.intro, { x: pad, y: height * 0.78, width: inner, height: height * 0.15 },
-      { min: 8, max: bodyMax, color: "#e6e1ef", zIndex: 3 }));
+      { min: bodyMin, max: bodyMax, color: "#e6e1ef", zIndex: 3 }));
     addFooter("#c9c2d8");
     return { id: randomUUID(), width, height, background: t.page, elements };
   }
@@ -503,9 +512,9 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
       { min: 12, max: headingMax, lineHeight: 1.2, color: t.ink });
     elements.push(panel(t.accent, { x: textX, y: height * 0.3, width: Math.round(width * 0.08), height: 3 }, "2px"));
     elements.push(fitted(copy.intro, { x: textX, y: height * 0.35, width: textWidth, height: height * 0.24 },
-      { min: 8, max: bodyMax, color: t.ink }));
+      { min: bodyMin, max: bodyMax, color: t.ink }));
     if (copy.body) elements.push(fitted(copy.body, { x: textX, y: height * 0.61, width: textWidth, height: footerTop - height * 0.63 },
-      { min: 8, max: bodyMax - 1, color: t.soft }));
+      { min: bodyMin, max: bodyMax - 1, color: t.soft }));
     addFooter();
     return { id: randomUUID(), width, height, background: t.page, elements };
   }
@@ -520,7 +529,7 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
       { min: 12, max: headingMax, lineHeight: 1.2, color: t.ink });
     elements.push(panel(t.accent, { x: pad, y: height * 0.25, width: Math.round(width * 0.08), height: 3 }, "2px"));
     elements.push(fitted(copy.intro, { x: pad, y: height * 0.29, width: inner, height: gridTop - Math.round(height * 0.31) },
-      { min: 8, max: bodyMax, color: t.soft }));
+      { min: bodyMin, max: bodyMax, color: t.soft }));
     if (fourth) {
       elements.push(picture(first, { x: pad, y: gridTop, width: half, height: row }));
       elements.push(picture(second, { x: pad + half + gap, y: gridTop, width: half, height: row }));
@@ -549,7 +558,7 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
       cursor += strip + gap;
     }
     if (copy.body && footerTop - cursor > 24) elements.push(fitted(copy.body, { x: pad, y: cursor, width: inner, height: footerTop - cursor - 6 },
-      { min: 8, max: bodyMax, color: t.soft }));
+      { min: bodyMin, max: bodyMax, color: t.soft }));
     addFooter();
     return { id: randomUUID(), width, height, background: t.page, elements };
   }
@@ -562,7 +571,7 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
       { min: 12, max: headingMax, lineHeight: 1.2, color: t.ink });
     elements.push(panel(t.accent, { x: pad, y: height * 0.235, width: Math.round(width * 0.08), height: 3 }, "2px"));
     elements.push(fitted(copy.intro, { x: pad, y: height * 0.27, width: inner, height: height * 0.14 },
-      { min: 8, max: bodyMax, color: t.soft }));
+      { min: bodyMin, max: bodyMax, color: t.soft }));
     const listTop = Math.round(height * 0.44);
     if (first) elements.push(picture(first, { x: pad + textWidth + gap, y: listTop, width: imageWidth, height: footerTop - listTop - 8 }));
     const list = copy.bullets?.length ? copy.bullets : [copy.body || copy.intro];
@@ -570,7 +579,7 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
     list.forEach((item, i) => {
       const y = listTop + i * row;
       elements.push(panel(t.accent, { x: pad, y: y + Math.round(row * 0.3), width: 6, height: 6 }, "3px", 1));
-      elements.push(fitted(item, { x: pad + 14, y, width: textWidth - 14, height: row - 6 }, { min: 7, max: bodyMax, color: t.ink }));
+      elements.push(fitted(item, { x: pad + 14, y, width: textWidth - 14, height: row - 6 }, { min: bodyMin - 1, max: bodyMax, color: t.ink }));
     });
     addFooter();
     return { id: randomUUID(), width, height, background: t.page, elements };
@@ -583,10 +592,12 @@ export function contentPage(copy: PageCopy, requested: Layout, outline: Outline,
   elements.push(panel(t.accent, { x: pad, y: height * 0.245, width: Math.round(width * 0.08), height: 3 }, "2px"));
   const top = Math.round(height * 0.285);
   const bottom = footerTop - 8 - (first ? band + gap : 0);
-  const introHeight = copy.body ? Math.round((bottom - top) * 0.36) : bottom - top;
-  elements.push(fitted(copy.intro, { x: pad, y: top, width: inner, height: introHeight }, { min: 8, max: bodyMax, color: t.ink }));
+  // Intro and body share the room in proportion to their length, so neither is squeezed.
+  const introShare = copy.body ? Math.min(0.6, Math.max(0.3, copy.intro.length / (copy.intro.length + copy.body.length))) : 1;
+  const introHeight = Math.round((bottom - top) * introShare);
+  elements.push(fitted(copy.intro, { x: pad, y: top, width: inner, height: introHeight }, { min: bodyMin, max: bodyMax, color: t.ink }));
   const bodyTop = top + introHeight + Math.round(gap * 0.5);
-  if (copy.body) elements.push(fitted(copy.body, { x: pad, y: bodyTop, width: inner, height: bottom - bodyTop }, { min: 8, max: bodyMax - 1, color: t.soft }));
+  if (copy.body) elements.push(fitted(copy.body, { x: pad, y: bodyTop, width: inner, height: bottom - bodyTop }, { min: bodyMin, max: bodyMax - 1, color: t.soft }));
   if (first) elements.push(picture(first, { x: pad, y: footerTop - 8 - band, width: inner, height: band }));
   addFooter();
   return { id: randomUUID(), width, height, background: t.page, elements };

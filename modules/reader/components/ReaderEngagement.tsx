@@ -5,6 +5,7 @@ import { CheckCircle2, Mail, Phone, Sparkles, Star, User } from "lucide-react";
 import { useBookPreview } from "../context/BookPreviewContext";
 import { pagesInView } from "../utils/spread";
 import PopupShell from "../popup/PopupShell";
+import { readerId, rememberReader, useReaderSubmit } from "../context/ReaderSubmit";
 
 /**
  * Reader-side engagement for a published book:
@@ -22,18 +23,6 @@ const storage = {
   get(key: string) { try { return window.localStorage.getItem(key); } catch { return null; } },
   set(key: string, value: string) { try { window.localStorage.setItem(key, value); } catch { /* private mode */ } },
 };
-
-// Kept for the page's lifetime even when storage is blocked (private mode).
-let memoryVisitor = "";
-function readerId() {
-  const saved = storage.get("abc-reader-id");
-  if (saved) return saved;
-  memoryVisitor ||= typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
-  storage.set("abc-reader-id", memoryVisitor);
-  return memoryVisitor;
-}
 
 async function post(url: string, body: unknown) {
   const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -123,7 +112,7 @@ export default function ReaderEngagement({ token }: { token: string }) {
   // The rating waits until the lead form is out of the way.
   const showRating = !showLead && ratingReady && !ratingDone;
 
-  if (showLead) return <LeadPopup base={base} onDone={outcome => { storage.set(leadKey, outcome); setLeadDone(true); }} />;
+  if (showLead) return <LeadPopup onDone={outcome => { storage.set(leadKey, outcome); setLeadDone(true); }} />;
   if (showRating) return <RatingPopup base={base} onDone={outcome => { storage.set(ratingKey, outcome); setRatingDone(true); }} />;
   return null;
 }
@@ -144,7 +133,8 @@ function Field({ icon: Icon, label, optional, ...input }: { icon: typeof User; l
   );
 }
 
-function LeadPopup({ base, onDone }: { base: string; onDone: (outcome: string) => void }) {
+function LeadPopup({ onDone }: { onDone: (outcome: string) => void }) {
+  const send = useReaderSubmit();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -156,7 +146,8 @@ function LeadPopup({ base, onDone }: { base: string; onDone: (outcome: string) =
     event.preventDefault();
     setBusy(true); setError("");
     try {
-      await post(`${base}/responses`, { kind: "lead", answers: { Name: name, Email: email, Phone: phone } });
+      rememberReader({ name, email, phone });
+      if (send) await send({ kind: "lead", title: "Lead form", answers: { Name: name, Email: email, Phone: phone } });
       setSent(true);
       window.setTimeout(() => onDone("sent"), 1_800);
     } catch (e) { setError(e instanceof Error ? e.message : "Could not send your details."); }

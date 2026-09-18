@@ -9,6 +9,7 @@ import PreviewHeader from "./PreviewHeader";
 import ReaderStage from "./ReaderStage";
 import PagesThumbnailPanel from "./PagesThumbnailPanel";
 import ReaderEngagement from "./ReaderEngagement";
+import { ReaderSubmitProvider } from "../context/ReaderSubmit";
 
 export interface BookPreviewProps {
   
@@ -61,7 +62,7 @@ export default function BookPreview({
   onClose,
   engagementToken,
 }: BookPreviewProps) {
-  return (
+  const reader = (
     <BookPreviewProvider json={json} jsonUrl={jsonUrl}>
       <div
         className={`relative flex ${
@@ -88,4 +89,6 @@ export default function BookPreview({
       </div>
     </BookPreviewProvider>
   );
+  // Forms inside a published book send their answers to the author's Leads.
+  return engagementToken ? <ReaderSubmitProvider token={engagementToken}>{reader}</ReaderSubmitProvider> : reader;
 }

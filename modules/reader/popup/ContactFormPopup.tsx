@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import type { ContactField, InteractionBlock } from "../types/interaction";
 import PopupShell from "./PopupShell";
+import { rememberReader, useReaderSubmit } from "../context/ReaderSubmit";
 
 interface Props {
   block: InteractionBlock;
@@ -27,6 +28,9 @@ export default function ContactFormPopup({ block, onClose }: Props) {
   const [agreePrivacy, setAgreePrivacy] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const send = useReaderSubmit();
 
   const missingRequired = fields.some(
     (field) => field.required && !values[field.id]?.trim(),
@@ -37,29 +41,34 @@ export default function ContactFormPopup({ block, onClose }: Props) {
     setValues((previous) => ({ ...previous, [id]: value }));
 
   /**
-   * Contact form submit — keeps existing canSubmit / disabled validation.
-   * Logs controlled field values + agreement flags; no API call.
+   * Sends the form to the author's Leads (on a published book), labelled with
+   * each field's own label, and remembers the reader's name / email so later
+   * answers show who sent them.
    */
-  const handleSubmit = () => {
-    if (!canSubmit) return;
-
-    const formData = {
-      blockId: block.id,
-      formTitle: block.contactFormTitle || "Tell us about this form",
-      fields: fields.map((field) => ({
-        id: field.id,
-        label: field.label,
-        kind: field.kind,
-        required: field.required,
-        value: values[field.id] ?? "",
-      })),
-      values: { ...values },
-      agreePrivacy,
-      agreeMarketing: block.showMarketingOptIn ? agreeMarketing : null,
-    };
-
-    console.log("CONTACT FORM SUBMITTED", formData);
-    setSubmitted(true);
+  const handleSubmit = async () => {
+    if (!canSubmit || sending) return;
+    const answers: Record<string, string> = {};
+    const profile: { name?: string; email?: string; phone?: string } = {};
+    fields.forEach((field, index) => {
+      const value = (values[field.id] ?? "").trim();
+      const label = (field.label || `Field ${index + 1}`).trim();
+      answers[answers[label] !== undefined ? `${label} (${index + 1})` : label] = value;
+      if (!value) return;
+      if (field.kind === "email") profile.email ||= value;
+      else if (field.kind === "tel") profile.phone ||= value;
+      else if (/name/i.test(label)) profile.name ||= value;
+    });
+    if (block.showMarketingOptIn) answers["Marketing emails"] = agreeMarketing ? "Yes" : "No";
+    setSending(true); setError("");
+    try {
+      rememberReader(profile);
+      if (send) await send({ kind: "contact-form", title: block.contactFormTitle || "Contact form", answers });
+      setSubmitted(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Your form could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -153,13 +162,14 @@ export default function ContactFormPopup({ block, onClose }: Props) {
         )}
       </div>
 
+      {error && <p role="alert" className="m-0 mt-3 rounded-md bg-rose-50 px-2.5 py-2 text-[11.5px] text-rose-700">{error}</p>}
       <button
         type="button"
-        disabled={!canSubmit}
-        onClick={handleSubmit}
+        disabled={!canSubmit || sending}
+        onClick={() => void handleSubmit()}
         className="mt-3.5 w-full rounded-lg border-0 bg-(--kd-accent) py-2.5 text-[13px] font-semibold text-white disabled:bg-(--kd-brand-300)"
       >
-        Submit
+        {sending ? "Sending…" : "Submit"}
       </button>
     </PopupShell>
   );

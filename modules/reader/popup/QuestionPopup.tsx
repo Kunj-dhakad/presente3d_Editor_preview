@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import type { InteractionBlock } from "../types/interaction";
 import PopupShell from "./PopupShell";
+import { useReaderSubmit } from "../context/ReaderSubmit";
 
 interface Props {
   block: InteractionBlock;
@@ -13,25 +14,24 @@ interface Props {
 export default function QuestionPopup({ block, onClose }: Props) {
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const send = useReaderSubmit();
 
-  /**
-   * Submit answer — existing validation (disabled when empty) is unchanged.
-   * Logs controlled React state; no page reload (type="button").
-   */
-  const handleSubmit = () => {
+  /** Sends the reader's answer to the author's Leads (on a published book). */
+  const handleSubmit = async () => {
     const trimmed = answer.trim();
-    if (!trimmed) return;
-
-    const formData = {
-      blockId: block.id,
-      questionTitle: block.questionTitle || null,
-      questionText:
-        block.questionText || block.questionTitle || "What would you like to ask?",
-      answer: trimmed,
-    };
-
-    console.log("ANSWER QUESTION FORM SUBMITTED", formData);
-    setSubmitted(true);
+    if (!trimmed || sending) return;
+    const question = block.questionText || block.questionTitle || "What would you like to ask?";
+    setSending(true); setError("");
+    try {
+      if (send) await send({ kind: "question", title: block.questionTitle || "Question", answers: { Question: question, Answer: trimmed } });
+      setSubmitted(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Your answer could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   if (submitted) {
@@ -71,13 +71,14 @@ export default function QuestionPopup({ block, onClose }: Props) {
         rows={4}
         className="box-border w-full resize-none rounded-lg border border-slate-200 p-2.5 font-sans text-[13px] text-slate-900"
       />
+      {error && <p role="alert" className="m-0 mt-2.5 rounded-md bg-rose-50 px-2.5 py-2 text-[11.5px] text-rose-700">{error}</p>}
       <button
         type="button"
-        disabled={!answer.trim()}
-        onClick={handleSubmit}
+        disabled={!answer.trim() || sending}
+        onClick={() => void handleSubmit()}
         className="mt-3 w-full rounded-lg border-0 bg-(--kd-accent) py-2.5 text-[13px] font-semibold text-white disabled:bg-(--kd-brand-300)"
       >
-        Submit
+        {sending ? "Sending…" : "Submit"}
       </button>
     </PopupShell>
   );

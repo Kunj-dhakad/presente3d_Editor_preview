@@ -59,7 +59,7 @@ export async function rateBook(bookId: string, visitor: unknown, stars: unknown,
 }
 
 /** Checks the reader lead form: name and email are required, phone is optional. */
-export function checkLead(answers: unknown) {
+export function checkLead(answers: unknown): Record<string, string> {
   const input = (answers && typeof answers === "object" ? answers : {}) as Record<string, unknown>;
   const text = (value: unknown, max: number) => typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
   const name = text(input.Name, 100);
@@ -68,5 +68,62 @@ export function checkLead(answers: unknown) {
   if (name.length < 2) throw new ApiError(400, "Enter your name.");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) throw new ApiError(400, "Enter a valid email address.");
   if (phone && !/^[+\d][\d\s().-]{5,}$/.test(phone)) throw new ApiError(400, "Enter a valid phone number, or leave it empty.");
-  return phone ? { Name: name, Email: email, Phone: phone } : { Name: name, Email: email };
+  const lead: Record<string, string> = { Name: name, Email: email };
+  if (phone) lead.Phone = phone;
+  return lead;
+}
+
+/* ------------------------------------------------------------ responses */
+
+export const RESPONSE_KINDS = ["lead", "contact-form", "quiz", "question"] as const;
+export type ResponseKind = (typeof RESPONSE_KINDS)[number];
+
+const clip = (value: unknown, max: number) => typeof value === "string" ? value.replace(/\s+/g, " ").trim().slice(0, max) : "";
+
+/**
+ * A reader response as it is stored: the form's answers as label → text, who
+ * sent it (when they told us), and a per-book reader key that links their
+ * lead form, quiz answers, questions and rating together.
+ */
+export function checkResponse(bookId: string, body: Record<string, unknown>) {
+  const kind = String(body.kind) as ResponseKind;
+  if (!RESPONSE_KINDS.includes(kind)) throw new ApiError(400, "Invalid response.");
+  const raw = body.answers && typeof body.answers === "object" && !Array.isArray(body.answers) ? body.answers as Record<string, unknown> : null;
+  if (!raw) throw new ApiError(400, "Invalid response.");
+
+  let answers: Record<string, string> = {};
+  if (kind === "lead") answers = checkLead(raw);
+  else {
+    for (const [label, value] of Object.entries(raw).slice(0, 40)) {
+      const key = clip(label, 200);
+      if (key) answers[key] = clip(typeof value === "number" || typeof value === "boolean" ? String(value) : value, 2000);
+    }
+    if (!Object.values(answers).some(Boolean)) throw new ApiError(400, "The response is empty.");
+  }
+
+  const readerInput = body.reader && typeof body.reader === "object" ? body.reader as Record<string, unknown> : {};
+  const email = clip(readerInput.email, 254).toLowerCase();
+  const reader = {
+    name: clip(kind === "lead" ? answers.Name : readerInput.name, 100) || undefined,
+    email: (kind === "lead" ? answers.Email : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? email : "") || undefined,
+    phone: clip(kind === "lead" ? answers.Phone : readerInput.phone, 30) || undefined,
+  };
+
+  const scoreInput = body.score && typeof body.score === "object" ? body.score as Record<string, unknown> : null;
+  const total = Math.floor(Number(scoreInput?.total));
+  const correct = Math.floor(Number(scoreInput?.correct));
+  const score = kind === "quiz" && Number.isFinite(total) && total > 0 && Number.isFinite(correct)
+    ? { correct: Math.min(Math.max(correct, 0), total), total: Math.min(total, 500) }
+    : undefined;
+
+  return {
+    kind,
+    title: clip(body.title, 160) || undefined,
+    // Stored as [label, value] pairs: MySQL's JSON type reorders object keys,
+    // and the form's own order is what the author expects to read.
+    answers: Object.entries(answers),
+    score,
+    reader,
+    visitor: body.visitor ? visitorKey(bookId, body.visitor) : undefined,
+  };
 }

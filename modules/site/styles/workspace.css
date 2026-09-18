@@ -142,15 +142,6 @@
 .fs-workspace .fs-ai-page form { max-width: none; }
 .fs-workspace .fs-ai-page h2 { font-size: 22px; margin: 8px 0 24px; }
 .fs-table-wrap { overflow-x: auto; }
-.fs-leads-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-.fs-leads-table th, .fs-leads-table td { text-align: left; padding: 15px 12px; border-bottom: 1px solid #e6eaf0; vertical-align: top; }
-.fs-leads-table th { color: #617596; background: var(--fs-accent-pale); font-weight: 550; }
-.fs-leads-table td { min-width: 110px; }
-.fs-leads-table details { max-width: 420px; }
-.fs-leads-table summary { cursor: pointer; color: var(--fs-accent-ink); }
-.fs-leads-table dl { display: grid; grid-template-columns: minmax(90px, 1fr) 2fr; gap: 5px 12px; margin-top: 12px; overflow-wrap: anywhere; }
-.fs-leads-table dl > div { display: contents; }
-.fs-leads-table dd { margin: 0; white-space: pre-wrap; }
 @media (min-width: 1600px) { .fs-workspace .fs-hero-card, .fs-workspace .fs-stat-card { min-height: 250px; } }
 @media (max-width: 1150px) {
   .fs-workspace .fs-sidebar { width: 224px; }

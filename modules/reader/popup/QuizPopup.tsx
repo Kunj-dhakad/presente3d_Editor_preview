@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import type { InteractionBlock } from "../types/interaction";
 import PopupShell from "./PopupShell";
+import { useReaderSubmit } from "../context/ReaderSubmit";
 
 interface Props {
   block: InteractionBlock;
@@ -17,6 +18,9 @@ export default function QuizPopup({ block, onClose }: Props) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [phase, setPhase] = useState<"quiz" | "submitted" | "results">("quiz");
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const send = useReaderSubmit();
 
   const current = questions.length
     ? questions[Math.min(step, questions.length - 1)]
@@ -57,39 +61,28 @@ export default function QuizPopup({ block, onClose }: Props) {
   };
 
   /**
-   * Final quiz submit — preserves existing phase transition and builds a
-   * readable payload from current React state (no FormData; controlled UI).
+   * Sends every question with the reader's chosen answer(s) and the score to
+   * the author's Leads (on a published book), then shows the result screen.
    */
-  const handleSubmitQuiz = () => {
-    const formData = {
-      quizTitle: block.quizTitle || "Quiz",
-      blockId: block.id,
-      totalQuestions: questions.length,
-      answers: questions.map((question) => {
-        const chosenIds = answers[question.id] ?? [];
-        const chosenOptions = question.options.filter((o) =>
-          chosenIds.includes(o.id),
-        );
-        const correctIds = question.options
-          .filter((o) => o.correct)
-          .map((o) => o.id);
-        const isCorrect =
-          correctIds.length === chosenIds.length &&
-          correctIds.every((id) => chosenIds.includes(id));
-        return {
-          questionId: question.id,
-          question: question.question,
-          multiple: question.multiple,
-          selectedOptionIds: chosenIds,
-          selectedOptionTexts: chosenOptions.map((o) => o.text),
-          isCorrect,
-        };
-      }),
-      score,
-    };
-
-    console.log("TAKE QUIZ FORM SUBMITTED", formData);
-    setPhase("submitted");
+  const handleSubmitQuiz = async () => {
+    if (sending) return;
+    const graded: Record<string, string> = {};
+    questions.forEach((question, index) => {
+      const chosenIds = answers[question.id] ?? [];
+      const chosen = question.options.filter((o) => chosenIds.includes(o.id)).map((o) => o.text).join(", ");
+      const correctIds = question.options.filter((o) => o.correct).map((o) => o.id);
+      const isCorrect = correctIds.length === chosenIds.length && correctIds.every((id) => chosenIds.includes(id));
+      graded[`${index + 1}. ${question.question || "Question"}`] = `${chosen || "(no answer)"} ${isCorrect ? "✓" : "✗"}`;
+    });
+    setSending(true); setError("");
+    try {
+      if (send) await send({ kind: "quiz", title: block.quizTitle || "Quiz", answers: graded, score: { correct: score, total: questions.length } });
+      setPhase("submitted");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Your answers could not be sent. Please try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   if (!questions.length) {
@@ -213,17 +206,18 @@ export default function QuizPopup({ block, onClose }: Props) {
           );
         })}
       </div>
+      {error && <p role="alert" className="m-0 mt-3 rounded-md bg-rose-50 px-2.5 py-2 text-[11.5px] text-rose-700">{error}</p>}
       <button
         type="button"
-        disabled={!selected.length}
+        disabled={!selected.length || sending}
         onClick={() =>
           step < questions.length - 1
             ? setStep((value) => value + 1)
-            : handleSubmitQuiz()
+            : void handleSubmitQuiz()
         }
         className="mt-3.5 w-full rounded-lg border-0 bg-(--kd-accent) py-2.5 text-[13px] font-semibold text-white disabled:bg-(--kd-brand-300)"
       >
-        {step < questions.length - 1 ? "Next" : "Submit"}
+        {step < questions.length - 1 ? "Next" : sending ? "Sending…" : "Submit"}
       </button>
     </PopupShell>
   );

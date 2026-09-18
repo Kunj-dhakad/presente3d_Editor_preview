@@ -5,6 +5,8 @@ import { Settings } from "lucide-react";
 import { useBookPreview } from "../context/BookPreviewContext";
 import type { ViewMode } from "../types/view";
 import ReaderSettingsPopup from "./ReaderSettingsPopup";
+import { brandLogo } from "@shared/siteArt";
+import { SITE } from "@shared/site";
 
 interface Props {
   onBack?: () => void;
@@ -64,6 +66,11 @@ export default function PreviewHeader({ onBack, backLabel = "Back" }: Props) {
             {backLabel}
           </button>
         )}
+        <a href="/" target="_blank" rel="noopener" className="flex items-center gap-2 rounded-lg pr-1 no-underline" aria-label={`Made with ${SITE.name}`} title={`Made with ${SITE.name}`}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- small fixed-size logo */}
+          <img src={brandLogo} width={30} height={30} alt="" className="h-7.5 w-7.5 rounded-lg shadow-sm" />
+          <span className="hidden text-[15px] font-bold tracking-tight text-(--kd-brand-900) lg:inline">{SITE.name}</span>
+        </a>
       </div>
 
       {/* Find / Search — VS Code / Word style */}

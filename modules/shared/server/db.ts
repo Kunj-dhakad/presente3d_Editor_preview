@@ -6,7 +6,9 @@ export const db = globalDb.fsBookPool ?? createPool({
   host: process.env.MYSQL_HOST, port: Number(process.env.MYSQL_PORT || 3306),
   user: process.env.MYSQL_USER, password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE || "FS_BookEditor",
-  timezone: "Z", connectionLimit: 10, waitForConnections: true, charset: "utf8mb4", connectTimeout: 10000,
+  // A remote database over an ordinary connection can take several seconds to
+  // answer when it is busy; ten seconds was tight enough to fail requests.
+  timezone: "Z", connectionLimit: 10, waitForConnections: true, charset: "utf8mb4", connectTimeout: 20000,
   // Networks between the app and the database (NAT gateways, load balancers,
   // office routers) drop idle TCP connections after a few minutes. Without
   // these, the pool hands out a dead socket and the request fails with

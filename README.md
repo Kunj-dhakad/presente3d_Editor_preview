@@ -125,7 +125,10 @@ API helpers, plans, fonts and the base stylesheet every area loads.
 
 Route groups in brackets do not appear in URLs: `app/(site)/pricing` still serves `/pricing`.
 
-Admins sign in at `/admin/login` with an account listed in `ADMIN_EMAILS`.
+Administration is a separate system: its accounts live in `admin_users`, sign in at
+`/admin/login` with their own session cookie, and have nothing to do with customer
+accounts. Create the first one with `npm run admin -- add you@example.com "Your name"`;
+after that, an owner adds the rest from **Administrators** in the panel.
 
 ---
 
@@ -220,5 +223,15 @@ The goal of **KD AI Book Editor** is to provide a complete AI-powered environmen
 It combines:
 
 **AI Generation + Book Writing + Editing + Asset Management + Cloud Storage**
+
+## Admin sales page builder
+
+Open **Administration → Sales Page Builder** to edit the public homepage. The builder supports editable offer/countdown bars, hero content, video with benefits, feature cards, calls to action, pricing, testimonials, FAQs and footer links. Sections can be reordered, duplicated, hidden or removed, with undo/redo and desktop, tablet and mobile previews.
+
+**Save draft** stores edits privately in MySQL. **Publish** saves the current editor content and makes it the homepage at `/`. **Unpublish** in Brand & page settings restores the original landing page while preserving the draft. Saving further changes to a published page does not change its live version until Publish is used again. Conflicting saves from another tab are rejected rather than silently overwriting changes.
+
+The builder creates `sales_page` and `sales_page_media` tables on first admin access; both are also included in `database/schema.sql`. Image uploads use the project's existing S3 configuration and are converted to WebP. Image URLs and YouTube/Vimeo/direct video URLs can also be entered. Pricing and CTA links are configured in the editor; a price label does not alter package pricing or checkout behavior.
+
+Validation and renderer tests run with `npm run test:sales-page`; browser interaction checks with mocked persistence run with `npm run test:sales-page:browser`. `npm run test:sales-page:db` checks the configured database inside a transaction and rolls back all test content writes.
 
 into one modern platform.

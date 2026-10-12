@@ -4,6 +4,8 @@ import { PASSWORD_MAX, PASSWORD_MIN, passwordError } from "./password";
 import { db } from "./server/db";
 import { sendAccountEmail } from "./server/mail";
 import { accountStatus, deleteUserData, mailEnabled } from "./server/account";
+import { setFreePlan } from "./server/bms";
+import { loginAsUser } from "./server/loginAs";
 import { trustedOrigins } from "./server/origins";
 
 // Verification can only be required when mail can actually be delivered —
@@ -43,7 +45,13 @@ export const auth = betterAuth({
   },
   databaseHooks: {
     user: {
-      create: { after: async user => { await db.execute("INSERT IGNORE INTO user_plans (user_id, plan) VALUES (?, 'free')", [user.id]); } },
+      create: {
+        after: async user => {
+          await db.execute("INSERT IGNORE INTO user_plans (user_id, plan) VALUES (?, 'free')", [user.id]);
+          // The free package is what actually grants a new account its limits.
+          await setFreePlan(user.id).catch((error: unknown) => console.warn("Free plan:", error instanceof Error ? error.message : error));
+        },
+      },
     },
     session: {
       create: {
@@ -53,6 +61,8 @@ export const auth = betterAuth({
       },
     },
   },
+  // Administration can sign in as a customer to see what they see.
+  plugins: [loginAsUser],
   session: { expiresIn: 60 * 60 * 24 * 7, updateAge: 60 * 60 * 24 },
   rateLimit: { enabled: true, storage: "database", window: 60, max: 30 },
 });

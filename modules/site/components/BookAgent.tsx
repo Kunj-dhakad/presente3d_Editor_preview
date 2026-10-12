@@ -16,6 +16,7 @@ import {
   SquarePen,
 } from "lucide-react";
 import { bookPath } from "@shared/bookUrl";
+import { PUBLICATION_TYPES } from "@shared/aiBook";
 import {
   generateAiBook,
   type AiBookProgress,
@@ -30,6 +31,8 @@ type Brief = {
   tone: string;
   audience: string;
   category: string;
+  /** Publication type, which picks the design. */
+  type?: string;
 };
 type Message =
   | { id: number; role: "user"; text: string }
@@ -167,6 +170,7 @@ export default function BookAgent({ userName = "" }: { userName?: string }) {
           tone: brief.tone,
           audience: brief.audience,
           category: brief.category,
+          publicationType: brief.type,
           kind: "agent",
         },
         (progress) => update(id, { progress }),
@@ -477,6 +481,7 @@ export default function BookAgent({ userName = "" }: { userName?: string }) {
                   <strong>{progress.title || brief.topic}</strong>
                   <small>
                     {brief.pages} pages + cover ·{" "}
+                    {PUBLICATION_TYPES.find((t) => t.id === brief.type)?.name ?? "Book"} ·{" "}
                     {SIZES.find((s) => s.id === brief.size)?.label}
                   </small>
                   {message.error ? (

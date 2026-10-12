@@ -62,7 +62,16 @@ export default function Home() {
   const setMainCanvasScale = useEditorUIStore((s) => s.setMainCanvasScale);
   const addSlide = useEditorStore((s) => s.addSlide);
   const setActiveSlide = useEditorStore((s) => s.setActiveSlide);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  // The canvas element, kept in state as well so the toolbars that anchor to it
+  // re-render once it mounts (a ref read during render would be stale).
+  const [canvasElement, setCanvasElement] = React.useState<HTMLDivElement | null>(null);
+  const containerRef = useMemo<React.RefObject<HTMLDivElement | null>>(() => {
+    let element: HTMLDivElement | null = null;
+    return {
+      get current() { return element; },
+      set current(next) { element = next; setCanvasElement(next); },
+    };
+  }, []);
   const previewpanelOpen = useEditorUIStore((s) => s.previewpanelOpen);
   const [PreviewTab, setPreviewTab] = React.useState<"pages" | "layers">(
     "pages",
@@ -148,20 +157,20 @@ export default function Home() {
           <TextFormattingToolbar />
         ))}
       {activeElement?.data?.type === "image" && (
-        <ImageEditPanel target={containerRef.current} />
+        <ImageEditPanel target={canvasElement} />
       )}
       {activeElement?.data?.type === "button" && (
-        <ButtonEditTopBar target={containerRef.current} />
+        <ButtonEditTopBar target={canvasElement} />
       )}
       {activeElement?.data?.type === "interaction" && <InteractionEditTopBar />}
       {activeElement?.data?.type === "shape" && (
-        <ShapeEditTopBar target={containerRef.current} />
+        <ShapeEditTopBar target={canvasElement} />
       )}
       {activeElement?.data?.type === "svg" && (
-        <SvgElementsEditPanel target={containerRef.current} />
+        <SvgElementsEditPanel target={canvasElement} />
       )}
       {activeElement?.data?.type === "video" && (
-        <VideoEditTopBar target={containerRef.current} />
+        <VideoEditTopBar target={canvasElement} />
       )}
       {activeElement?.data?.type === "table" && <TableToolbar />}
       {activeElement?.data?.type === "chart" && <ChartToolbar />}

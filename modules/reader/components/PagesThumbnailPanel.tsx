@@ -15,6 +15,7 @@ export default function PagesThumbnailPanel() {
     currentPage,
     totalPages,
     viewMode,
+    singlePageFlip,
     goToPage,
     isPagesPanelOpen,
     setPagesPanelOpen,
@@ -25,7 +26,7 @@ export default function PagesThumbnailPanel() {
 
   
   const activePages =
-    totalPages > 0 ? pagesInView(currentPage, totalPages, viewMode) : [];
+    totalPages > 0 ? pagesInView(currentPage, totalPages, viewMode, singlePageFlip) : [];
 
   useEffect(() => {
     if (!isPagesPanelOpen) return;

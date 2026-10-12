@@ -1,12 +1,22 @@
 /* ---------- admin ---------- */
+.fs-admin-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; min-height: 260px; margin-top: 24px; padding: 36px 20px; text-align: center; background: linear-gradient(145deg, #fff, #faf9ff); border: 1px solid #e6e3f0; border-radius: 16px; box-shadow: 0 8px 28px #29204405; }
+.fs-admin-loading-icon { display: grid; place-items: center; width: 60px; height: 60px; margin-bottom: 4px; border: 1px solid #e8e1fb; border-radius: 18px; background: #f0ebfc; color: var(--kd-accent); }
+.fs-admin-loading-icon svg { animation: fs-admin-loader-spin 1s linear infinite; }
+.fs-admin-loading strong { color: #38334d; font-size: 14px; font-weight: 600; }
+.fs-admin-loading-caption { color: #858397; font-size: 12px; line-height: 1.5; }
+.fs-admin-loading-compact { min-height: 180px; margin: 0; border: 0; box-shadow: none; background: transparent; }
+@keyframes fs-admin-loader-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .fs-admin-loading-icon svg { animation: none; } }
 .fs-admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 22px 0 6px; }
 .fs-admin-stats > div { display: grid; gap: 2px; background: #fff; border: 1px solid #e9ebf1; border-radius: 10px; padding: 16px 18px; }
 .fs-admin-stats small { color: #8a8f9c; font-size: 11px; font-weight: 600; }
 .fs-admin-stats strong { font-size: 24px; line-height: 1.3; font-weight: 650; }
 .fs-admin-stats span { color: #9b9fab; font-size: 11px; }
 .fs-app form.fs-library-toolbar { display: flex; flex-wrap: wrap; }
+/* A card narrows the forms inside it; a toolbar is not that kind of form. */
+.fs-settings-card form.fs-library-toolbar { max-width: none; }
 .fs-admin-table select { padding: 5px 8px; font-size: 12px; }
-.fs-admin-table small { color: #8a8f9c; }
+.fs-admin-table small { display: block; color: #8a8f9c; }
 .fs-row-suspended td { background: #fff6f6; }
 .fs-pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; font-size: 12px; }
 .fs-messages { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
@@ -21,18 +31,28 @@
 
 /* ---------- BMS shell ---------- */
 .fs-bms { display: flex; min-height: 100dvh; background: #f7f8fb; }
-.fs-bms-sidebar { position: fixed; inset: 0 auto 0 0; width: 244px; display: flex; flex-direction: column; padding: 26px 18px 18px; background: #1e2235; color: #cfd3e4; z-index: 30; }
-.fs-bms-brand { color: #fff; font-size: 18px; }
+.fs-bms-sidebar { position: fixed; inset: 0 auto 0 0; width: 244px; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; padding: 24px 14px 14px; background: radial-gradient(ellipse at top left, #363052 0, transparent 55%), linear-gradient(180deg, #202438, #171b2c); border-right: 1px solid #ffffff0d; box-shadow: 8px 0 32px #1820390b; color: #cfd3e4; z-index: 30; }
+.fs-bms-brand { color: #fff; font-size: 17px; flex-shrink: 0; padding: 0 4px 22px; border-bottom: 1px solid #ffffff12; letter-spacing: -.4px; }
 .fs-bms-brand svg { background: var(--kd-accent); }
-.fs-bms-sidebar .fs-nav-label { color: #7d84a3; margin: 34px 12px 10px; }
-.fs-bms-sidebar nav { display: grid; gap: 6px; }
-.fs-bms-sidebar nav a { display: flex; align-items: center; gap: 12px; padding: 11px 13px; border-radius: 9px; font-size: 13px; font-weight: 550; color: #b4bad2; }
-.fs-bms-sidebar nav a:hover { background: #2a2f47; color: #fff; }
-.fs-bms-sidebar nav a.active { background: var(--kd-accent); color: #fff; }
-.fs-bms-foot { margin-top: auto; display: grid; gap: 14px; }
+.fs-bms-sidebar .fs-nav-label { color: #8f96b4; margin: 20px 12px 12px; flex-shrink: 0; font-size: 10px; letter-spacing: 1.8px; }
+/* Allow the menu to shrink inside the viewport while brand and account stay visible. */
+.fs-bms-sidebar nav { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; gap: 5px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #646383 #ffffff06; scrollbar-gutter: stable; padding: 3px 4px 8px; }
+.fs-bms-sidebar nav::-webkit-scrollbar { width: 5px; height: 5px; }
+.fs-bms-sidebar nav::-webkit-scrollbar-track { background: #ffffff06; border-radius: 8px; }
+.fs-bms-sidebar nav::-webkit-scrollbar-thumb { background: #646383; border-radius: 8px; }
+.fs-bms-sidebar nav a { position: relative; display: flex; flex-shrink: 0; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid transparent; border-radius: 11px; font-size: 13px; font-weight: 550; color: #b4bad2; }
+.fs-bms-sidebar nav a svg { flex-shrink: 0; }
+.fs-bms-sidebar nav a:hover { background: #ffffff08; border-color: #ffffff0b; color: #fff; }
+.fs-bms-sidebar nav a.active { background: linear-gradient(120deg, var(--kd-accent), #8564e5); border-color: #ffffff1f; box-shadow: 0 4px 14px #0c0f2426, inset 0 1px 0 #ffffff12; color: #fff; }
+.fs-bms-sidebar nav a:focus-visible { outline-offset: -3px; }
+.fs-bms-foot { margin-top: 12px; display: grid; gap: 14px; flex-shrink: 0; }
 .fs-bms-foot > a { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #9aa1bd; }
 .fs-bms-foot > a:hover { color: #fff; }
-.fs-bms .fs-account { border-top: 1px solid #333850; margin-top: 0; }
+.fs-bms .fs-account { border: 1px solid #ffffff10; border-radius: 12px; padding: 12px 9px; background: #ffffff04; margin-top: 0; gap: 8px; }
+.fs-bms .fs-account > div { min-width: 0; }
+.fs-bms .fs-account strong, .fs-bms .fs-account small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fs-bms .fs-account .fs-avatar { flex-shrink: 0; background: #8470d32b; color: #d9ceff; border: 1px solid #ac95ff30; }
+.fs-bms .fs-account button { flex-shrink: 0; }
 .fs-bms .fs-account strong { color: #fff; }
 .fs-bms .fs-account small { color: #8d94b0; }
 .fs-bms .fs-account button { color: #9aa1bd; }
@@ -66,4 +86,344 @@
   .fs-bms .fs-account { display: flex; padding-top: 12px; }
   .fs-bms-main { margin-left: 0; }
   .fs-bms-links { grid-template-columns: 1fr; }
+}
+
+/* ---------- orders, emails and the administrator list ---------- */
+.fs-admin-stats-sm > div { padding: 13px 16px; }
+.fs-admin-stats-sm strong { font-size: 20px; }
+.fs-bms .fs-settings-card { max-width: none; }
+.fs-bms .fs-settings-card h2 { display: flex; align-items: center; gap: 9px; }
+.fs-lib-icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border: 1px solid #e5e7ee; border-radius: 8px; background: #fff; color: #7e8496; }
+.fs-lib-icon:hover { border-color: var(--kd-brand-300); color: var(--kd-accent); }
+.fs-admin-table td.fs-row { display: flex; gap: 6px; align-items: center; }
+.fs-pill-ok, .fs-pill-bad { font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; padding: 3px 8px; border-radius: 10px; font-style: normal; }
+.fs-pill-ok { background: #e9f8f0; color: #237446; }
+.fs-pill-bad { background: #fff0ef; color: #a93232; }
+.fs-note { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #237446; background: #e9f8f0; border-radius: 9px; padding: 10px 13px; margin: 14px 0 !important; }
+
+.fs-admin-modal { max-width: 560px; max-height: calc(100dvh - 40px); overflow-y: auto; }
+.fs-admin-modal h2 { margin-bottom: 6px; }
+.fs-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fs-app .fs-checkline { display: flex; align-items: center; gap: 9px; font-weight: 500; font-size: 12px; color: #5b6070; }
+.fs-app .fs-checkline input { width: 16px; height: 16px; }
+.fs-app textarea { border: 1px solid #dfe2ea; border-radius: 8px; padding: 11px 13px; background: #fff; color: #202432; font: inherit; resize: vertical; }
+
+.fs-email-list { display: grid; gap: 12px; margin: 22px 0; }
+.fs-email-card { background: #fff; border: 1px solid #e5e7ee; border-radius: 13px; overflow: hidden; }
+.fs-email-card.open { border-color: var(--kd-brand-300); box-shadow: 0 8px 26px #2e245410; }
+.fs-email-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; padding: 17px 20px; border: 0; background: none; text-align: left; }
+.fs-email-head strong { display: block; font-size: 14px; }
+.fs-email-head small { display: block; color: #8a8f9c; font-size: 11px; margin-top: 3px; }
+.fs-email-tags { display: flex; gap: 6px; flex-shrink: 0; }
+.fs-email-body { display: grid; gap: 14px; padding: 4px 20px 20px; border-top: 1px solid #f0f1f5; }
+.fs-email-body label { font-size: 12px; }
+.fs-email-body .fs-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 780px) {
+  .fs-field-row { grid-template-columns: 1fr; }
+  .fs-email-head { flex-wrap: wrap; }
+}
+
+/* ---------- the plan engine ---------- */
+.fs-admin-plans .fs-leads-tabs { margin: 22px 0 6px; }
+.fs-limit-chip { display: inline-block; margin: 0 4px 4px 0; padding: 2px 8px; border-radius: 9px; background: var(--kd-brand-50); color: var(--kd-brand-muted); font-size: 11px; white-space: nowrap; }
+.fs-admin-table code { font-size: 11px; color: #7a7f8f; }
+.fs-key-live { font-weight: 700; color: var(--kd-accent) !important; }
+.fs-new-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.fs-new-row input { flex: 1 1 150px; font-size: 12px; padding: 8px 10px; }
+.fs-set-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 16px; }
+.fs-set-card { display: grid; gap: 10px; border: 1px solid #e5e7ee; border-radius: 12px; padding: 14px; }
+.fs-set-card > input { font-size: 13px; font-weight: 600; }
+.fs-set-features { display: grid; gap: 6px; max-height: 210px; overflow-y: auto; padding-right: 4px; }
+.fs-set-features .fs-checkline { font-size: 11.5px; }
+.fs-limit-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; border: 1px solid #e5e7ee; border-radius: 10px; padding: 14px; }
+.fs-limit-fields legend { font-size: 11px; color: #8a8f9c; padding: 0 6px; }
+.fs-feature-picker { grid-template-columns: 1fr 1fr; max-height: 260px; overflow-y: auto; }
+.fs-feature-picker .fs-checkline { font-size: 12px; }
+.fs-admin-plans .fs-pill-ok, .fs-admin-plans .fs-pill-bad, .fs-admin-purchases .fs-pill-ok, .fs-admin-purchases .fs-pill-bad { font-style: normal; }
+@media (max-width: 780px) { .fs-limit-fields { grid-template-columns: 1fr; } }
+.fs-settings-card.fs-wide { max-width: none; }
+.fs-admin-packages > .fs-settings-card { padding: 0; overflow: hidden; }
+.fs-package-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 24px; border-bottom: 1px solid #eceef5; }
+.fs-package-toolbar > div { flex: 1; min-width: 0; }
+.fs-bms .fs-package-toolbar h2 { font-size: 16px; margin: 0 0 5px; }
+.fs-app .fs-package-toolbar p { margin: 0; font-size: 12px; line-height: 1.6; }
+.fs-package-toolbar > button { flex-shrink: 0; white-space: nowrap; min-height: 42px; padding: 10px 16px; }
+.fs-package-table-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c8c1e3 transparent; }
+.fs-admin-packages .fs-admin-table { min-width: 900px; }
+.fs-admin-packages .fs-admin-table th { background: #fafafe; font-size: 11px; font-weight: 600; color: #79758c; padding: 13px 16px; }
+.fs-admin-packages .fs-admin-table td { padding: 16px; vertical-align: middle; border-bottom-color: #eef0f6; }
+.fs-admin-packages .fs-admin-table tbody tr:last-child td { border-bottom: 0; }
+.fs-admin-packages .fs-admin-table tbody tr:hover { background: #fbfaff; }
+.fs-admin-packages .fs-admin-table td:first-child strong { font-size: 13px; }
+.fs-admin-packages .fs-admin-table small { margin-top: 3px; font-size: 10px; }
+.fs-admin-packages .fs-admin-table th:last-child { text-align: right; }
+.fs-package-actions { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.fs-package-actions .fs-btn { padding: 7px 11px; min-height: 34px; font-size: 11px; white-space: nowrap; }
+.fs-package-actions .fs-lib-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; }
+@media (max-width: 600px) {
+  .fs-package-toolbar { flex-wrap: wrap; gap: 14px; padding: 18px; }
+  .fs-package-toolbar > div { flex-basis: 100%; }
+  .fs-package-toolbar > button { width: 100%; }
+}
+.fs-leads-tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
+.fs-leads-tabs button { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border: 1px solid var(--kd-brand-200); border-radius: 999px; background: #fff; font-size: 13px; font-weight: 600; color: var(--kd-brand-muted); white-space: nowrap; }
+.fs-leads-tabs button span { min-width: 20px; padding: 1px 6px; border-radius: 999px; background: var(--kd-brand-100); font-size: 11px; color: var(--kd-accent); text-align: center; }
+.fs-leads-tabs button:hover { border-color: var(--kd-brand-300); color: var(--kd-brand-900); }
+.fs-leads-tabs button.on { border-color: var(--kd-accent); background: var(--kd-accent); color: #fff; }
+.fs-leads-tabs button.on span { background: color-mix(in srgb, #fff 25%, transparent); color: #fff; }
+.fs-admin-plans .fs-admin-table td.fs-row, .fs-admin-purchases .fs-admin-table td.fs-row { flex-wrap: nowrap; justify-content: flex-end; }
+/* A row reads as one line of words plus a quieter second line. */
+.fs-admin-plans .fs-admin-table td, .fs-admin-purchases .fs-admin-table td { white-space: nowrap; }
+.fs-admin-plans .fs-admin-table td:first-child, .fs-admin-purchases .fs-admin-table td:first-child { white-space: normal; min-width: 165px; }
+.fs-admin-plans .fs-admin-table td.fs-chips { white-space: normal; min-width: 280px; }
+[aria-busy="true"] > .fs-settings-card, [aria-busy="true"] > .fs-email-list { opacity: .6; transition: opacity .15s; }
+
+/* ---------- on a phone ---------- */
+@media (max-width: 860px) {
+  .fs-bms { display: block; }
+  .fs-bms-sidebar { position: static; width: auto; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 14px 16px; }
+  .fs-bms-brand { padding: 0; border-bottom: 0; }
+  .fs-bms-sidebar .fs-nav-label { display: none; }
+  .fs-bms-sidebar nav { display: flex; flex-direction: row; flex: 1 0 100%; order: 3; gap: 6px; width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-gutter: auto; padding: 3px 3px 8px; margin-top: 0; }
+  .fs-bms-sidebar nav a { padding: 8px 12px; font-size: 12px; white-space: nowrap; }
+  .fs-bms-foot { margin: 0 0 0 auto; }
+  .fs-bms .fs-account { padding-top: 0; gap: 8px; }
+  .fs-bms .fs-account > div { display: none; }
+  .fs-bms-main { margin-left: 0; }
+  .fs-bms-links { grid-template-columns: 1fr; }
+  .fs-settings-card { padding: 18px 14px; overflow-x: auto; }
+  .fs-admin-table { min-width: 620px; }
+}
+
+/* ---------- users ---------- */
+.fs-admin-users .fs-library-toolbar { gap: 10px; margin: 18px 0 6px; }
+.fs-admin-users .fs-library-toolbar input[type="date"] { font-size: 12px; padding: 8px 10px; }
+.fs-admin-users .fs-admin-table td { white-space: nowrap; }
+.fs-admin-users .fs-admin-table td:first-child, .fs-admin-users .fs-admin-table td:nth-child(3) { white-space: normal; min-width: 150px; }
+.fs-user-actions { gap: 4px !important; flex-wrap: nowrap !important; justify-content: flex-end; }
+.fs-user-actions .fs-lib-icon { padding: 6px; }
+.fs-detail-table th { width: 130px; color: #8a8f9c; font-weight: 600; }
+.fs-app .fs-modal-heading { font-size: 13px; font-weight: 700; margin: 18px 0 2px; color: #4c4660; }
+.fs-admin-form form { max-width: 520px; }
+
+/* User filters and row actions keep their own layout inside the table. */
+.fs-app .fs-user-filters { display: grid; grid-template-columns: minmax(120px, .9fr) minmax(160px, 1.5fr) repeat(2, minmax(130px, 1fr)) auto auto; align-items: end; gap: 12px; margin: 22px 0; padding: 20px; border: 1px solid #e5e7f0; border-radius: 14px; background: #fff; }
+.fs-app .fs-user-filters label { display: grid; min-width: 0; gap: 7px; font-size: 11px; font-weight: 600; color: #77758a; }
+.fs-user-filters select, .fs-user-filters input[type="date"], .fs-user-filters .fs-search { width: 100%; min-width: 0; height: 42px; border-radius: 9px; background: #fafafe; }
+.fs-user-filters .fs-search { display: flex; align-items: center; gap: 8px; padding: 0 11px; }
+.fs-user-filters .fs-search svg { flex-shrink: 0; }
+.fs-user-filters .fs-search input { width: 100%; min-width: 0; padding: 0; background: transparent; }
+.fs-user-filters input[type="date"] { padding: 8px 10px; font-size: 12px; }
+.fs-user-filters > .fs-btn { height: 42px; padding: 9px 13px; font-size: 12px; white-space: nowrap; }
+.fs-admin-users .fs-user-catalog { padding: 0; overflow: hidden; }
+.fs-user-catalog-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 22px; border-bottom: 1px solid #eceef5; }
+.fs-bms .fs-user-catalog-head h2 { margin: 0; font-size: 16px; }
+.fs-user-catalog-head > span { padding: 4px 10px; border-radius: 20px; background: #f2eefc; color: #756394; font-size: 11px; }
+.fs-user-table-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c8c1e3 transparent; }
+.fs-user-catalog .fs-admin-table { min-width: 930px; }
+.fs-user-catalog .fs-admin-table th { padding: 13px 16px; background: #fafafe; color: #79758c; font-size: 11px; font-weight: 600; }
+.fs-user-catalog .fs-admin-table td { padding: 16px; vertical-align: middle; border-bottom-color: #eef0f6; }
+.fs-user-catalog .fs-admin-table th:last-child { text-align: right; }
+.fs-user-catalog .fs-admin-table tbody tr:last-child td { border-bottom: 0; }
+.fs-user-catalog .fs-admin-table tbody tr:hover { background: #fbfaff; }
+.fs-user-catalog .fs-admin-table small { margin-top: 4px; font-size: 10px; }
+.fs-user-catalog .fs-pager { margin: 0; padding: 16px; border-top: 1px solid #eceef5; }
+.fs-user-actions { display: flex; align-items: center; }
+.fs-user-actions .fs-lib-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 34px; flex-shrink: 0; border-radius: 8px; background: #fafafe; }
+.fs-user-actions .fs-lib-icon:hover { background: #f0ebfc; }
+.fs-user-actions .fs-user-delete { margin-left: 4px; color: #b66a72; border-color: #f0dfe3; background: #fffafb; }
+.fs-user-actions .fs-user-delete:hover { color: #b33248; border-color: #e6b9c2; background: #fff0f3; }
+@media (max-width: 1200px) { .fs-app .fs-user-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) {
+  .fs-app .fs-user-filters { padding: 16px; gap: 14px 10px; }
+  .fs-user-filters > label:nth-child(1), .fs-user-filters > label:nth-child(2) { grid-column: 1 / -1; }
+  .fs-user-filters > .fs-btn { padding: 9px; }
+  .fs-user-catalog-head { padding: 18px 16px; }
+}
+/* ---------- premium admin surfaces ---------- */
+.fs-bms { background: #f3f4f9; }
+.fs-bms-main { background: radial-gradient(ellipse at top right, #ede8fb80, transparent 48%), #f3f4f9; }
+.fs-bms .fs-content { max-width: 1600px; padding: 30px 32px 40px; }
+.fs-admin-page-header { position: relative; overflow: hidden; padding: 28px 30px; margin-bottom: 24px; border: 1px solid #fff; border-radius: 20px; background: radial-gradient(ellipse at right top, #e9e1fc, transparent 55%), linear-gradient(120deg, #fff, #faf8ff); box-shadow: 0 8px 28px #30245108, 0 2px 5px #30245104; }
+.fs-admin-page-header::before { content: ""; position: absolute; inset: 26px auto 26px 0; width: 4px; border-radius: 0 5px 5px 0; background: linear-gradient(#9b80ef, #6b4fd3); }
+.fs-bms .fs-admin-page-header .fs-eyebrow { display: inline-block; color: #7b63b5; font-size: 10px; letter-spacing: 1.8px; }
+.fs-bms .fs-admin-page-header h1 { margin: 10px 0 8px; color: #27233b; font-size: 32px; letter-spacing: -1px; }
+.fs-bms .fs-admin-page-header p { max-width: 880px; color: #838097; font-size: 13px; line-height: 1.7; }
+.fs-bms .fs-admin-stats { gap: 16px; margin: 0 0 22px; }
+.fs-bms .fs-admin-stats > div { position: relative; min-height: 106px; padding: 22px; border: 1px solid #fff; border-radius: 16px; background: linear-gradient(135deg, #fff, #fdfcff); box-shadow: 0 6px 20px #30245107, 0 1px 3px #30245105; }
+.fs-bms .fs-admin-stats small { color: #858096; font-size: 11px; font-weight: 500; }
+.fs-bms .fs-admin-stats strong { color: #322b49; font-size: 28px; font-weight: 650; line-height: 1.25; }
+.fs-bms .fs-admin-stats-sm > div { padding-right: 78px; }
+.fs-bms .fs-admin-stats .fs-stat-icon { position: absolute; top: 28px; right: 22px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: #f1ebfd; border: 1px solid #e8dffb; color: #8965d6; }
+.fs-bms .fs-stat-active .fs-stat-icon { background: #eaf7f1; border-color: #d8efe4; color: #469c78; }
+.fs-bms .fs-stat-inactive .fs-stat-icon { background: #f4f2f8; border-color: #e9e5f0; color: #9589aa; }
+.fs-bms .fs-settings-card, .fs-bms .fs-user-filters, .fs-bms .fs-email-card, .fs-bms .fs-set-card { border-color: #e8e5f0; border-radius: 18px; box-shadow: 0 10px 32px #30245107, 0 2px 5px #30245104; }
+.fs-bms .fs-settings-card { background: #fff; }
+.fs-bms .fs-user-filters { margin: 0 0 24px; padding: 22px; background: linear-gradient(120deg, #fff, #fdfcff); }
+.fs-bms .fs-user-filters label { color: #7a718d; }
+.fs-bms .fs-user-filters .fs-search, .fs-bms .fs-user-filters select, .fs-bms .fs-user-filters input[type="date"] { border-color: #e8e3f0; background: #fbfaff; box-shadow: inset 0 1px 2px #30245103; }
+.fs-bms .fs-primary { background: linear-gradient(120deg, #7958e0, #6847d1); border-color: #ffffff20; box-shadow: 0 5px 12px #7050ce26, inset 0 1px 0 #ffffff20; }
+.fs-bms .fs-primary:hover { background: linear-gradient(120deg, #704bd8, #5d3bc5); box-shadow: 0 7px 16px #7050ce35; }
+.fs-bms .fs-outline { border-color: #e4dcf4; box-shadow: 0 2px 4px #30245103; }
+.fs-bms .fs-user-catalog-head, .fs-bms .fs-package-toolbar { padding: 22px 24px; background: linear-gradient(120deg, #fff, #fdfbff); }
+.fs-bms .fs-admin-table th { background: #f8f7fc; color: #8a819b; border-bottom-color: #eae5f2; }
+.fs-bms .fs-user-actions .fs-lib-icon { background: #fff; box-shadow: 0 2px 5px #30245106; }
+.fs-bms .fs-user-actions .fs-lib-icon:hover { background: #f0ebfc; box-shadow: 0 3px 8px #7050ce18; }
+.fs-bms .fs-user-actions .fs-user-delete { background: #fff9fa; }
+.fs-bms .fs-admin-modal { border: 1px solid #eee8f8; border-radius: 20px; box-shadow: 0 28px 90px #1f143b30; }
+@media (max-width: 860px) { .fs-bms .fs-content { padding: 24px 20px 32px; } }
+@media (max-width: 480px) {
+  .fs-bms .fs-content { padding: 18px 14px 28px; }
+  .fs-admin-page-header { padding: 22px; border-radius: 16px; margin-bottom: 18px; }
+  .fs-bms .fs-admin-page-header h1 { font-size: 28px; }
+  .fs-bms .fs-admin-stats { grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+  .fs-bms .fs-admin-stats > div { min-height: 90px; padding: 18px 78px 18px 18px; }
+  .fs-bms .fs-admin-stats .fs-stat-icon { top: 22px; right: 18px; }
+  .fs-bms .fs-user-filters { padding: 16px; }
+  .fs-bms .fs-user-catalog-head, .fs-bms .fs-package-toolbar { padding: 18px; }
+}
+.fs-admin-confirm { position: fixed; inset: 0; width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 40px); overflow-y: auto; box-sizing: border-box; margin: auto; padding: 32px; border: 1px solid #eee8f8; border-radius: 24px; background: linear-gradient(145deg, #fff, #fcfaff); color: #322b49; box-shadow: 0 28px 100px #1e143b40, 0 4px 16px #1e143b15; font-family: var(--font-inter), Arial, sans-serif; }
+.fs-admin-confirm::backdrop { background: #19152966; backdrop-filter: blur(5px); }
+.fs-confirm-close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 9px; background: #f4f0fa; color: #958aa9; cursor: pointer; }
+.fs-confirm-icon { display: grid; place-items: center; width: 60px; height: 60px; margin-bottom: 22px; border: 1px solid #e7ddfb; border-radius: 18px; background: linear-gradient(135deg, #f1eaff, #ebe1fc); color: #805bd2; }
+.fs-admin-confirm h2 { margin: 0 0 12px; font-size: 23px; line-height: 1.3; font-weight: 650; letter-spacing: -.6px; }
+.fs-admin-confirm p { margin: 0; color: #8a809a; font-size: 13px; line-height: 1.75; overflow-wrap: anywhere; }
+.fs-confirm-buttons { display: flex; justify-content: flex-end; gap: 10px; margin-top: 28px; padding-top: 22px; border-top: 1px solid #eee8f5; }
+.fs-confirm-buttons button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 10px 18px; border-radius: 11px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.fs-confirm-cancel { border: 1px solid #e5deef; background: #fff; color: #867895; }
+.fs-confirm-submit { border: 1px solid #ffffff20; background: linear-gradient(120deg, #805cdf, #6847d1); color: #fff; box-shadow: 0 5px 14px #7050ce28; }
+.fs-admin-confirm-danger .fs-confirm-icon { background: #fff0f3; border-color: #f4dce3; color: #d35e7a; }
+.fs-admin-confirm-danger .fs-confirm-submit { background: linear-gradient(120deg, #dc6582, #c54463); box-shadow: 0 5px 14px #c5446320; }
+.fs-admin-confirm button:disabled { opacity: .6; cursor: wait; }
+.fs-admin-confirm :focus-visible { outline: 3px solid #bba6ec; outline-offset: 3px; }
+.fs-admin-confirm .fs-confirm-error { margin-top: 16px; padding: 10px 12px; border-radius: 10px; background: #fff0f3; color: #b33248; }
+@media (max-width: 480px) { .fs-admin-confirm { padding: 28px 22px 22px; } .fs-confirm-buttons button { flex: 1; padding: 10px 12px; } }
+/* Soft filter focus and a custom package menu. */
+.fs-admin-select { position: relative; min-width: 0; }
+.fs-admin-select-label { display: block; margin-bottom: 7px; color: #7a718d; font-size: 11px; font-weight: 600; }
+.fs-admin-select-trigger { display: flex; align-items: center; gap: 9px; width: 100%; height: 42px; padding: 0 12px; border: 1px solid #e8e3f0; border-radius: 10px; background: #fbfaff; color: #62576f; text-align: left; cursor: pointer; }
+.fs-admin-select-trigger span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.fs-admin-select-trigger svg { flex-shrink: 0; color: #a295b5; }
+.fs-admin-select-trigger[aria-expanded="true"] > svg:last-child { transform: rotate(180deg); }
+.fs-admin-select-menu { position: absolute; top: calc(100% + 8px); left: 0; z-index: 40; width: max(100%, 200px); max-width: calc(100vw - 64px); max-height: 250px; overflow-y: auto; padding: 6px; border: 1px solid #eee8f5; border-radius: 14px; background: #fff; box-shadow: 0 12px 36px #32204418, 0 3px 8px #32204408; scrollbar-width: thin; }
+.fs-admin-select-menu button { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 11px 12px; border: 0; border-radius: 8px; background: transparent; color: #73677f; text-align: left; font-size: 12px; cursor: pointer; }
+.fs-admin-select-menu button span { overflow-wrap: anywhere; }
+.fs-admin-select-menu button[aria-selected="true"] { background: #f2ecfc; color: #7957c9; font-weight: 600; }
+.fs-admin-select-menu button:hover, .fs-admin-select-menu button:focus-visible { outline: none; background: #f5f1fc; }
+.fs-bms .fs-user-filters input:focus-visible, .fs-bms .fs-user-filters button:focus-visible, .fs-bms .fs-user-filters a:focus-visible { outline: none; border-color: #baaad8; box-shadow: 0 0 0 3px #9b80cf12; }
+.fs-bms .fs-user-filters .fs-search:focus-within { border-color: #baaad8; box-shadow: 0 0 0 3px #9b80cf12; }
+.fs-bms .fs-user-filters .fs-search input:focus-visible { outline: none; box-shadow: none; }
+.fs-bms .fs-user-filters .fs-admin-select-menu button:focus-visible { box-shadow: inset 0 0 0 1px #d9caef; }
+@media (max-width: 480px) { .fs-user-filters > .fs-admin-select { grid-column: 1 / -1; } }
+/* Administrators: keep identity and action content inside real table cells. */
+.fs-bms .fs-admin-team { padding: 0; overflow: hidden; }
+.fs-team-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 24px; }
+.fs-app .fs-team-toolbar p { margin: 0; font-size: 12px; line-height: 1.6; }
+.fs-team-toolbar > .fs-btn { flex-shrink: 0; white-space: nowrap; }
+.fs-team-table-scroll { overflow-x: auto; scrollbar-width: thin; }
+.fs-admin-team .fs-admin-table { min-width: 740px; }
+.fs-admin-team .fs-admin-table th, .fs-admin-team .fs-admin-table td { padding: 16px 24px; vertical-align: middle; }
+.fs-admin-team .fs-admin-table th { font-size: 11px; }
+.fs-admin-team .fs-admin-table th:last-child { text-align: right; }
+.fs-admin-team .fs-admin-table tbody tr:last-child td { border-bottom: 0; }
+.fs-team-identity { display: flex; align-items: center; gap: 12px; min-width: 220px; }
+.fs-team-identity > div { min-width: 0; }
+.fs-team-avatar { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border: 1px solid #e8def8; border-radius: 12px; background: #f1ebfc; color: #8664c9; font-size: 15px; font-weight: 600; }
+.fs-team-name { display: flex; align-items: center; gap: 8px; }
+.fs-team-name strong { font-size: 13px; }
+.fs-team-you { padding: 1px 7px; border-radius: 6px; background: #f1ecfb; color: #9279b5; font-size: 10px; }
+.fs-admin-team .fs-team-identity small { margin-top: 4px; font-size: 11px; overflow-wrap: anywhere; }
+.fs-team-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.fs-team-actions .fs-lib-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; }
+@media (max-width: 600px) { .fs-team-toolbar { flex-wrap: wrap; padding: 18px; gap: 14px; } .fs-team-toolbar > .fs-btn { width: 100%; } .fs-admin-team .fs-admin-table th, .fs-admin-team .fs-admin-table td { padding: 16px; } }
+
+/* Feature plan catalog */
+.fs-bms .fs-feature-plan-catalog { padding: 0; overflow: hidden; }
+.fs-feature-plan-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; background: linear-gradient(120deg, #fff, #fdfbff); border-bottom: 1px solid #eee9f5; }
+.fs-feature-plan-toolbar > div { min-width: 0; }
+.fs-bms .fs-feature-plan-toolbar h2 { margin: 0 0 6px; font-size: 16px; color: #38304b; }
+.fs-app .fs-feature-plan-toolbar p { margin: 0; font-size: 12px; line-height: 1.6; }
+.fs-feature-plan-toolbar > button { flex-shrink: 0; white-space: nowrap; min-height: 42px; padding: 10px 16px; }
+.fs-feature-plan-table-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #c8c1e3 transparent; }
+.fs-admin-feature-plans .fs-admin-table { min-width: 880px; width: 100%; }
+.fs-admin-feature-plans .fs-admin-table th { padding: 14px 20px; font-size: 11px; font-weight: 600; }
+.fs-admin-feature-plans .fs-admin-table td { padding: 22px 20px; vertical-align: middle; border-bottom-color: #eeeaf4; }
+.fs-admin-feature-plans .fs-admin-table td:first-child { min-width: 220px; }
+.fs-admin-feature-plans .fs-admin-table th:last-child { text-align: right; }
+.fs-admin-feature-plans .fs-admin-table tbody tr:last-child td { border-bottom: 0; }
+.fs-admin-feature-plans .fs-admin-table tbody tr:hover { background: #fcfaff; }
+.fs-feature-plan-identity { display: flex; align-items: center; gap: 12px; }
+.fs-feature-plan-icon { display: grid; place-items: center; flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; border: 1px solid #e8def8; background: #f3edfc; color: #8967ca; }
+.fs-feature-plan-identity strong { font-size: 13px; color: #3a304b; }
+.fs-feature-plan-identity small { margin-top: 4px; font-size: 10px; }
+.fs-admin-feature-plans .fs-feature-plan-count { margin-bottom: 10px; font-size: 10px; color: #9a90aa; }
+.fs-feature-plan-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.fs-feature-plan-chips .fs-limit-chip { margin: 0; padding: 3px 8px; border: 1px solid #eee6f7; border-radius: 7px; background: #f8f5fd; color: #8c77a8; font-size: 10px; line-height: 1.5; white-space: normal; overflow-wrap: anywhere; }
+.fs-feature-plan-actions { display: flex; align-items: center; justify-content: flex-end; gap: 7px; }
+.fs-feature-plan-actions .fs-btn { min-height: 34px; padding: 7px 11px; font-size: 11px; white-space: nowrap; }
+.fs-feature-plan-actions .fs-lib-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex-shrink: 0; }
+.fs-feature-plan-actions .fs-feature-plan-delete { background: #fffafb; border-color: #f0dfe5; color: #b97485; }
+.fs-feature-plan-actions .fs-feature-plan-delete:hover { background: #fff0f3; border-color: #e6b9c2; color: #b33248; }
+.fs-feature-plan-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 38px 20px; text-align: center; color: #9986b7; }
+.fs-feature-plan-empty strong { color: #574766; }
+.fs-app .fs-feature-plan-empty p { font-size: 12px; margin: 0; }
+@media (max-width: 600px) {
+  .fs-feature-plan-toolbar { flex-wrap: wrap; padding: 20px; gap: 16px; }
+  .fs-feature-plan-toolbar > button { width: 100%; }
+}
+
+/* Feature plan editor: the footer stays visible while the feature list scrolls. */
+.fs-plan-dialog { width: min(680px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 40px); padding: 0; margin: auto; border: 1px solid #eee7fa; border-radius: 24px; background: #fff; color: #393047; box-shadow: 0 30px 100px #21123738; overflow: hidden; }
+.fs-plan-dialog::backdrop { background: #21173565; backdrop-filter: blur(6px); }
+.fs-app form.fs-plan-form { display: flex; flex-direction: column; gap: 0; max-height: calc(100dvh - 42px); }
+.fs-plan-dialog-header { display: flex; align-items: center; gap: 15px; padding: 24px 28px; border-bottom: 1px solid #eee8f5; background: linear-gradient(120deg, #fff, #f6f0ff); flex-shrink: 0; }
+.fs-plan-dialog-header > div { min-width: 0; flex: 1; }
+.fs-plan-dialog-icon { display: grid; place-items: center; width: 52px; height: 52px; flex-shrink: 0; border: 1px solid #e5d9f7; border-radius: 16px; background: #ede4fb; color: #8b63d0; }
+.fs-plan-dialog-eyebrow { font-size: 9px; letter-spacing: 1.6px; font-weight: 650; color: #9c84b9; }
+.fs-app .fs-plan-dialog-header h2 { margin: 4px 0 5px; font-size: 22px; letter-spacing: -.5px; }
+.fs-app .fs-plan-dialog-header p { margin: 0; font-size: 11px; color: #95869f; line-height: 1.5; }
+.fs-plan-close { display: grid; place-items: center; flex-shrink: 0; width: 32px; height: 32px; padding: 0; border: 1px solid #e9e1f1; border-radius: 10px; background: #fff9; color: #9a89aa; }
+.fs-plan-dialog-body { min-height: 0; overflow-y: auto; padding: 24px 28px; scrollbar-width: thin; scrollbar-color: #c8b7e5 transparent; }
+.fs-app .fs-plan-name { display: grid; gap: 9px; font-size: 12px; color: #73617f; }
+.fs-plan-name input { width: 100%; min-height: 44px; border-radius: 11px; background: #fcfaff; border-color: #e9e0f3; font-size: 13px; }
+.fs-plan-features { min-width: 0; margin: 24px 0 0; padding: 0; border: 0; }
+.fs-plan-features legend { width: 100%; padding: 0; margin-bottom: 14px; font-size: 12px; font-weight: 600; color: #73617f; }
+.fs-plan-features legend > span { float: right; padding: 2px 8px; border-radius: 6px; background: #f2ebfc; color: #9576bc; font-size: 10px; font-weight: 500; }
+.fs-plan-picker-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.fs-plan-search { display: flex; flex: 1; align-items: center; gap: 9px; min-width: 0; padding: 0 11px; border: 1px solid #e9e1f2; border-radius: 10px; background: #fcfaff; color: #b2a0c3; }
+.fs-app .fs-plan-search input { min-width: 0; width: 100%; height: 38px; padding: 0; border: 0; background: transparent; font-size: 12px; }
+.fs-plan-search svg { flex-shrink: 0; }
+.fs-plan-bulk { display: flex; gap: 6px; }
+.fs-plan-bulk button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 10px; border: 1px solid #eee5f7; border-radius: 8px; background: #f9f6fd; color: #987bb7; font-size: 10px; white-space: nowrap; }
+.fs-plan-feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.fs-app .fs-plan-feature { position: relative; display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 46px; padding: 10px 12px; border: 1px solid #ede8f3; border-radius: 10px; background: #fff; color: #93849e; font-size: 11px; font-weight: 500; cursor: pointer; overflow-wrap: anywhere; }
+.fs-plan-feature:hover { border-color: #d8c8eb; background: #faf7ff; }
+.fs-app .fs-plan-feature.selected { background: linear-gradient(120deg, #f7f1ff, #faf7fd); border-color: #e1d2f2; color: #82629f; }
+.fs-plan-feature input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.fs-plan-checkbox { display: grid; place-items: center; width: 17px; height: 17px; flex-shrink: 0; border: 1px solid #d9cbe7; border-radius: 5px; background: #fff; }
+.fs-plan-checkbox svg { opacity: 0; }
+.selected .fs-plan-checkbox { border-color: #9570d8; background: #9570d8; color: #fff; box-shadow: 0 2px 4px #8058b520; }
+.selected .fs-plan-checkbox svg { opacity: 1; }
+.fs-plan-feature:focus-within { outline: 2px solid #baa1dd; outline-offset: 2px; }
+.fs-plan-dialog-footer { display: flex; flex-shrink: 0; align-items: center; justify-content: space-between; gap: 14px; padding: 20px 28px; border-top: 1px solid #ede5f6; background: #fcfaff; }
+.fs-plan-selection-summary { display: flex; align-items: center; gap: 7px; color: #aa94bb; font-size: 10px; }
+.fs-plan-dialog-footer > div { display: flex; gap: 10px; }
+.fs-plan-dialog-footer .fs-btn { min-height: 42px; padding: 10px 17px; font-size: 12px; border-radius: 11px; }
+.fs-app .fs-plan-no-results { grid-column: 1 / -1; padding: 24px; margin: 0; text-align: center; font-size: 12px; color: #a28cb3; }
+.fs-plan-dialog input:focus-visible, .fs-plan-dialog button:focus-visible { outline: 2px solid #baa1dd; outline-offset: 2px; }
+.fs-plan-search:focus-within { border-color: #bea7dc; box-shadow: 0 0 0 3px #b597da12; }
+.fs-app .fs-plan-search input:focus-visible { outline: none; }
+.fs-plan-features:disabled .fs-plan-feature { opacity: .65; cursor: wait; }
+@media (max-width: 520px) {
+  .fs-plan-dialog-header { padding: 20px; gap: 10px; }
+  .fs-plan-dialog-icon { width: 42px; height: 42px; border-radius: 12px; }
+  .fs-app .fs-plan-dialog-header h2 { font-size: 18px; }
+  .fs-plan-dialog-body { padding: 20px; }
+  .fs-plan-feature-grid { grid-template-columns: 1fr; }
+  .fs-plan-picker-toolbar { flex-wrap: wrap; }
+  .fs-plan-search { flex-basis: 100%; }
+  .fs-plan-dialog-footer { flex-wrap: wrap; padding: 16px 20px; gap: 12px; }
+  .fs-plan-dialog-footer > div { width: 100%; }
+  .fs-plan-dialog-footer .fs-btn { flex: 1; padding: 10px; }
 }

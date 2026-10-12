@@ -13,6 +13,9 @@ interface PageFlipHandle {
   turnPage?: (page: number) => void;
   flipNext?: () => void;
   flipPrev?: () => void;
+  /** Shows a page without the fold animation; the only way back in one-page mode. */
+  turnToPrevPage?: () => void;
+  turnToNextPage?: () => void;
   /** Saved by FlipbookReader sequential patch — instant jump without multi-page animation. */
   __originalTurnToPage?: (page: number) => void;
 }
@@ -29,6 +32,8 @@ export interface GoToPageOptions {
 interface Args {
   pages: PreviewPage[];
   viewMode: ViewMode;
+  /** The flipbook is showing one page at a time (narrow screens). */
+  singlePage?: boolean;
 }
 
 export const pageAnchorId = (viewMode: ViewMode, pageNumber: number): string => {
@@ -39,7 +44,7 @@ export const pageAnchorId = (viewMode: ViewMode, pageNumber: number): string => 
 
 const NAV_COOLDOWN_MS = 320;
 
-export function usePageNavigation({ pages, viewMode }: Args) {
+export function usePageNavigation({ pages, viewMode, singlePage = false }: Args) {
   const [currentPage, setCurrentPage] = useState(1);
   const [blockMouseFlip, setBlockMouseFlip] = useState(false);
   const flipRef = useRef<PageFlipHandle | null>(null);
@@ -89,8 +94,13 @@ export function usePageNavigation({ pages, viewMode }: Args) {
         const flip = getPageFlip();
         if (!flip) return;
         const zeroBased = target - 1;
-        const sequential = options?.sequential !== false;
+        const sequential = options?.sequential !== false && !singlePage;
 
+        /*
+         * One page at a time: page-flip can only animate forwards (its own
+         * backward flip aims at the hidden half of the book), so jumping
+         * straight to the page is what behaves consistently.
+         */
         if (!sequential && typeof flip.__originalTurnToPage === "function") {
           flip.__originalTurnToPage(zeroBased);
           return;
@@ -115,7 +125,7 @@ export function usePageNavigation({ pages, viewMode }: Args) {
        * Do NOT call a second scrollTo/scrollIntoView here.
        */
     },
-    [getPageFlip, totalPages, viewMode],
+    [getPageFlip, singlePage, totalPages, viewMode],
   );
 
   const canNavigate = useCallback(() => {
@@ -131,7 +141,7 @@ export function usePageNavigation({ pages, viewMode }: Args) {
      * Already showing the last page — no-op so autoplay can detect the stall.
      * In flipbook the last spread (e.g. 50/51) counts, not just page 51.
      */
-    if (isOnLastPage(currentPageRef.current, totalPages, viewMode)) return;
+    if (isOnLastPage(currentPageRef.current, totalPages, viewMode, singlePage)) return;
     if (viewMode === "flipbook") {
       const flip = getPageFlip();
       if (flip?.flipNext) {
@@ -140,19 +150,28 @@ export function usePageNavigation({ pages, viewMode }: Args) {
       }
     }
     goToPage(currentPageRef.current + 1);
-  }, [canNavigate, getPageFlip, goToPage, totalPages, viewMode]);
+  }, [canNavigate, getPageFlip, goToPage, singlePage, totalPages, viewMode]);
   
   const prevPage = useCallback(() => {
     if (totalPages === 0 || !canNavigate()) return;
     if (viewMode === "flipbook") {
       const flip = getPageFlip();
+      /*
+       * Showing one page: page-flip's flipPrev() reaches for the left half of
+       * a spread that is not on screen and does nothing, so the previous page
+       * is shown directly. Dragging the page back still folds it.
+       */
+      if (singlePage && typeof flip?.turnToPrevPage === "function") {
+        flip.turnToPrevPage();
+        return;
+      }
       if (flip?.flipPrev) {
         flip.flipPrev();
         return;
       }
     }
     goToPage(currentPageRef.current - 1);
-  }, [canNavigate, getPageFlip, goToPage, totalPages, viewMode]);
+  }, [canNavigate, getPageFlip, goToPage, singlePage, totalPages, viewMode]);
 
   const goToLinkedPage = useCallback(
     (link: string) => {
@@ -176,7 +195,7 @@ export function usePageNavigation({ pages, viewMode }: Args) {
     currentPage,
     setCurrentPage,
     totalPages,
-    canGoNext: !isOnLastPage(currentPage, totalPages, viewMode),
+    canGoNext: !isOnLastPage(currentPage, totalPages, viewMode, singlePage),
     goToPage,
     goToLinkedPage,
     nextPage,

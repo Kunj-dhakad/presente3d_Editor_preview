@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@shared/server/db";
 import { apiError, ApiError, jsonBody } from "@shared/server/api";
-import { requireAdmin } from "@shared/server/admin";
+import { requireAdmin } from "@admin/server/adminAuth";
 
 export async function PATCH(request: Request, context: { params: Promise<{ id: string }> }) {
   try {

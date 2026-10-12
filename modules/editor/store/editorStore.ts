@@ -441,6 +441,8 @@ export type QRCodeData = Transform & Border & Shadow & {
   background?: string;
   ecLevel?: "L" | "M" | "Q" | "H";
   link?: string;
+  /** Opens the book itself when it is read online (see useQrTarget). */
+  bookLink?: boolean;
 };
 
 export type ElementData = TextData | ImageData | ShapeData | SVGData | ButtonData | VideoData | WatermarkData | TableData | ChartData | InteractionData | FrameData | QRCodeData;

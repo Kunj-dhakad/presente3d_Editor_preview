@@ -1,16 +1,14 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { auth } from "@shared/auth";
-import { isAdminEmail } from "@shared/server/account";
+import { currentAdmin } from "@admin/server/adminAuth";
 import AdminShell from "@admin/components/AdminShell";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: { default: "Administration", template: "%s · BMS" }, robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: { default: "Administration", template: "%s · Administration" }, robots: { index: false, follow: false } };
 
+/** The panel has its own sign-in; a site account never reaches it. */
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/admin/login");
-  if (!isAdminEmail(session.user.email)) redirect("/admin/login?denied=1");
-  return <AdminShell user={session.user}>{children}</AdminShell>;
+  const admin = await currentAdmin();
+  if (!admin) redirect("/admin/login");
+  return <AdminShell admin={{ name: admin.name, email: admin.email, role: admin.role }}>{children}</AdminShell>;
 }

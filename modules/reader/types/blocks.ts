@@ -165,6 +165,8 @@ export interface QrCodeBlock extends BlockBase {
   kind: "qrcode";
   /** Encoded payload (usually a URL). */
   content: string;
+  /** Encode the reader's own address instead: the book links to itself. */
+  bookLink: boolean;
   errorCorrection: "L" | "M" | "Q" | "H";
   foreground: string;
   background: string;
@@ -211,6 +213,15 @@ export interface TableBlock extends BlockBase {
     letterSpacing: number;
     textAlign: "left" | "center" | "right";
     verticalAlign: "top" | "middle" | "bottom";
+    headerRow: boolean;
+    headerBackground?: string;
+    headerTextColor?: string;
+    headerFontWeight?: number | string;
+    bandedRows: boolean;
+    bandBackground?: string;
+    cellSpacing: number;
+    cellRadius: number;
+    borderStyle: "all" | "outer" | "horizontal" | "none";
   };
   hidden: boolean;
 }

@@ -19,7 +19,8 @@ import {
 /* ================= GOOGLE FONTS ================= */
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-playfair',
+  display: 'swap',
 });
 
 const inter = Inter({
@@ -139,7 +140,7 @@ export default function RootLayout({
         ${openSans.variable}
         ${geistSans.variable}
         ${geistMono.variable}
-        ${playfair}
+        ${playfair.variable}
       `}
     >
       <head>

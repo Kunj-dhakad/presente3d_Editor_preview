@@ -144,9 +144,9 @@
 
 /* ---------- settings ---------- */
 .fs-sessions { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 10px; }
-.fs-sessions li { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid #eceef3; border-radius: 10px; }
+.fs-sessions li { min-width: 0; display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid #eceef3; border-radius: 10px; }
 .fs-sessions li > svg { color: #8a8f9c; flex-shrink: 0; }
-.fs-sessions li > span { flex: 1; min-width: 0; }
+.fs-sessions li > span { flex: 1 1 0; min-width: 0; }
 .fs-sessions strong { display: block; font-size: 13px; font-weight: 600; }
 .fs-sessions em { font-style: normal; color: #3f9d74; }
 .fs-sessions small { display: block; color: #9095a0; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

@@ -1,26 +1,21 @@
 "use client";
-/**
- * The AI book pipeline as the browser runs it: plan the book, write its pages in
- * parallel batches, then save it. The Book Agent uses this once its brief is
- * complete, so a chat-made book is the same as one from the AI Book creator.
- */
+import { recentDesigns, rememberDesign } from "./designHistory";
 
 export type AiBookRequest = {
   prompt: string; pages: number; size: string;
   category?: string; tone?: string; audience?: string;
-  /** "agent" books are published as soon as they are saved. */
+  /** Picks the book's design; a plain book when left out. */
+  publicationType?: string;
   kind?: "ai" | "agent";
 };
 export type AiBookProgress = { stage: "planning" | "writing" | "saving"; done: number; total: number; title?: string };
 export type CreatedBook = { id: string; short_id: string | null; title: string; pages: number; readPath?: string };
 
 type Brief = { heading: string; summary: string; layout: string; chapter?: string };
-type Outline = { title: string; subtitle: string; pages: Brief[] };
+type Outline = { title: string; subtitle: string; variant?: number; pages: Brief[] };
 type Slide = { id: string };
-/** Pages the server adds around the written ones: the index after the cover, and the back cover. */
 export type BookExtras = { index: Slide[]; back: Slide };
 
-/** Cover, index pages, content pages in order, back cover. */
 export function assembleBook<S extends Slide>(slides: Map<number, S>, contentPages: number, extras: { index: S[]; back: S }) {
   const content = Array.from({ length: contentPages }, (_, i) => slides.get(i + 1));
   if (!slides.get(0) || content.some(page => !page)) throw new Error("Some pages are missing. Please try again.");
@@ -38,14 +33,16 @@ async function post<T>(url: string, body: unknown): Promise<T> {
 }
 
 export async function generateAiBook(request: AiBookRequest, onProgress: (progress: AiBookProgress) => void): Promise<CreatedBook> {
-  const options = { category: request.category, tone: request.tone, audience: request.audience };
+  const options = { publicationType: request.publicationType, category: request.category, tone: request.tone, audience: request.audience };
   const total = request.pages + 1;
   onProgress({ stage: "planning", done: 0, total });
 
   const plan = await post<{ outline: Outline; photos: string[]; topic: string }>("/api/ai/outline", {
     prompt: request.prompt, pages: request.pages, size: request.size, ...options,
+    avoid: recentDesigns(request.publicationType),
   });
   const outline = plan.outline;
+  rememberDesign(request.publicationType, outline.variant);
   onProgress({ stage: "writing", done: 0, total, title: outline.title });
 
   const items = [
@@ -76,7 +73,6 @@ export async function generateAiBook(request: AiBookRequest, onProgress: (progre
   });
   let readPath: string | undefined;
   if (request.kind === "agent") {
-    // A chat-made book goes live straight away; if that fails it stays a draft.
     readPath = await post<{ path: string }>(`/api/books/${book.short_id ?? book.id}/share`, {}).then(share => share.path).catch(() => undefined);
   }
   return { ...book, pages: document.slides.length, readPath };

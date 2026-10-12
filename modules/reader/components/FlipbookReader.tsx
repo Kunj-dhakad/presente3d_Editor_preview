@@ -101,6 +101,26 @@ type SeqNavState = {
   step?: () => void;
 };
 
+/** A swipe: mostly sideways, far enough to mean it, and not a slow drag. */
+const SWIPE = { distance: 40, slope: 1.4, time: 900 };
+
+/**
+ * Lets a book showing one page turn backwards.
+ *
+ * StPageFlip lays a single page out as the right half of a spread, and its own
+ * flipPrev() reaches into the left half, which is off screen — so swiping back
+ * does nothing. Showing the previous page directly is what works, and it is
+ * what the library itself falls back on when the orientation changes.
+ */
+function allowBackwardFlip(ref: React.MutableRefObject<unknown>, singlePage: boolean) {
+  const instance = ref.current as { pageFlip?: () => Record<string, unknown> } | null;
+  const flip = instance?.pageFlip?.() as (Record<string, unknown> & { flipPrev?: () => void; turnToPrevPage?: () => void; __ownFlipPrev?: () => void }) | undefined;
+  if (!flip || typeof flip.turnToPrevPage !== "function") return;
+  flip.__ownFlipPrev ??= flip.flipPrev;
+  // Two pages: the library's own backward flip folds properly, so leave it be.
+  flip.flipPrev = singlePage ? () => flip.turnToPrevPage!() : flip.__ownFlipPrev;
+}
+
 /** Ordinal of a spread-start index: 0 → 0, 1 → 1, 3 → 2, 5 → 3 … */
 function spreadOrdinal(spreadStart: number): number {
   return spreadStart === 0 ? 0 : (spreadStart + 1) / 2;
@@ -288,12 +308,20 @@ export default function FlipbookReader() {
     setCurrentPage,
     setPageFlipRef,
     isPagesPanelOpen,
+    singlePageFlip,
+    nextPage,
+    prevPage,
     pageHoverHandlers,
   } = useBookPreview();
 
   const stageRef = useRef<HTMLDivElement>(null);
   const flipRef = useRef<unknown>(null);
   const [scale, setScale] = useState(1);
+  /*
+   * Phones read one page at a time: two pages side by side leave each one
+   * too small to read. The book still turns from either edge.
+   */
+  const portrait = singlePageFlip;
   /* Side padding that keeps the spread clear of the round prev/next buttons (and the Pages panel). */
   const [inset, setInset] = useState({ left: 96, right: 96 });
   const [ready, setReady] = useState(false);
@@ -324,12 +352,14 @@ export default function FlipbookReader() {
     setReady(false);
   }
 
+
+
   const pageW = theme.pageWidth;
   const pageH = theme.pageHeight;
 
   const settledOffset = useMemo(
-    () => computeSettledOffset(totalPages, currentPage, pageW),
-    [totalPages, currentPage, pageW],
+    () => portrait ? 0 : computeSettledOffset(totalPages, currentPage, pageW),
+    [portrait, totalPages, currentPage, pageW],
   );
 
   useEffect(() => {
@@ -349,7 +379,12 @@ export default function FlipbookReader() {
        * the left when it is open, and keeps a little air around it.
        */
       const md = window.innerWidth >= 768;
-      const nav = md ? 24 + 56 + 16 : 16 + 48 + 8;
+      /*
+       * A spread is kept clear of the round prev/next buttons. A single page
+       * is given the whole width instead — the buttons float over its edges,
+       * which is what leaves the page big enough to read on a phone.
+       */
+      const nav = portrait ? 8 : md ? 24 + 56 + 16 : 16 + 48 + 8;
       const left = isPagesPanelOpen ? (md ? 168 + 56 + 16 : 152 + 48 + 8) : nav;
       setInset(current => current.left === left && current.right === nav ? current : { left, right: nav });
       const cs = window.getComputedStyle(stage);
@@ -359,7 +394,7 @@ export default function FlipbookReader() {
 
       const next = Math.min(
         1,
-        availableWidth / (theme.pageWidth * 2),
+        availableWidth / (theme.pageWidth * (portrait ? 1 : 2)),
         availableHeight / theme.pageHeight,
       ) * 0.97;
       setScale(next > 0.1 ? next : 0.1);
@@ -373,19 +408,31 @@ export default function FlipbookReader() {
       ro.disconnect();
       window.removeEventListener("resize", fit);
     };
-  }, [theme.pageHeight, theme.pageWidth, isPagesPanelOpen]);
+  }, [theme.pageHeight, theme.pageWidth, isPagesPanelOpen, portrait]);
 
   useEffect(() => {
     setPageFlipRef(flipRef);
     return () => setPageFlipRef(null);
   }, [setPageFlipRef, pages]);
 
+  /*
+   * The book is re-measured whenever the space around it changes — opening the
+   * Pages panel or turning a phone — because StPageFlip only watches window
+   * resizes, and that measurement is what decides one page or two.
+   */
+  useEffect(() => {
+    if (!ready) return;
+    const flip = (flipRef.current as { pageFlip?: () => { update?: () => void } } | null)?.pageFlip?.();
+    flip?.update?.();
+    allowBackwardFlip(flipRef, portrait);
+  }, [ready, portrait, scale, inset.left, inset.right]);
+
   const startPageIndex = Math.max(
     0,
     Math.min(Math.max(totalPages - 1, 0), initialPage - 1),
   );
 
-  const shellWidth = pageW * 2;
+  const shellWidth = pageW * (portrait ? 1 : 2);
 
   const bookScale = scale * (zoomLevel / 100);
   /*
@@ -424,9 +471,33 @@ export default function FlipbookReader() {
     [pages, pageW, pageH],
   );
 
+  /*
+   * Swiping on a phone. StPageFlip only counts a swipe finished within 250ms
+   * and cannot turn back while it shows one page, so the gesture is read here
+   * and handed to the same navigation the arrows use.
+   */
+  const swipeStart = useRef<{ x: number; y: number; at: number } | null>(null);
+  const onTouchStart = (event: React.TouchEvent) => {
+    const touch = event.touches[0];
+    swipeStart.current = touch ? { x: touch.clientX, y: touch.clientY, at: Date.now() } : null;
+  };
+  const onTouchEnd = (event: React.TouchEvent) => {
+    const start = swipeStart.current;
+    const touch = event.changedTouches[0];
+    swipeStart.current = null;
+    if (!start || !touch || !portrait) return;
+    const dx = touch.clientX - start.x;
+    const dy = touch.clientY - start.y;
+    if (Date.now() - start.at > SWIPE.time) return;
+    if (Math.abs(dx) < SWIPE.distance || Math.abs(dx) < Math.abs(dy) * SWIPE.slope) return;
+    if (dx < 0) nextPage(); else prevPage();
+  };
+
   return (
     <div
       ref={stageRef}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       className="flex h-full w-full bg-slate-200 py-3 transition-[padding] duration-200 md:py-8"
       style={{
         paddingLeft: inset.left,
@@ -461,7 +532,7 @@ export default function FlipbookReader() {
          * pointerleave events and leave autoplay stuck on hold.
          */}
         <div
-          data-spread={settledOffset === 0 ? "true" : "false"}
+          data-spread={!portrait && settledOffset === 0 ? "true" : "false"}
           {...pageHoverHandlers}
           style={{
             position: "relative",
@@ -472,6 +543,7 @@ export default function FlipbookReader() {
           }}
         >
           <div
+            className={settledOffset !== 0 || isFlipping ? "" : "shadow-2xl"}
             style={{
               position: "relative",
               width: shellWidth,
@@ -488,7 +560,11 @@ export default function FlipbookReader() {
               height={pageH}
               size="fixed"
               showCover={true}
-              usePortrait={false}
+              /*
+               * Always allowed: StPageFlip then chooses one page or two by the
+               * width it is given, and keeps the reader's place while doing it.
+               */
+              usePortrait={true}
               drawShadow={true}
               maxShadowOpacity={0.4}
               flippingTime={1000}
@@ -556,15 +632,20 @@ export default function FlipbookReader() {
                   setCurrentPage(event.data + 1);
                 }
               }}
-              className={
-                settledOffset !== 0 || isFlipping ? "" : "shadow-2xl"
-              }
+              /*
+               * Never change this: StPageFlip adds its own classes to this
+               * element, and a changing className prop wipes them on the next
+               * render — which broke the layout, and with it every click on
+               * the page after the first flip. The book's shadow is drawn by
+               * the wrapper below instead.
+               */
+              className="fs-flipbook"
               style={{ touchAction: "none" }}
             >
               {pageElements}
             </HTMLFlipBook>
 
-            {settledOffset === 0 && !isFlipping ? (
+            {!portrait && settledOffset === 0 && !isFlipping ? (
               <SpineShadow pageWidth={pageW} />
             ) : null}
           </div>

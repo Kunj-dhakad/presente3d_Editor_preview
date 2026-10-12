@@ -57,6 +57,13 @@ async function main() {
       const [found] = await connection.query("SHOW COLUMNS FROM books LIKE ?", [name]);
       if (!found.length) { await connection.query(`ALTER TABLE books ADD COLUMN ${name} ${definition}`); console.log("Added books." + name + "."); }
     }
+    // The merged entitlements the BMS writes for each account, kept beside the
+    // plan so nothing in the authentication tables has to change.
+    const [planColumns] = await connection.query("SHOW COLUMNS FROM user_plans LIKE 'user_package'");
+    if (!planColumns.length) {
+      await connection.query("ALTER TABLE user_plans ADD COLUMN user_package longtext NULL");
+      console.log("Added user_plans.user_package.");
+    }
     // Books that were already shared count as published.
     const [published] = await connection.query("UPDATE books b JOIN book_shares s ON s.book_id = b.id SET b.published_at = s.created_at WHERE b.published_at IS NULL");
     if (published.affectedRows) console.log("Marked " + published.affectedRows + " shared book(s) as published.");

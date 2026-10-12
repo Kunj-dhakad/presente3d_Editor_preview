@@ -6,11 +6,6 @@ import { PAGE_SIZES, type SizeId } from "@shared/server/ai-book";
 export const runtime = "nodejs";
 export const maxDuration = 45;
 
-/**
- * One turn of the Book Agent conversation. Chat turns are small, so they are
- * rate limited rather than charged; writing the book itself uses AI actions as
- * usual.
- */
 export async function POST(request: Request) {
   try {
     const user = await requireUser(request);

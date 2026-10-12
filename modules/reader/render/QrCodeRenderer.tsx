@@ -3,6 +3,7 @@
 import React, { memo, useMemo } from "react";
 import qrcode from "qrcode-generator";
 import type { QrCodeBlock } from "../types/blocks";
+import { useQrTarget } from "@shared/qrTarget";
 import { blockFrame } from "../utils/blockStyles";
 
 interface Props {
@@ -18,11 +19,12 @@ const QUIET_ZONE = 2;
  * zoom. Content that doesn't fit a QR code renders an empty frame.
  */
 const QrCodeRenderer = memo(function QrCodeRenderer({ block }: Props) {
+  const content = useQrTarget(block.content, block.bookLink);
   const matrix = useMemo(() => {
-    if (!block.content) return null;
+    if (!content) return null;
     try {
       const qr = qrcode(0, block.errorCorrection);
-      qr.addData(block.content);
+      qr.addData(content);
       qr.make();
       const count = qr.getModuleCount();
       let path = "";
@@ -37,7 +39,7 @@ const QrCodeRenderer = memo(function QrCodeRenderer({ block }: Props) {
     } catch {
       return null; // payload too long for any QR version
     }
-  }, [block.content, block.errorCorrection]);
+  }, [content, block.errorCorrection]);
 
   return (
     <div
@@ -54,7 +56,7 @@ const QrCodeRenderer = memo(function QrCodeRenderer({ block }: Props) {
           viewBox={`0 0 ${matrix.size} ${matrix.size}`}
           shapeRendering="crispEdges"
           role="img"
-          aria-label={`QR code: ${block.content}`}
+          aria-label={`QR code: ${content}`}
         >
           <rect width={matrix.size} height={matrix.size} fill={block.background} />
           <path d={matrix.path} fill={block.foreground} />

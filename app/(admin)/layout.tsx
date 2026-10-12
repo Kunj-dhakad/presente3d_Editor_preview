@@ -2,6 +2,7 @@
 import "@shared/styles/app.css";
 import "@shared/styles/ui.css";
 import "@admin/styles/admin.css";
+import "@admin/styles/sales-page-builder.css";
 
 export default function AdminAreaLayout({ children }: { children: React.ReactNode }) {
   return children;

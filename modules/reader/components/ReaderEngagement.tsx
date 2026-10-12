@@ -32,7 +32,7 @@ async function post(url: string, body: unknown) {
 }
 
 export default function ReaderEngagement({ token }: { token: string }) {
-  const { currentPage, totalPages, viewMode, loading } = useBookPreview();
+  const { currentPage, totalPages, viewMode, singlePageFlip, loading } = useBookPreview();
   const base = `/api/read/${encodeURIComponent(token)}`;
   const leadKey = `abc-lead:${token}`;
   const ratingKey = `abc-rating:${token}`;
@@ -46,7 +46,7 @@ export default function ReaderEngagement({ token }: { token: string }) {
   const [ratingReady, setRatingReady] = useState(false);
   const [ratingDone, setRatingDone] = useState(() => Boolean(storage.get(ratingKey)));
 
-  const inView = totalPages ? pagesInView(currentPage, totalPages, viewMode) : [];
+  const inView = totalPages ? pagesInView(currentPage, totalPages, viewMode, singlePageFlip) : [];
   // Latched while rendering, so turning back a page does not undo them.
   const [reachedLeadPage, setReachedLeadPage] = useState(false);
   if (!reachedLeadPage && inView.length && Math.max(...inView) >= Math.min(LEAD_PAGE, totalPages)) setReachedLeadPage(true);
@@ -68,7 +68,7 @@ export default function ReaderEngagement({ token }: { token: string }) {
   useEffect(() => {
     if (loading || !totalPages || visitor.current) return;
     visitor.current = readerId();
-    furthest.current = Math.max(...pagesInView(currentPage, totalPages, viewMode), 1);
+    furthest.current = Math.max(...pagesInView(currentPage, totalPages, viewMode, singlePageFlip), 1);
     reported.current = furthest.current;
     post(`${base}/views`, { visitor: visitor.current, page: furthest.current, total: totalPages })
       .then(data => setLeadForm(data.leadForm === true))
@@ -78,7 +78,7 @@ export default function ReaderEngagement({ token }: { token: string }) {
   // Page turns: remember the furthest page, report it shortly after.
   useEffect(() => {
     if (!visitor.current || !totalPages) return;
-    const seen = Math.max(...pagesInView(currentPage, totalPages, viewMode), 1);
+    const seen = Math.max(...pagesInView(currentPage, totalPages, viewMode, singlePageFlip), 1);
     if (seen <= furthest.current) return;
     furthest.current = seen;
     const timer = window.setTimeout(() => report(), REPORT_DELAY_MS);

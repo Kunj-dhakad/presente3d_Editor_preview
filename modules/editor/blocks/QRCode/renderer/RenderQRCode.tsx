@@ -11,6 +11,7 @@ import ElementContextMenu from "@editor/layout/EditorCanvas/toolbar/EditTool/Com
 import { useElementContextMenu } from "@editor/layout/EditorCanvas/RenderElement/useElementContextMenu";
 import { useBookOptional } from "@editor/layout/header/EditorPreview/context/BookStateContext";
 import { openElementLink } from "@editor/lib/reader/elementLink";
+import { useQrTarget } from "@shared/qrTarget";
 import {
   DEFAULT_EC,
   DEFAULT_QR_BACKGROUND,
@@ -55,16 +56,17 @@ const RenderQRCode: React.FC<{
       useElementContextMenu(id, slideIndex);
 
     const qr = data.type === "qr-code" ? (data as QRCodeData) : null;
+    const target = useQrTarget(qr?.content ?? "", qr?.bookLink);
     const matrix = useMemo(
-      () => (qr ? encodeQR(qr.content, qr.ecLevel ?? DEFAULT_EC) : null),
-      [qr],
+      () => (qr ? encodeQR(target, qr.ecLevel ?? DEFAULT_EC) : null),
+      [qr, target],
     );
 
     if (!qr) return null;
 
     const foreground = qr.foreground ?? DEFAULT_QR_FOREGROUND;
     const background = qr.background ?? DEFAULT_QR_BACKGROUND;
-    const hasLink = !!(qr.link ?? qr.content)?.trim();
+    const hasLink = !!(qr.link ?? target)?.trim();
 
     return (
       <>
@@ -98,7 +100,7 @@ const RenderQRCode: React.FC<{
             const now = Date.now();
             if (now - lastLinkRef.current < 400) return;
             lastLinkRef.current = now;
-            openElementLink(qr.link || qr.content, book);
+            openElementLink(qr.link || target, book);
           }}
           onDoubleClick={() => {
             setActiveSlide(slideIndex);
@@ -131,7 +133,7 @@ const RenderQRCode: React.FC<{
                 height="100%"
                 preserveAspectRatio="xMidYMid meet"
                 role="img"
-                aria-label={`QR code for ${qr.content}`}
+                aria-label={`QR code for ${target}`}
               >
                 {/* The quiet zone is part of the code, not padding around it —
                     without it scanners cannot find the symbol at all. */}

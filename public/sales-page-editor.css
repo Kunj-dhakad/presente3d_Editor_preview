@@ -1,0 +1,22 @@
+.sales-page[data-preview=true] [data-sp-section]{scroll-margin-top:75px}
+.sales-page[data-preview=true] [data-sp-section]:not(.sp-offer-wrap){position:relative}
+.sales-page[data-preview=true] [data-sp-text]{cursor:text;outline-offset:5px}
+.sales-page[data-preview=true] [data-sp-text]:hover{outline:1px dashed #9871d599}
+.sales-page[data-preview=true] [contenteditable=true]{outline:2px solid #9269d0!important;border-radius:4px;min-width:20px;background:#ffffff10;cursor:text}
+.sales-page[data-preview=true] [data-sp-placeholder]{opacity:.5}
+.sp-editor-section-tools{position:absolute;right:12px;top:8px;z-index:25;display:flex;align-items:center;gap:3px;padding:5px;background:#352a53;border:1px solid #ffffff22;border-radius:8px;box-shadow:0 5px 20px #251a3d25;color:#fff;line-height:1}
+.sp-editor-section-tools button,.sp-editor-item-handle{display:grid;place-items:center;width:29px;height:28px;padding:0;border:0;border-radius:4px;background:transparent;color:inherit;cursor:pointer}
+.sp-editor-section-tools button:hover{background:#ffffff22}.sp-editor-section-tools button[draggable=true],.sp-editor-item-handle{cursor:grab}
+.sales-page[data-preview=true] [data-sp-item]{position:relative}
+.sp-editor-item-handle{position:absolute;left:3px;top:3px;z-index:5;background:#f1e9fa;color:#8966b5;opacity:0}
+[data-sp-item]:hover .sp-editor-item-handle,.sp-editor-item-handle:focus-visible{opacity:1}
+.sp-editor-image{position:relative;display:block;min-width:0}.sp-editor-image>img{width:100%}.sp-editor-image>button{position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #d6c5eb;border-radius:7px;background:#fff;color:#745294;font-size:13px!important;cursor:pointer;opacity:0}
+.sp-editor-image:hover>button,.sp-editor-image>button:focus-visible{opacity:1}
+.sales-page .sp-editor-image-empty{display:flex;align-items:center;justify-content:center;gap:10px;min-height:110px;width:100%;margin:22px auto 0;padding:18px;border:1px dashed #b19acb;border-radius:12px;background:#f7f2fb;color:#8c6eaa;font-size:14px;cursor:pointer}
+.sp-video-frame>.sp-editor-image,.sp-video-frame>.sp-editor-image>img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+.sp-card>.sp-editor-image>img{height:180px;object-fit:cover;border-radius:12px;margin-bottom:22px}
+.sp-testimonial>div>.sp-editor-image{width:42px;flex-shrink:0}.sp-testimonial>div>.sp-editor-image>img{height:42px;border-radius:50%;object-fit:cover}.sp-header .sp-editor-image{width:44px;flex-shrink:0}
+.sp-editor-media-button{padding:9px 13px;border:1px solid #ffffff44;border-radius:7px;background:#ffffff15;color:#fff;cursor:pointer}
+.sp-editor-drop-indicator{position:fixed;z-index:10000;pointer-events:none;border-top:3px solid #9660de;font-family:Arial,sans-serif;color:#fff;font-size:12px;line-height:24px;text-align:center;background:linear-gradient(90deg,transparent,#8854ce,transparent);height:25px}
+.sp-editor-drop-indicator[hidden]{display:none}
+.sp-editor-dragging iframe{pointer-events:none}

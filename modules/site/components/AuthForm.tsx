@@ -5,11 +5,14 @@ import { useState, useSyncExternalStore } from "react";
 const noop = () => () => {};
 const useHydrated = () => useSyncExternalStore(noop, () => true, () => false);
 import Link from "next/link";
-import { ArrowRight, LoaderCircle, Eye, EyeOff, Check, Circle } from "lucide-react";
+import { ArrowLeft, ArrowRight, LoaderCircle, Eye, EyeOff, Check, Circle, Mail, LockKeyhole, UserRound, ShieldCheck } from "lucide-react";
 import { authClient } from "@shared/auth-client";
 import { SITE } from "@shared/site";
 import { BrandMark } from "@shared/components/BrandMark";
 import { PASSWORD_MAX, PASSWORD_MIN, PASSWORD_RULES, passwordError } from "@shared/password";
+import BookShowcase from "./BookShowcase";
+import CreationTypes from "./CreationTypes";
+import styles from "@site/styles/public-studio.module.css";
 export type Mode = "login" | "signup" | "forgot-password" | "reset-password" | "verify-email";
 
 function PasswordField({ mode, value, onChange }: { mode: Mode; value: string; onChange: (v: string) => void }) {
@@ -17,7 +20,7 @@ function PasswordField({ mode, value, onChange }: { mode: Mode; value: string; o
   const creating = mode !== "login";
   // The toggle sits outside any <label> so clicks reach it directly in every browser.
   return <div className="fs-field">
-    <label htmlFor="fs-password-input">Password</label>
+    <label htmlFor="fs-password-input"><span className={styles.fieldLabel}><LockKeyhole size={14} /> Password</span></label>
     <span className="fs-password">
       <input id="fs-password-input" name="password" type={visible ? "text" : "password"} value={value}
         onChange={e => { onChange(e.target.value); e.target.setCustomValidity(creating ? passwordError(e.target.value) || "" : ""); }}
@@ -38,7 +41,7 @@ export default function AuthForm({ mode, next = "/dashboard", mail = true, token
   const [password, setPassword] = useState(""); const [done, setDone] = useState(false);
   const hydrated = useHydrated();
   const titles = { login: "Welcome back", signup: "Start your next chapter", "forgot-password": "Forgot your password?", "reset-password": "Choose a new password", "verify-email": "Verify your email" };
-  const subtitles = { login: "Pick up right where you left off.", signup: "Create your free account and make something worth reading.", "forgot-password": "Enter your email and we will send you a reset link.", "reset-password": "Pick a strong password you have not used before.", "verify-email": "We will send a fresh verification link to your inbox." };
+  const subtitles = { login: "Your next great chapter is waiting for you.", signup: "A little imagination. A world of possibilities.", "forgot-password": "Enter your email and we will send you a reset link.", "reset-password": "Pick a strong password you have not used before.", "verify-email": "We will send a fresh verification link to your inbox." };
   const needsMail = mode === "forgot-password" || mode === "verify-email";
   const withNext = (path: string) => next !== "/dashboard" ? `${path}?next=${encodeURIComponent(next)}` : path;
 
@@ -69,16 +72,25 @@ export default function AuthForm({ mode, next = "/dashboard", mail = true, token
     finally { setBusy(false); }
   }
 
-  return <main className="fs-app fs-auth">
-    <section className="fs-auth-story"><Link href="/" className="fs-brand"><BrandMark /> {SITE.name}</Link><div><span className="fs-eyebrow">A SPACE FOR YOUR IDEAS</span><h1>Every great book<br />starts with a page.</h1><p>Write, design and bring your story to life. Your books, images and ideas, together in one workspace.</p>
-      <ul className="fs-auth-perks"><li><Check size={16} />AI copilot for writing and images</li><li><Check size={16} />Export PDF, PowerPoint and images</li><li><Check size={16} />Free plan, no credit card</li></ul>
-    </div><small>Made for authors, educators and creators.</small></section>
-    <section className="fs-auth-form"><Link href="/" className="fs-mobile-brand fs-brand"><BrandMark /> {SITE.name}</Link><div className="fs-form-card"><span className="fs-eyebrow">YOUR CREATIVE WORKSPACE</span><h2>{titles[mode]}</h2><p className="fs-muted">{subtitles[mode]}</p>
+  return <main className={`fs-app fs-auth ${styles.auth}`} data-mode={mode}>
+    <section className="fs-auth-story">
+      <Link href="/" className="fs-brand"><BrandMark src="/icon.png" /> {SITE.name}</Link>
+      <div className={styles.authStoryContent}>
+        <BookShowcase compact />
+        <h1>Your ideas. Your books.<br />Powered by <em>imagination & AI.</em></h1>
+        <p>Create books, flipbooks and visual stories.<br />Everything you imagine, all in one place.</p>
+        <CreationTypes compact />
+      </div>
+      <div className={styles.authStoryFooter}><span><Check size={14} /> Free to start</span><span><Check size={14} /> No credit card needed</span></div>
+    </section>
+    <section className="fs-auth-form">
+      <div className={styles.authTop}><Link href="/" className="fs-mobile-brand fs-brand"><BrandMark src="/icon.png" /> {SITE.name}</Link><Link href="/" className={styles.backLink}><ArrowLeft size={15} /> Back to home</Link></div>
+      <div className="fs-form-card"><div className={styles.formHeading}><span className={styles.authPill}>{mode === "signup" ? "LET’S CREATE SOMETHING GREAT" : "YOUR CREATIVE WORKSPACE"}</span><h2>{titles[mode]}{mode === "login" && <span className={styles.wave} aria-hidden="true"> 👋</span>}</h2><p className="fs-muted">{subtitles[mode]}</p><span className={styles.headingRule} /></div>
       {needsMail && !mail ? <p className="fs-alert" role="alert">Email delivery is not set up on this site yet. Please <Link href="/contact?topic=support">contact support</Link> for help with your account.</p>
       : done ? <p className="fs-success" role="status">{message}</p>
       : <form onSubmit={submit} method="post" action="#">
-        {mode === "signup" && <label>Full name<input name="name" autoComplete="name" required maxLength={100} placeholder="Your name" /></label>}
-        {mode !== "reset-password" && <label>Email address<input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" /></label>}
+        {mode === "signup" && <label><span className={styles.fieldLabel}><UserRound size={14} /> Full name</span><input name="name" autoComplete="name" required maxLength={100} placeholder="Your full name" /></label>}
+        {mode !== "reset-password" && <label><span className={styles.fieldLabel}><Mail size={14} /> Email address</span><input name="email" type="email" autoComplete="email" required maxLength={254} placeholder="Enter your email address" /></label>}
         {["signup", "login", "reset-password"].includes(mode) && <PasswordField mode={mode} value={password} onChange={setPassword} />}
         {mode === "login" && <div className="fs-auth-row"><label className="fs-check"><input type="checkbox" name="remember" defaultChecked />Keep me logged in</label>{mail && <Link className="fs-text-link" href="/forgot-password">Forgot password?</Link>}</div>}
         {mode === "signup" && <label className="fs-check"><input type="checkbox" name="terms" required />I agree to the <Link href="/terms" target="_blank">Terms</Link> and <Link href="/privacy" target="_blank">Privacy Policy</Link></label>}
@@ -88,5 +100,5 @@ export default function AuthForm({ mode, next = "/dashboard", mail = true, token
       </form>}
       <p className="fs-auth-switch">{mode === "login" ? <>New here? <Link href={withNext("/signup")}>Create an account</Link></> : <>{mode === "signup" ? "Already have an account?" : "Remembered it?"} <Link href={withNext("/login")}>Log in</Link></>}</p>
       {mode === "login" && mail && <Link className="fs-text-link fs-center" href="/verify-email">Resend verification email</Link>}
-    </div></section></main>;
+    </div><div className={styles.authBottom}><span><ShieldCheck size={14} /> Your ideas are in good hands.</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/contact?topic=support">Help</Link></div></div></section></main>;
 }

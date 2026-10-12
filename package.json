@@ -7,10 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:setup": "node scripts/setup.cjs",
+    "db:setup": "node scripts/setup.cjs && tsx scripts/seedBms.ts",
+    "bms:seed": "tsx scripts/seedBms.ts",
+    "admin": "node scripts/admin.cjs",
     "typecheck": "tsc --noEmit --incremental false",
     "test:platform": "tsx --test tests/platform.test.ts",
-    "test": "tsx --test tests/platform.test.ts tests/ai-book.test.ts"
+    "test:sales-page": "tsx --test tests/sales-page.test.ts",
+    "test:sales-page:browser": "node --import tsx tests/sales-page-browser.cjs",
+    "test:sales-page:db": "node --import tsx tests/sales-page-persistence.cjs",
+    "test": "tsx --test tests/platform.test.ts tests/ai-book.test.ts tests/admin.test.ts tests/bms.test.ts tests/sales-page.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1132.0",

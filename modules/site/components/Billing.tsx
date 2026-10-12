@@ -1,11 +1,23 @@
 "use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Check, LoaderCircle } from "lucide-react";
-import { PLAN_LIST } from "@shared/plans";
 import { useUsage, UsageMeters } from "./Usage";
+
+type PublicPlan = { id: string; slug: string; name: string; blurb: string; price: string; period: string; priceCents: number; highlights: string[]; highlight: boolean };
 
 export default function Billing() {
   const { data, error } = useUsage();
+  // The price list is whatever Administration is offering today.
+  const [plans, setPlans] = useState<PublicPlan[]>([]);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch("/api/packages", { signal: controller.signal })
+      .then(response => response.json())
+      .then(body => setPlans(body.plans ?? []))
+      .catch(() => { /* the current plan above still shows */ });
+    return () => controller.abort();
+  }, []);
   return <main className="fs-content">
     <span className="fs-eyebrow">PLAN &amp; BILLING</span>
     <h1>Your plan</h1>
@@ -20,19 +32,22 @@ export default function Billing() {
         <UsageMeters data={data} />
         <p className="fs-muted fs-small">Daily AI limits reset at 00:00 UTC. Storage includes files kept in your book history.</p>
       </section>
-      <h2 className="fs-section-title">Compare plans</h2>
-      <div className="fs-pricing fs-pricing-compact">
-        {PLAN_LIST.map(plan => {
-          const current = plan.id === data.plan.id;
-          return <section key={plan.id} className={`fs-price-card${plan.highlight ? " fs-price-featured" : ""}`}>
-            <h3>{plan.name}</h3>
-            <p className="fs-price"><strong>{plan.price}</strong><span>{plan.period}</span></p>
-            {current ? <span className="fs-btn fs-outline fs-current">Current plan</span>
-              : <Link href={`/contact?topic=upgrade&plan=${plan.id}`} className={`fs-btn ${plan.highlight ? "fs-primary" : "fs-outline"}`}>{PLAN_LIST.indexOf(plan) > PLAN_LIST.findIndex(p => p.id === data.plan.id) ? `Upgrade to ${plan.name}` : `Switch to ${plan.name}`}</Link>}
-            <ul>{plan.features.map(f => <li key={f}><Check size={16} />{f}</li>)}</ul>
-          </section>;
-        })}
-      </div>
+      {plans.length > 0 && <>
+        <h2 className="fs-section-title">Compare plans</h2>
+        <div className="fs-pricing fs-pricing-compact">
+          {plans.map(plan => {
+            const current = plan.name === data.plan.name;
+            const bigger = plan.priceCents > (plans.find(item => item.name === data.plan.name)?.priceCents ?? 0);
+            return <section key={plan.id} className={`fs-price-card${plan.highlight ? " fs-price-featured" : ""}`}>
+              <h3>{plan.name}</h3>
+              <p className="fs-price"><strong>{plan.price}</strong><span>{plan.period}</span></p>
+              {current ? <span className="fs-btn fs-outline fs-current">Current plan</span>
+                : <Link href={`/contact?topic=upgrade&plan=${plan.slug}`} className={`fs-btn ${plan.highlight ? "fs-primary" : "fs-outline"}`}>{bigger ? `Upgrade to ${plan.name}` : `Switch to ${plan.name}`}</Link>}
+              <ul>{plan.highlights.map(f => <li key={f}><Check size={16} />{f}</li>)}</ul>
+            </section>;
+          })}
+        </div>
+      </>}
       <p className="fs-muted fs-small">Online checkout is coming soon. Until then, send a plan request and our team will activate it on your account and share payment details by email.</p>
     </>}
   </main>;

@@ -67,7 +67,10 @@ const searchHighlightStore = createStoredValue(
   DEFAULT_SEARCH_HIGHLIGHT_COLOR,
 );
 
-/* Below md the Pages panel would cover a large part of the book. */
+/*
+ * Below md the Pages panel would cover a large part of the book, and the
+ * flipbook reads one page at a time instead of a two-page spread.
+ */
 const narrowScreenQuery = createMediaQuery("(max-width: 767px)");
 
 function useStoredValue(store: StoredValue): string {
@@ -91,6 +94,8 @@ export interface BookPreviewValue {
   setViewMode: (mode: ViewMode) => void;
 
   isPagesPanelOpen: boolean;
+  /** The flipbook is showing one page at a time (narrow screens). */
+  singlePageFlip: boolean;
   setPagesPanelOpen: React.Dispatch<
     React.SetStateAction<boolean>
   >;
@@ -284,9 +289,13 @@ export function BookPreviewProvider({
 
 
 
+  /* One page at a time in the flipbook while the screen is narrow. */
+  const singlePageFlip = viewMode === "flipbook" && isNarrowScreen;
+
   const navigation = usePageNavigation({
     pages,
     viewMode,
+    singlePage: singlePageFlip,
   });
 
   const zoom = useZoom();
@@ -407,6 +416,8 @@ const changePagesPanelOpen = useCallback(
       setViewMode: changeViewMode,
 
       isPagesPanelOpen,
+
+      singlePageFlip,
 
       setPagesPanelOpen: changePagesPanelOpen,
 
@@ -542,6 +553,7 @@ const changePagesPanelOpen = useCallback(
       changeViewMode,
       changePagesPanelOpen,
       isPagesPanelOpen,
+      singlePageFlip,
       pages,
       reset,
       theme,

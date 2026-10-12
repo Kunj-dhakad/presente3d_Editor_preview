@@ -5,7 +5,7 @@ import { BrandMark } from "@shared/components/BrandMark";
 
 export function SiteHeader() {
   return <header className="fs-site-nav">
-    <Link href="/" className="fs-brand"><BrandMark /> {SITE.name}</Link>
+    <Link href="/" className="fs-brand"><BrandMark src="/icon.png" /> {SITE.name}</Link>
     <nav aria-label="Main">
       <Link href="/#features">Features</Link>
       <Link href="/#how-it-works">How it works</Link>
@@ -24,7 +24,7 @@ export function SiteFooter() {
   return <footer className="fs-site-footer">
     <div className="fs-site-footer-inner">
       <div className="fs-site-footer-brand">
-        <Link href="/" className="fs-brand"><BrandMark /> {SITE.name}</Link>
+        <Link href="/" className="fs-brand"><BrandMark src="/icon.png" /> {SITE.name}</Link>
         <p>{SITE.tagline}</p>
         <a href={`mailto:${SITE.supportEmail}`}>{SITE.supportEmail}</a>
       </div>

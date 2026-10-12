@@ -2,22 +2,21 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, FileText, FileUp, Globe2, Library, Link2, LoaderCircle, Minus, Pause, Play, Plus, RotateCcw, Settings2, Sparkles, WandSparkles, X } from "lucide-react";
-import { BOOK_CATEGORIES, BOOK_FORMATS, BOOK_PAGE_LIMIT, BOOK_TONES, PDF_SIZE_LIMIT, type BookFormat, type ImportedBookSource } from "@shared/aiBook";
+import { ArrowDown, ArrowRight, BookOpen, Check, CheckCheck, ChevronDown, FileText, FileUp, Globe2, Library, Link2, LoaderCircle, Minus, Plus, RotateCcw, Sparkles, WandSparkles, X, Newspaper, BookText, ListChecks, GraduationCap, Images, Eye, Pause, Play } from "lucide-react";
+import { BOOK_CATEGORIES, BOOK_FORMATS, BOOK_PAGE_LIMIT, BOOK_TONES, PDF_SIZE_LIMIT, PUBLICATION_TYPES, type PublicationType, type BookFormat, type ImportedBookSource } from "@shared/aiBook";
 import type { Outline } from "@shared/server/ai-book";
 import { bookPath } from "@shared/bookUrl";
 import { useUsage } from "./Usage";
 import { assembleBook, type BookExtras } from "@site/lib/generateAiBook";
+import { recentDesigns, rememberDesign } from "@site/lib/designHistory";
+import CreatorSelect from "./CreatorSelect";
 
 type Source = "description" | "pdf" | "url";
 type Phase = "setup" | "planning" | "writing" | "saving" | "failed";
 type Slide = { id: string; width: number; height: number; background: string; elements: unknown[] };
 type Plan = { outline: Outline; photos: string[]; topic: string };
-const EXAMPLES = [
-  { label: "Business guide", text: "Create a practical guide to starting a small business. Cover finding an idea, understanding customers, pricing, marketing and a simple launch checklist.", category: "Business" },
-  { label: "Travel lookbook", text: "A visual travel guide to Japan for first-time visitors. Explore Tokyo, Kyoto, local food, cultural etiquette and a thoughtful seven-day itinerary.", category: "Travel" },
-  { label: "Learning workbook", text: "Create an approachable photography workbook for beginners. Explain composition, lighting and camera settings with hands-on exercises for each chapter.", category: "Education" },
-];
+const TYPE_ICONS = { ebook: BookOpen, magazine: Newspaper, summary: BookText, guide: ListChecks, workbook: GraduationCap, lookbook: Images };
+const TONE_HINTS: Record<string, string> = { Professional: "Clear, polished and confident", Friendly: "Warm, approachable and simple", Inspiring: "Motivating and encouraging", Educational: "Informative and easy to follow", Conversational: "Relaxed, like a conversation" };
 async function post<T>(url: string, body: unknown): Promise<T> {
   const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
   let data;
@@ -28,6 +27,7 @@ async function post<T>(url: string, body: unknown): Promise<T> {
 
 export default function AiBookCreator() {
   const [format, setFormat] = useState<BookFormat>("portrait");
+  const [publicationType, setPublicationType] = useState<PublicationType>("ebook");
   const [source, setSource] = useState<Source>("description");
   const [description, setDescription] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -36,7 +36,8 @@ export default function AiBookCreator() {
   const [urlSource, setUrlSource] = useState<ImportedBookSource | null>(null);
   const [importing, setImporting] = useState(false);
   const [dragging, setDragging] = useState(false);
-  const [paused, setPaused] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewsPaused, setPreviewsPaused] = useState(false);
   const [category, setCategory] = useState("Business");
   const [tone, setTone] = useState("Professional");
   const [audience, setAudience] = useState("");
@@ -56,13 +57,15 @@ export default function AiBookCreator() {
   const usage = useUsage();
   const imported = source === "pdf" ? pdfSource : source === "url" ? urlSource : null;
   const selectedFormat = BOOK_FORMATS.find(item => item.id === format)!;
+  const selectedType = PUBLICATION_TYPES.find(item => item.id === publicationType)!;
+  const summary = publicationType === "summary";
   const count = Number(pages);
   const validCount = Number.isInteger(count) && count >= 1 && count <= BOOK_PAGE_LIMIT;
   const busy = ["planning", "writing", "saving"].includes(phase);
   const generating = ["planning", "writing", "saving", "failed"].includes(phase);
   const total = (plan?.outline.pages.length ?? (validCount ? count : 0)) + 1;
   const remaining = usage.data ? Math.max(0, usage.data.plan.limits.aiDaily - usage.data.usage.aiToday) : null;
-  const sourceReady = source === "description" ? description.trim().length >= 3 : Boolean(imported);
+  const sourceReady = source === "description" ? description.trim().length >= (summary ? 80 : 3) : Boolean(imported);
   const ready = validCount && sourceReady && !importing;
 
   useEffect(() => () => importRequest.current?.abort(), []);
@@ -104,7 +107,7 @@ export default function AiBookCreator() {
     finally { if (!controller.signal.aborted) setImporting(false); }
   }
   function writingOptions() {
-    return { category, tone, audience, sourceText: imported?.text || "" };
+    return { publicationType, category, tone, audience, sourceText: imported?.text || (summary && source === "description" ? description : "") };
   }
   // One click: plan the pages, write them, save the book and open the editor.
   async function create(event: React.FormEvent) {
@@ -113,8 +116,9 @@ export default function AiBookCreator() {
     operation.current = true; setError(""); setPhase("planning"); setPlan(null); slides.current.clear(); extras.current = null; setDone(0);
     let result: Plan;
     try {
-      const prompt = source === "description" ? description : `Create a book based on the imported source: ${imported!.title}. ${instructions}`;
-      result = await post<Plan>("/api/ai/outline", { prompt, pages: count, size: format, ...writingOptions() });
+      const prompt = source === "description" ? (summary ? "Create a concise book summary from the supplied reading notes or book excerpts." : description) : `Create a ${selectedType.name.toLowerCase()} based on the imported source: ${imported!.title}. ${instructions}`;
+      result = await post<Plan>("/api/ai/outline", { prompt, pages: count, size: format, avoid: recentDesigns(publicationType), ...writingOptions() });
+      rememberDesign(publicationType, result.outline.variant);
       setPlan(result);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not plan your book."); setPhase("setup");
@@ -152,46 +156,58 @@ export default function AiBookCreator() {
   }
 
   return <main className="fs-content fs-creator">
-    <header className="fs-creator-heading"><div><span className="fs-creator-kicker"><Sparkles size={14} /> YOUR IDEAS. BEAUTIFULLY BOUND.</span><h1>AI Book <span>Creator</span></h1><p>One idea. Endless possibilities. Let&apos;s make something worth reading.</p></div><Link href="/books" className="fs-btn fs-outline"><Library size={16} />My Books <ArrowRight size={15} /></Link></header>
-    <ol className="fs-creator-steps" aria-label="Creation progress">{["Set up your book", "Bring it to life"].map((label, index) => {
-      const current = generating ? 1 : 0;
-      return <li key={label} className={index === current ? "current" : index < current ? "complete" : ""} aria-current={index === current ? "step" : undefined}><span>{index < current ? <Check size={13} /> : index + 1}</span>{label}</li>;
-    })}</ol>
+    <header className="fs-creator-heading"><div><span className="fs-creator-kicker"><Sparkles size={14} /> AI CREATION STUDIO</span><h1>What will you create today?</h1><p>Choose a type, add your content, and make it your own.</p></div><Link href="/books" className="fs-btn fs-outline"><Library size={16} />My Books <ArrowRight size={15} /></Link></header>
     {error && <div ref={errorRef} tabIndex={-1} role="alert" className="fs-alert fs-creator-alert">{error}{/plan|allowance|AI actions/i.test(error) && <> <Link href="/billing">View your plan</Link></>}</div>}
-
     {generating ? <section className="fs-creator-generating" aria-live="polite">
-      <div className="fs-generating-symbol"><BookOpen size={46} /><Sparkles size={23} /></div><span className="fs-creator-kicker">{phase === "failed" ? "YOUR PROGRESS IS KEPT ON THIS PAGE" : "A LITTLE MAGIC IN THE MAKING"}</span>
-      <h2>{phase === "failed" ? "Let’s finish your book" : phase === "saving" ? "Saving your new book" : phase === "planning" ? "Planning your pages" : "Your story is taking shape"}</h2><p>{plan?.outline.title}</p>
-      <progress value={done} max={total} aria-label={`${done} of ${total} pages ready`} /><div className="fs-generation-status"><span>{done} of {total} pages ready</span><span>{selectedFormat.name}</span></div>
-      <ol><li>{phase === "planning" ? <LoaderCircle className="fs-spin" size={18} /> : <CheckCheck size={18} />}Planning chapters and pages</li><li>{done < total ? <LoaderCircle className={phase !== "failed" ? "fs-spin" : ""} size={18} /> : <CheckCheck size={18} />}Writing and designing pages</li><li>{phase === "saving" ? <LoaderCircle className="fs-spin" size={18} /> : <BookOpen size={18} />}Save and open the editor</li></ol>
-      {phase === "failed" ? <><button className="fs-btn fs-primary" onClick={() => void generate(plan)}><RotateCcw size={16} />{done === total ? "Retry saving" : "Finish remaining pages"}</button><small>Completed batches stay here. Retrying a failed AI request may use additional actions.</small></> : <small>Keep this page open. You can edit every page once your book is ready.</small>}
+      <div className="fs-generating-symbol"><BookOpen size={46} /><Sparkles size={23} /></div><span className="fs-creator-kicker">{phase === "failed" ? "YOUR PROGRESS IS KEPT ON THIS PAGE" : `CREATING YOUR ${selectedType.name.toUpperCase()}`}</span>
+      <h2>{phase === "failed" ? "Let’s finish your creation" : phase === "saving" ? "Saving your new creation" : phase === "planning" ? "Planning your pages" : "Your pages are taking shape"}</h2><p>{plan?.outline.title}</p>
+      <progress value={done} max={total} aria-label={`${done} of ${total} writing tasks ready`} /><div className="fs-generation-status"><span>{done} of {total} writing tasks ready</span><span>{selectedType.name} · {selectedFormat.name}</span></div>
+      <ol><li>{phase === "planning" ? <LoaderCircle className="fs-spin" size={18} /> : <CheckCheck size={18} />}Planning sections and pages</li><li>{done < total ? <LoaderCircle className={phase !== "failed" ? "fs-spin" : ""} size={18} /> : <CheckCheck size={18} />}Writing and designing content</li><li>{phase === "saving" ? <LoaderCircle className="fs-spin" size={18} /> : <BookOpen size={18} />}Save and open the editor</li></ol>
+      {phase === "failed" ? <><button className="fs-btn fs-primary" onClick={() => void generate(plan)}><RotateCcw size={16} />{done === total ? "Retry saving" : "Finish remaining pages"}</button><small>Completed batches stay here. Retrying a failed AI request may use additional actions.</small></> : <small>Keep this page open. You can edit every page once it is ready.</small>}
     </section> : <form onSubmit={create} className="fs-creator-form">
-      <fieldset disabled={busy} className="fs-format-fieldset"><legend>Choose your canvas <span>Start with a shape that fits your story.</span></legend><button type="button" className="fs-preview-toggle" onClick={() => setPaused(value => !value)} aria-pressed={paused}>{paused ? <Play size={13} /> : <Pause size={13} />}{paused ? "Play previews" : "Pause previews"}</button>
-        <div className="fs-format-grid">{BOOK_FORMATS.map(item => <label key={item.id} className={`fs-format-card${format === item.id ? " selected" : ""}`}><input type="radio" name="book-format" value={item.id} checked={format === item.id} onChange={() => setFormat(item.id)} /><div className="fs-format-top"><strong>{item.name}</strong><span className="fs-format-check">{format === item.id && <Check size={13} />}</span></div>
-          <div className="fs-format-preview"><picture><source media="(prefers-reduced-motion: reduce)" srcSet={`/images/book-layouts/${item.id}.webp`} /><Image src={`/images/book-layouts/${item.id}.${paused ? "webp" : "gif"}`} alt={`${item.name} book layout preview`} width={500} height={300} unoptimized /></picture></div>
-          <div className="fs-format-bottom"><span>{item.description}</span><small>{item.tag}</small></div>
-        </label>)}</div>
+      <fieldset disabled={busy} className="fs-publication-fieldset"><legend><span className="fs-publication-title"><span className="fs-step-dot">1</span>Choose what to create</span><button type="button" className="fs-publication-motion" aria-pressed={previewsPaused} onClick={() => setPreviewsPaused(value => !value)}>{previewsPaused ? <Play size={12} /> : <Pause size={12} />}{previewsPaused ? "Play previews" : "Pause previews"}</button></legend>
+        <div className="fs-publication-grid">{PUBLICATION_TYPES.map(item => {
+          const Icon = TYPE_ICONS[item.id];
+          const selected = publicationType === item.id;
+          return <label key={item.id} className={`fs-publication-card fs-publication-${item.id}${selected ? " selected" : ""}`}>
+            <input type="radio" name="publication-type" value={item.id} checked={selected} onChange={() => setPublicationType(item.id)} />
+            <span className="fs-publication-art" aria-hidden="true">
+              <span className="fs-publication-icon"><Icon size={17} /></span>
+              <picture><source media="(prefers-reduced-motion: reduce)" srcSet={`/images/book-types/${item.id}.webp`} /><Image src={`/images/book-types/${item.id}.${previewsPaused ? "webp" : "gif"}`} alt="" width={400} height={250} unoptimized /></picture>
+              <span className="fs-publication-check">{selected && <Check size={12} />}</span>
+            </span>
+            <span className="fs-publication-text"><strong>{item.name}<ArrowRight size={14} aria-hidden="true" /></strong><small>{item.description}</small></span>
+          </label>;
+        })}</div>
       </fieldset>
-      <div className="fs-creator-workbench"><div className="fs-creator-inputs">
-        <section className="fs-creator-panel"><div className="fs-creator-panel-head"><div><h2><span className="fs-step-dot">01</span>Where should we start?</h2><p>Give AI a little inspiration. We&apos;ll take it from there.</p></div></div>
-          <fieldset className="fs-source-tabs" disabled={busy || importing}><legend className="fs-visually-hidden">Book source</legend>{([{ id: "description", label: "Description", icon: FileText }, { id: "pdf", label: "Upload PDF", icon: FileUp }, { id: "url", label: "Website URL", icon: Link2 }] as const).map(tab => <label key={tab.id} className={source === tab.id ? "selected" : ""}><input type="radio" name="book-source" value={tab.id} checked={source === tab.id} onChange={() => changeSource(tab.id)} /><tab.icon size={16} />{tab.label}</label>)}</fieldset>
-          {source === "description" ? <div className="fs-description-input"><label htmlFor="book-description">What&apos;s your book about?</label><textarea id="book-description" required minLength={3} maxLength={2000} rows={6} placeholder="A beginner’s guide to urban gardening, with practical tips for growing herbs and vegetables in small spaces…" value={description} disabled={busy} onChange={event => setDescription(event.target.value)} /><div className="fs-input-hint"><span>A topic, an audience and a few details go a long way.</span><span>{description.length.toLocaleString()}/2,000</span></div><div className="fs-prompt-examples"><span>Try an idea</span>{EXAMPLES.map(example => <button type="button" key={example.label} disabled={busy} onClick={() => { setDescription(example.text); setCategory(example.category); }}><Sparkles size={12} />{example.label}</button>)}</div></div> : <>
+      <div className="fs-creator-workbench">
+        <section className="fs-creator-panel fs-content-panel"><div className="fs-creator-panel-head"><div><h2><span className="fs-step-dot">2</span>{summary ? "Add the book you want to summarize" : "Add your content"}</h2><p>{summary ? "Use book excerpts, reading notes or a source document." : `Tell us about your ${selectedType.name.toLowerCase()}, or start with something you already have.`}</p></div><span className="fs-section-chip">{selectedType.name}</span></div>
+          <fieldset className="fs-source-tabs" disabled={busy || importing}><legend className="fs-visually-hidden">Book source</legend>{([{ id: "description", label: summary ? "Paste text" : "Describe an idea", icon: FileText }, { id: "pdf", label: "Upload PDF", icon: FileUp }, { id: "url", label: "Paste a URL", icon: Link2 }] as const).map(tab => <label key={tab.id} className={source === tab.id ? "selected" : ""}><input type="radio" name="book-source" value={tab.id} checked={source === tab.id} onChange={() => changeSource(tab.id)} /><tab.icon size={16} />{tab.label}</label>)}</fieldset>
+          {source === "description" ? <div className="fs-description-input"><label htmlFor="book-description">{summary ? "Book text or reading notes" : `What is your ${selectedType.name.toLowerCase()} about?`}</label><textarea id="book-description" required minLength={summary ? 80 : 3} maxLength={2000} rows={7} placeholder={summary ? "Paste an excerpt or your reading notes here. Include the book title and author if available. We'll turn the supplied material into key ideas and takeaways…" : selectedType.example} value={description} disabled={busy} onChange={event => setDescription(event.target.value)} /><div className="fs-input-hint"><span>{summary ? "At least 80 characters. Summaries use only the material you provide." : "Include your topic, key ideas and who you are writing for."}</span><span>{description.length.toLocaleString()}/2,000</span></div>
+            <div className="fs-prompt-examples"><Sparkles size={14} /><span>Need a starting point?</span><button type="button" disabled={busy} onClick={() => setDescription(selectedType.example)}>Use a {summary ? "sample excerpt" : `${selectedType.name.toLowerCase()} example`} <ArrowRight size={13} /></button></div>
+          </div> : <>
             {source === "pdf" ? <div className={`fs-pdf-drop${dragging ? " dragging" : ""}`} onDragOver={event => { event.preventDefault(); if (!busy && !importing) setDragging(true); }} onDragLeave={() => setDragging(false)} onDrop={event => { event.preventDefault(); setDragging(false); if (!busy && !importing && event.dataTransfer.files[0]) void importSource(event.dataTransfer.files[0]); }}>
               <input ref={fileInput} type="file" accept=".pdf,application/pdf" className="fs-visually-hidden" aria-label="Choose a PDF" disabled={busy || importing} onChange={event => { const file = event.target.files?.[0]; if (file) void importSource(file); event.target.value = ""; }} />
-              {importing ? <LoaderCircle size={30} className="fs-spin" /> : <FileUp size={32} />}<strong>{importing ? "Reading your PDF…" : pdfSource ? "Your PDF is ready" : "Drop your PDF here"}</strong><p>Turn existing knowledge into a whole new book.</p><button type="button" className="fs-btn fs-outline" disabled={busy || importing} onClick={() => fileInput.current?.click()}>{pdfSource ? "Replace PDF" : "Browse files"}</button><small>Text-based PDF · Up to 10 MB · Maximum 100 pages</small>
-            </div> : <div className="fs-url-input"><label htmlFor="book-url">Link to your inspiration</label><div><Globe2 size={18} /><input id="book-url" type="url" placeholder="https://example.com/your-article" value={url} disabled={busy || importing} onChange={event => { setUrl(event.target.value); setUrlSource(null); }} /><button type="button" className="fs-btn fs-primary" disabled={busy || importing || !url.trim()} onClick={() => void importSource()}>{importing ? <LoaderCircle className="fs-spin" size={15} /> : <ArrowDown size={15} />}{importing ? "Importing…" : "Import page"}</button></div><small>Use a public article, webpage or PDF link. Login-only pages cannot be imported.</small></div>}
+              <span className="fs-upload-icon">{importing ? <LoaderCircle size={27} className="fs-spin" /> : <FileUp size={27} />}</span><strong>{importing ? "Reading your PDF…" : pdfSource ? "Your PDF is ready" : "Drag your PDF here"}</strong><p>{summary ? "Extract the key ideas from your book or document." : `Turn your document into a ${selectedType.name.toLowerCase()}.`}</p><button type="button" className="fs-btn fs-outline" disabled={busy || importing} onClick={() => fileInput.current?.click()}>{pdfSource ? "Replace PDF" : "Choose a file"}</button><small>Text-based PDF · Up to 10 MB · Maximum 100 pages</small>
+            </div> : <div className="fs-url-input"><label htmlFor="book-url">Website or document URL</label><div><Globe2 size={18} /><input id="book-url" type="url" placeholder="https://example.com/your-article" value={url} disabled={busy || importing} onChange={event => { setUrl(event.target.value); setUrlSource(null); }} /><button type="button" className="fs-btn fs-primary" disabled={busy || importing || !url.trim()} onClick={() => void importSource()}>{importing ? <LoaderCircle className="fs-spin" size={15} /> : <ArrowDown size={15} />}{importing ? "Importing…" : "Import"}</button></div><small>Public articles, webpages and PDF links are supported.</small><div className="fs-url-explanation"><Link2 size={26} /><strong>Give your content a new chapter</strong><p>Import a page, check the extracted text, then turn it into your {selectedType.name.toLowerCase()}.</p></div></div>}
             {imported && <div className="fs-source-result"><div><CheckCheck size={19} /><span><strong>{imported.title}</strong><small>{imported.pages ? `${imported.pages} source pages · ` : ""}{imported.text.length.toLocaleString()} characters ready</small></span><button type="button" aria-label="Remove imported source" disabled={busy} onClick={() => source === "pdf" ? setPdfSource(null) : setUrlSource(null)}><X size={16} /></button></div>{imported.truncated && <p>Using the first {imported.text.length.toLocaleString()} of {imported.characters.toLocaleString()} characters.</p>}<details><summary>Preview imported text</summary><pre>{imported.text}</pre></details></div>}
-            <label className="fs-source-instructions">Anything to focus on? <span>Optional</span><textarea rows={2} maxLength={1500} disabled={busy} placeholder="Focus on key takeaways, make it beginner-friendly, or highlight a particular chapter…" value={instructions} onChange={event => setInstructions(event.target.value)} /></label>
+            <label className="fs-source-instructions">Anything to focus on? <span>Optional</span><textarea rows={2} maxLength={1500} disabled={busy} placeholder="Key takeaways, a particular chapter, a specific audience…" value={instructions} onChange={event => setInstructions(event.target.value)} /></label>
           </>}
+          <div className="fs-audience-area"><button className="fs-advanced-toggle" type="button" aria-expanded={advanced} aria-controls="book-audience" disabled={busy} onClick={() => setAdvanced(value => !value)}><span className="fs-audience-label">Who is this for?</span><span>{audience || "Optional"}</span><ChevronDown size={15} className={advanced ? "expanded" : ""} /></button>{advanced && <label id="book-audience">Target audience<input maxLength={160} placeholder="e.g. First-time founders, students, curious readers" value={audience} onChange={event => setAudience(event.target.value)} /><small>Helps AI choose the right vocabulary and level of detail.</small></label>}</div>
+          <div className="fs-content-reassurance"><CheckCheck size={16} />Fully editable. Make every page your own after generation.</div>
         </section>
-        <section className="fs-creator-panel fs-book-options"><div className="fs-creator-panel-head"><div><h2><span className="fs-step-dot">02</span>Add your personal touch</h2><p>A few small choices that make it yours.</p></div><Settings2 size={19} /></div>
-          <fieldset disabled={busy} className="fs-creator-option-grid"><label>Category<select value={category} onChange={event => setCategory(event.target.value)}>{BOOK_CATEGORIES.map(value => <option key={value}>{value}</option>)}</select></label><label>Content pages<span className="fs-creator-page-count"><button type="button" aria-label="Fewer pages" disabled={!validCount || count <= 1} onClick={() => setPages(String(count - 1))}><Minus size={16} /></button><input type="number" aria-label="Number of content pages" required min={1} max={BOOK_PAGE_LIMIT} value={pages} onChange={event => setPages(event.target.value)} /><button type="button" aria-label="More pages" disabled={!validCount || count >= BOOK_PAGE_LIMIT} onClick={() => setPages(String(count + 1))}><Plus size={16} /></button></span></label></fieldset>
-          <button className="fs-advanced-toggle" type="button" aria-expanded={advanced} aria-controls="book-advanced-options" disabled={busy} onClick={() => setAdvanced(value => !value)}>Fine-tune your writing <span>Tone & audience</span><ChevronDown size={15} className={advanced ? "expanded" : ""} /></button>
-          {advanced && <fieldset id="book-advanced-options" disabled={busy} className="fs-creator-advanced"><label>Writing tone<select value={tone} onChange={event => setTone(event.target.value)}>{BOOK_TONES.map(value => <option key={value}>{value}</option>)}</select></label><label>Who is it for?<input maxLength={160} placeholder="e.g. Small business owners, beginners…" value={audience} onChange={event => setAudience(event.target.value)} /></label></fieldset>}
-        </section>
-      </div><aside className="fs-creator-summary"><div className="fs-summary-art" aria-hidden="true"><BookOpen size={50} /><Sparkles size={20} /></div><span className="fs-creator-kicker">YOUR NEXT GREAT BOOK</span><h2>A little idea.<br />A beautiful beginning.</h2><p>You bring the inspiration.<br />We&apos;ll help shape the pages.</p><dl><div><dt>Format</dt><dd>{selectedFormat.name}</dd></div><div><dt>Source</dt><dd>{source === "description" ? "Your idea" : source === "pdf" ? "PDF document" : "Website"}</dd></div><div><dt>Book length</dt><dd>{validCount ? `${count} pages + cover` : "Choose pages"}</dd></div></dl><div className="fs-summary-note"><CheckCheck size={17} /><span>Opens in the editor when ready.<br />Every page stays editable.</span></div><div className="fs-creator-allowance"><Sparkles size={14} />{remaining === null ? "Usage is checked when you create" : `${remaining.toLocaleString()} AI actions available today`}</div></aside></div>
-      <div className="fs-creator-submit"><div><strong>Ready to turn the page?</strong><small>{`Uses ${validCount ? count + 1 : "—"} AI actions · Cover, contents and back cover included`}</small>{!ready && !busy && <small>{!validCount ? "Choose 1–50 content pages." : importing ? "Your source is being imported." : source === "description" ? "Add a description to get started." : "Import your source to get started."}</small>}</div><button type="submit" className="fs-btn fs-primary" disabled={!ready || busy}><WandSparkles size={18} />Create my book<ArrowRight size={17} /></button></div>
+        <aside className="fs-creator-panel fs-design-panel" aria-label="Design and writing options"><div className="fs-creator-panel-head"><h2><span className="fs-step-dot">3</span>Make it yours</h2></div>
+          <fieldset disabled={busy} className="fs-format-fieldset"><legend>Page layout</legend><div className="fs-format-grid">{BOOK_FORMATS.map(item => <label key={item.id} className={`fs-format-card${format === item.id ? " selected" : ""}`}><input type="radio" name="book-format" value={item.id} checked={format === item.id} onChange={() => setFormat(item.id)} /><span className={`fs-format-shape fs-shape-${item.id}`} aria-hidden="true" /><strong>{item.name}</strong>{format === item.id && <Check size={12} />}</label>)}</div></fieldset>
+          <button type="button" className="fs-preview-toggle" aria-expanded={showPreview} aria-controls="layout-preview" onClick={() => setShowPreview(value => !value)}><Eye size={14} />{showPreview ? "Hide layout preview" : "Preview this layout"}<ChevronDown size={13} className={showPreview ? "expanded" : ""} /></button>
+          {showPreview && <div id="layout-preview" className="fs-format-preview"><picture><source media="(prefers-reduced-motion: reduce)" srcSet={`/images/book-layouts/${format}.webp`} /><Image src={`/images/book-layouts/${format}.gif`} alt={`${selectedFormat.name} layout example`} width={500} height={300} unoptimized /></picture><small>Layout example · Your content will be different</small></div>}
+          <div className="fs-settings-divider" />
+          <CreatorSelect label="Category" value={category} options={BOOK_CATEGORIES.map(value => ({ value, label: value }))} onChange={setCategory} disabled={busy} />
+          <CreatorSelect label="Writing tone" value={tone} options={BOOK_TONES.map(value => ({ value, label: value, description: TONE_HINTS[value] }))} onChange={setTone} disabled={busy} />
+          <div className="fs-length-control"><div className="fs-length-label"><label htmlFor="book-page-count">Content pages</label><span>1–50 pages</span></div><div className="fs-length-row"><span className="fs-creator-page-count"><button type="button" aria-label="Fewer pages" disabled={!validCount || count <= 1} onClick={() => setPages(String(count - 1))}><Minus size={15} /></button><input id="book-page-count" type="number" aria-label="Number of content pages" required min={1} max={BOOK_PAGE_LIMIT} value={pages} onChange={event => setPages(event.target.value)} /><button type="button" aria-label="More pages" disabled={!validCount || count >= BOOK_PAGE_LIMIT} onClick={() => setPages(String(count + 1))}><Plus size={15} /></button></span><div className="fs-page-presets">{[5, 10, 20].map(value => <button type="button" key={value} aria-pressed={count === value} onClick={() => setPages(String(value))}>{value}</button>)}</div></div><small>Plus a front cover, contents and back cover.</small></div>
+          <div className="fs-design-note"><Sparkles size={16} /><span>{remaining === null ? "AI usage is checked when you create." : <><strong>{remaining.toLocaleString()}</strong> AI actions available today</>}</span></div>
+        </aside>
+      </div>
+      <div className="fs-creator-submit"><div className="fs-submit-overview"><span className="fs-submit-icon"><BookOpen size={20} /></span><div><strong>{selectedType.name} <span>· {selectedFormat.name} · {validCount ? count : "—"} content pages</span></strong><small>{!ready ? (!validCount ? "Choose 1–50 content pages." : importing ? "Reading your source…" : source === "description" ? (summary ? "Paste at least 80 characters of book text or notes to continue." : "Add your idea above to get started.") : "Import a source above to get started.") : `${count + 1} AI actions · Opens in your editor when ready`}</small></div></div><button type="submit" className="fs-btn fs-primary" disabled={!ready || busy}><WandSparkles size={18} />Create {selectedType.name.toLowerCase()}<ArrowRight size={17} /></button></div>
     </form>}
-    <footer className="fs-creator-footer"><BookOpen size={14} /> Made for your next chapter.<span>AI Book Creator</span></footer>
   </main>;
 }

@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { db } from "@shared/server/db";
 import { auth } from "@shared/auth";
 import { apiError, ApiError, checkOrigin, consumeLimit, jsonBody } from "@shared/server/api";
+import { sendEmail } from "@shared/server/mail";
 
 const TOPICS = ["general", "upgrade", "billing", "support", "privacy", "partnership"] as const;
 
@@ -22,6 +23,8 @@ export async function POST(request: Request) {
     if (message.length < 10 || message.length > 5000) throw new ApiError(400, "Write a message between 10 and 5,000 characters.");
     const session = await auth.api.getSession({ headers: await headers() }).catch(() => null);
     await db.execute("INSERT INTO contact_messages (id,user_id,name,email,topic,message) VALUES (?,?,?,?,?,?)", [randomUUID(), session?.user.id ?? null, name, email, topic, message]);
+    // The wording lives in Administration; a failure here must not lose the message.
+    await sendEmail(email, "contact-received", { name, topic });
     return NextResponse.json({ success: true }, { status: 201 });
   } catch (e) { return apiError(e); }
 }

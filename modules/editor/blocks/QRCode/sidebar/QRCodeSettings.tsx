@@ -104,7 +104,7 @@ export default function QRCodeSettings() {
             disabled={!encodable || !dirty}
             // The element is updated in place: editing a QR must never leave
             // the old one behind and drop a new one on top of it.
-            onClick={() => patch({ content: trimmed })}
+            onClick={() => patch({ content: trimmed, bookLink: false })}
           >
             Apply
           </button>

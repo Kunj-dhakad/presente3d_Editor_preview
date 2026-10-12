@@ -245,6 +245,7 @@ const parseQrCode = (id: string, data: RawRecord): QrCodeBlock => ({
   ...parseBase(id, "qrcode", data),
   kind: "qrcode",
   content: str(data.content),
+  bookLink: data.bookLink === true,
   errorCorrection: oneOf(data.ecLevel, ["L", "M", "Q", "H"] as const, "M"),
   foreground: str(data.foreground, "#000000"),
   background: str(data.background, "#ffffff"),
@@ -312,6 +313,17 @@ const parseTable = (id: string, data: RawRecord): TableBlock => {
         ["top", "middle", "bottom"] as const,
         "middle",
       ),
+      // The editor's heading row, banding and grid lines, so a styled table
+      // reads the same as it was designed.
+      headerRow: bool(style.headerRow),
+      headerBackground: typeof style.headerBackground === "string" ? style.headerBackground : undefined,
+      headerTextColor: typeof style.headerTextColor === "string" ? style.headerTextColor : undefined,
+      headerFontWeight: style.headerFontWeight === undefined ? undefined : weight(style.headerFontWeight, 700),
+      bandedRows: bool(style.bandedRows),
+      bandBackground: typeof style.bandBackground === "string" ? style.bandBackground : undefined,
+      cellSpacing: num(style.cellSpacing, 0),
+      cellRadius: num(style.cellRadius, 0),
+      borderStyle: oneOf(style.borderStyle, ["all", "outer", "horizontal", "none"] as const, "all"),
     },
     hidden: bool(data.hidden),
   };

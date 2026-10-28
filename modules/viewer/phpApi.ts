@@ -50,7 +50,7 @@ async function postForm<T>(url: string, fields: Record<string, string | number>)
 
 /** Google's free translate endpoint, as languageDetect.js used; brand words count as English. */
 export async function detectLanguage(text: string) {
-  if (/\b(prezenta|prezentiq)\b/i.test(text)) return "en";
+  if (/\bpresent3d\b/i.test(text)) return "en";
   try {
     const url = "https://translate.googleapis.com/translate_a/single?" + new URLSearchParams({ client: "gtx", sl: "auto", tl: "en", dt: "t", q: text });
     const data = await (await fetch(url)).json();

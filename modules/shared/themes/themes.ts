@@ -1,6 +1,6 @@
 
 export const THEMES: Record<string, Record<string, string>> = {
-  prezentaai: {},
+  present3d: {},
 
 
   light: {},

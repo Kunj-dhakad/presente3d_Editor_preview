@@ -1,4 +1,4 @@
-# Presentation Editor (editor + preview for the PHP app)
+# Present 3D — editor and preview (for the PHP app)
 
 This Next.js app is only the **presentation editor** and the **presentation preview**.
 The PHP app (CI_Core) owns everything else: login, users, presentations, the database
@@ -15,7 +15,7 @@ There is no database, login or sign-up here.
 
 ```
 iframe → PHP   REACT_READY              the page is listening
-PHP → iframe   INIT_DATA                { id, name, token, URL }   URL = PHP base URL, e.g. https://app.pitchoraai.com/
+PHP → iframe   INIT_DATA                { id, name, token, URL }   URL = PHP base URL, e.g. https://present3d.com/
 PHP → iframe   LOAD_TEMPLATE            { templateUrl }            the presentation JSON on the CDN
 iframe → PHP   LOADER_ON / LOADER_OFF   PHP shows or hides its full-page loader
 iframe → PHP   PUBLISH_CLICKED          published; PHP goes to customize-slide/<id>

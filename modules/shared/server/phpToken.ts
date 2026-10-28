@@ -1,15 +1,6 @@
 import { createDecipheriv } from "node:crypto";
 
-/**
- * The editor runs inside the PHP app's iframe and never has its own login. The
- * PHP app hands it the user's `access_token` (INIT_DATA), which PHP made with
- * `encrypt_user_token()` in application/helpers/tokengenerate_helper.php:
- *
- *   base64( iv[16] . base64( AES-256-CBC("user_id=2:business_id=2") ) )
- *
- * PHP's openssl pads the passphrase with NUL bytes to the 32-byte key, so the
- * same key is rebuilt here. Set PHP_TOKEN_KEY when PHP's key changes.
- */
+
 export type EditorUser = { id: string; userId: string; businessId: string };
 
 function key() {

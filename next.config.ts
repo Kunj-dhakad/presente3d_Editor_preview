@@ -29,6 +29,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.pexels.com" },
       { protocol: "https", hostname: "kd-presentation-editor.s3.us-east-1.amazonaws.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "cdn.pitchoraai.com" },
       { protocol: "https", hostname: "cdn.present3d.com" },
     ],
   },

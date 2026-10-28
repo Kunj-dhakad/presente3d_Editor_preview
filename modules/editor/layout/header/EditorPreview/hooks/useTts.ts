@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { BookPageData } from "../types/book";
+import { apiFetch } from "@shared/apiFetch";
 
 interface ElementRange {
   id: string;
@@ -148,7 +149,7 @@ export function useTts({ pages, currentPage }: UseTtsArgs) {
       setIsSpeaking(true);
       setIsPaused(false);
 
-      const response = await fetch("/api/speechify", {
+      const response = await apiFetch("/api/speechify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

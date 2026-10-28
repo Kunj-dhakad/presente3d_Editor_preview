@@ -13,7 +13,6 @@ import { useIsNarrow } from "@editor/lib/ui/useBreakpoint";
 import TemplateAddPanel from "./Template/TemplateAddPanel";
 import WatermarkPanel from "@editor/blocks/Watermark/components";
 import InteractionPanel from "@editor/blocks/Interaction/components";
-import BookCoverpage from "./BookCover/BookCoverpage";
 
 
 const MAIN_PANEL_KEYS = [
@@ -25,7 +24,6 @@ const MAIN_PANEL_KEYS = [
   "TemplateAddPanel",
   "WatermarkPanel",
   "AddInteractionsPanel",
-  "BookCoverpage",
 ];
 
 const ToolPanel: React.FC<{ panel?: string | null }> = ({ panel }) => {
@@ -88,7 +86,6 @@ const ToolPanel: React.FC<{ panel?: string | null }> = ({ panel }) => {
         {active === "TemplateAddPanel" && <TemplateAddPanel />}
         {active === "WatermarkPanel" && <WatermarkPanel />}
         {active === "AddInteractionsPanel" && <InteractionPanel />}
-        {active === "BookCoverpage" && <BookCoverpage />}
       </div>
     </div>
   );

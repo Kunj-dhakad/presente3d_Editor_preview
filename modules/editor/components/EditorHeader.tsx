@@ -1,18 +1,17 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ArrowLeft, Undo2, Redo2, Eye, Download, Share2, Pencil, Check, LoaderCircle } from "lucide-react";
 import { brandLogo } from "@shared/siteArt";
 import useEditorStore from "@editor/store/editorStore";
 import useProjectInfoStore from "@editor/store/projectInfoStore";
+import { renamePresentation } from "@editor/lib/php/phpSync";
 import ShareModal from "@editor/layout/header/ShareModal";
 import PreviewPopup from "@editor/layout/header/EditorPreview/PreviewPopup";
 import ThemeToggle from "@editor/layout/header/ThemeToggle";
-import { useBookSave } from "./EditorWorkspace";
+import { inIframe, notifyParent } from "@shared/parentBridge";
+import { usePresentationSave } from "./EditorWorkspace";
 
 export default function EditorHeader() {
-  const id = useProjectInfoStore(s => s.id);
   const name = useProjectInfoStore(s => s.name);
   const setName = useProjectInfoStore(s => s.setName);
   const undo = useEditorStore(s => s.undo);
@@ -24,37 +23,45 @@ export default function EditorHeader() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [error, setError] = useState("");
   const [publishing, setPublishing] = useState(false);
-  const router = useRouter();
   const titleRef = useRef<HTMLInputElement>(null);
 
-  const saving = useBookSave();
+  const saving = usePresentationSave();
   useEffect(() => setTitle(name || ""), [name]);
   useEffect(() => { if (editing) titleRef.current?.select(); }, [editing]);
 
   async function rename() {
     setEditing(false);
-    if (!title.trim() || title === name) { setTitle(name || ""); return; }
+    const next = title.trim();
+    if (!next || next === name) { setTitle(name || ""); return; }
+    // Opened on its own there is no presentation in PHP to rename.
+    if (!saving.project) { setName(next); return; }
     try {
-      const res = await fetch("/api/books/" + id, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ title }) });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      setName(title);
+      await renamePresentation(saving.project, next.slice(0, 250));
+      setName(next);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Rename failed.");
       setTitle(name || "");
     }
   }
 
-  // Save first so the reader shows the latest pages, then open the publish page,
-  // which creates the public link.
   async function publish() {
     setPublishing(true); setError("");
     try {
-      await saving.flush();
-      router.push(`/books/${id}/publish?publish=1`);
+      await saving.publish();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not save the book. Try again.");
+      setError(e instanceof Error ? e.message : "Could not publish the presentation. Try again.");
+    } finally {
       setPublishing(false);
+    }
+  }
+
+  async function back() {
+    // Leave only once the latest slides are stored; say so if they cannot be.
+    try {
+      await saving.flush();
+      notifyParent("EDITOR_BACK");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not save the presentation.");
     }
   }
 
@@ -63,7 +70,8 @@ export default function EditorHeader() {
   return <>
     <header className="kd-eh">
       <div className="kd-eh-left">
-        <Link href="/dashboard" className="kd-eh-home" aria-label="Back to dashboard" title="Back to dashboard"><ArrowLeft size={18} /></Link>
+        {/* Only the PHP page has somewhere to go back to. The header renders after load, on the client. */}
+        {inIframe() && <button type="button" className="kd-eh-home" onClick={() => void back()} aria-label="Back to presentations" title="Back to presentations"><ArrowLeft size={18} /></button>}
         {/* eslint-disable-next-line @next/next/no-img-element -- small fixed-size logo from S3 */}
         <img className="kd-eh-logo" src={brandLogo} width={32} height={32} alt="" />
       </div>
@@ -72,14 +80,14 @@ export default function EditorHeader() {
       <div className="kd-eh-title">
         <span className={`kd-eh-chip${editing ? " kd-eh-chip-on" : ""}`}>
           <input
-            ref={titleRef} aria-label="Book title" value={title} maxLength={160} readOnly={!editing}
+            ref={titleRef} aria-label="Presentation title" value={title} maxLength={250} readOnly={!editing}
             onChange={e => setTitle(e.target.value)}
             onFocus={() => setEditing(true)}
             onBlur={() => void rename()}
             onKeyDown={e => { if (e.key === "Enter") e.currentTarget.blur(); if (e.key === "Escape") { setTitle(name || ""); setEditing(false); e.currentTarget.blur(); } }}
             style={{ width: `${Math.min(34, Math.max(8, title.length + 1))}ch` }}
           />
-          <button type="button" aria-label={editing ? "Save title" : "Rename book"} title={editing ? "Save title" : "Rename book"}
+          <button type="button" aria-label={editing ? "Save title" : "Rename presentation"} title={editing ? "Save title" : "Rename presentation"}
             onClick={() => editing ? void rename() : titleRef.current?.focus()}>
             {editing ? <Check size={14} /> : <Pencil size={14} />}
           </button>
@@ -89,14 +97,14 @@ export default function EditorHeader() {
 
       <div className="kd-eh-right">
         <ThemeToggle />
-        <button className="kd-eh-btn" onClick={() => setPreviewOpen(true)} aria-label="Preview book"><Eye size={16} /><span className="kd-eh-label">Preview</span></button>
+        <button className="kd-eh-btn" onClick={() => setPreviewOpen(true)} aria-label="Preview presentation"><Eye size={16} /><span className="kd-eh-label">Preview</span></button>
         <span className="kd-eh-group">
           <button className="kd-eh-btn kd-eh-icon" onClick={undo} aria-label="Undo" title="Undo"><Undo2 size={16} /></button>
           <button className="kd-eh-btn kd-eh-icon" onClick={redo} aria-label="Redo" title="Redo"><Redo2 size={16} /></button>
         </span>
-        <button className="kd-eh-btn" onClick={() => setExportOpen(true)} aria-label="Export book"><span className="kd-eh-label">Export</span><Download size={16} /></button>
-        <button className="kd-eh-btn kd-eh-primary" onClick={() => void publish()} disabled={publishing} aria-label="Publish book">
-          {publishing ? <LoaderCircle className="kd-eh-spin" size={15} /> : <Share2 size={15} />}<span className="kd-eh-label">{publishing ? "Saving…" : "Publish"}</span>
+        <button className="kd-eh-btn" onClick={() => setExportOpen(true)} aria-label="Export presentation"><span className="kd-eh-label">Export</span><Download size={16} /></button>
+        <button className="kd-eh-btn kd-eh-primary" onClick={() => void publish()} disabled={publishing} aria-label="Publish presentation">
+          {publishing ? <LoaderCircle className="kd-eh-spin" size={15} /> : <Share2 size={15} />}<span className="kd-eh-label">{publishing ? "Publishing…" : "Publish"}</span>
         </button>
       </div>
     </header>

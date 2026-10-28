@@ -45,7 +45,7 @@ const SlideFilmstrip: React.FC<{ onJumpToSlide: (index: number) => void }> = ({
           type="button"
           data-strip-index={index}
           onClick={() => onJumpToSlide(index)}
-          aria-label={`Page ${index + 1}`}
+          aria-label={`Slide ${index + 1}`}
           aria-current={index === activeSlide}
           className={`relative shrink-0 rounded overflow-hidden kd-slide-preview ${
             index === activeSlide ? "kd-slide-preview-active" : ""

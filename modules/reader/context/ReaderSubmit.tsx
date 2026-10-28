@@ -1,13 +1,13 @@
 "use client";
 
-import React, { createContext, useCallback, useContext } from "react";
+import { createContext, useContext } from "react";
 
 /**
  * Sending reader responses (lead form, contact forms, quizzes, questions)
  * from a published book to the author's Leads.
  *
- * Only the public reader provides this: previews in the editor or the owner's
- * /preview page have no provider, so their forms are never saved.
+ * Nothing provides it in this app: the editor and the PHP preview only show
+ * the forms, so their answers are never saved.
  *
  * Each browser gets a random reader id, and a name/email once it gives them
  * (lead form or a contact form). Both travel with every later response, so a
@@ -58,20 +58,6 @@ export function rememberReader(update: ReaderProfile) {
 type Submit = (response: ReaderResponse) => Promise<void>;
 const SubmitContext = createContext<Submit | null>(null);
 
-export function ReaderSubmitProvider({ token, children }: { token: string; children: React.ReactNode }) {
-  const submit = useCallback<Submit>(async (response) => {
-    const res = await fetch(`/api/read/${encodeURIComponent(token)}/responses`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...response, visitor: readerId(), reader: readerProfile() }),
-    });
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      throw new Error((data as { error?: string }).error || "Your answer could not be sent. Please try again.");
-    }
-  }, [token]);
-  return <SubmitContext.Provider value={submit}>{children}</SubmitContext.Provider>;
-}
 
 /** The submit function on a published book, or null in a preview (nothing is saved). */
 export function useReaderSubmit() {

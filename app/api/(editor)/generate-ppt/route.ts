@@ -394,7 +394,7 @@ async function handlePOST(req: NextRequest) {
             buffer = Buffer.from(String(result));
         }
 
-        const asset = await saveAsset(user.id, Buffer.from(buffer), "exports", "book.pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx");
+        const asset = await saveAsset(user.id, Buffer.from(buffer), "exports", "presentation.pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation", "pptx");
     return NextResponse.json({url:asset.url});
     } catch (error: unknown) {
         const message =

@@ -160,13 +160,15 @@ const PageRenderer = forwardRef<HTMLDivElement, Props>(
             ? resolvedNumber
             : undefined
         }
-        className={`relative shrink-0 overflow-hidden bg-white shadow-md ${
+        className={`relative shrink-0 overflow-hidden shadow-md ${
           className ?? ""
         }`}
         style={{
           width: page.width,
           height: page.height,
-          background: page.background,
+          // White when the page has none. Not a bg-white class: Bootstrap (on the pitch
+          // viewer) gives .bg-white !important, which would hide every page background.
+          background: page.background || "#ffffff",
           ...style,
         }}
       >

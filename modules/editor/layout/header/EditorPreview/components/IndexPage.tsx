@@ -17,7 +17,7 @@ export function IndexPage() {
 
   const handlePageSelect = (pageNumber: number) => {
     setPage(pageNumber);
-    setViewMode('flipbook');
+    setViewMode('horizontal');
   };
 
   const pagesArray = pages || [];
@@ -41,16 +41,16 @@ export function IndexPage() {
                 Ebook Pages Directory
               </h2>
               <p className="text-xs kd-fg-muted font-sans">
-                Click any page block below to open it directly in the flipbook.
+                Click any slide below to open it.
               </p>
             </div>
           </div>
           <button
             id="index-btn-back-to-flip"
-            onClick={() => setViewMode('flipbook')}
+            onClick={() => setViewMode('horizontal')}
             className="px-4 py-1.5 text-xs font-semibold kd-bg-surface kd-hv-bg border kd-bd-subtle kd-fg kd-hv-fg rounded-lg shadow-2xs transition-all cursor-pointer"
           >
-            ← Back to Flipbook
+            ← Back to slides
           </button>
         </div>
 

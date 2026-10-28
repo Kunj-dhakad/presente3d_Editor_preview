@@ -1,3 +1,4 @@
+import { apiFetch } from "@shared/apiFetch";
 /**
  * Asset library endpoints ke liye ek chhota in-flight + result cache.
  *
@@ -31,7 +32,7 @@ export function invalidateLibrary(url: string) {
 }
 
 async function defaultLoad<T>(url: string): Promise<T> {
-  const res = await fetch(url);
+  const res = await apiFetch(url);
   if (!res.ok) throw new Error(String(res.status));
   return (await res.json()) as T;
 }

@@ -1,9 +1,4 @@
 
-export { default as BookPreview } from "./components/BookPreview";
-export type { BookPreviewProps } from "./components/BookPreview";
-export { default as BookCover } from "./components/BookCover";
-export { default as PageSnapshot } from "./components/PageSnapshot";
-
 export {
   BookPreviewProvider,
   useBookPreview,

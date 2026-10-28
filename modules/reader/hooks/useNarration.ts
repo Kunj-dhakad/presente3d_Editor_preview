@@ -6,6 +6,7 @@ import type { ViewMode } from "../types/view";
 
 import type { TextBlock } from "../types/blocks";
 import { pagesInView } from "../utils/spread";
+import { apiFetch } from "@shared/apiFetch";
 
 interface BlockRange {
   id: string;
@@ -229,7 +230,7 @@ export function useNarration({
       requestControllersRef.current.set(pageIndex, controller);
       if (active) abortControllerRef.current = controller;
 
-      const request = fetch("/api/tts", {
+      const request = apiFetch("/api/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: content.text, voiceId }),

@@ -107,7 +107,7 @@ export const BookStateProvider = ({
     return () => useEditorUIStore.getState().setImageExportMode(previous);
   }, []);
 
-  const [viewMode, setViewMode] = useState<ViewMode>("flipbook");
+  const [viewMode, setViewMode] = useState<ViewMode>("horizontal");
 
   const { rawJson, setRawJson, pages, bookWidth, bookHeight } =
     useBookDocument({ document, jsonUrl });

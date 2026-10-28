@@ -20,10 +20,6 @@ export async function generateSlidesZip() {
     const zipBlob = await zip.generateAsync({ type: "blob" });
 
     // 🔽 DOWNLOAD TRIGGER
-    const form = new FormData();
-    form.append("file", zipBlob, "book.zip");
-    const upload = await fetch("/api/exports", {method:"POST",body:form});
-    if (!upload.ok) throw new Error("Could not save the exported file.");
     saveAs(zipBlob, "slides.zip");
     setImageExportMode(false);
 

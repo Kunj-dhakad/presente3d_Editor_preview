@@ -190,7 +190,7 @@ export default function Home() {
         }`}
       >
         <KdPreviewPagebtn />
-        <span className="truncate">Pages</span>
+        <span className="truncate">Slides</span>
       </button>
       <button
         onClick={() => setPreviewTab("layers")}

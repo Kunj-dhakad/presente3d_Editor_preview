@@ -4,6 +4,7 @@ import { ArrowLeft, Search } from "lucide-react";
 import useEditorStore from "@editor/store/editorStore";
 import useEditorUIStore from "@editor/store/useEditorUIStore";
 import AssetThumb from "@editor/components/AssetThumb";
+import { apiFetch } from "@shared/apiFetch";
 
 export type GifAsset = {
   id: string;
@@ -47,7 +48,7 @@ const fallback: GifAsset[] = [
 
 export async function getGifs(query = ""): Promise<GifAsset[]> {
   try {
-    const response = await fetch(`/api/gifs?q=${encodeURIComponent(query)}`);
+    const response = await apiFetch(`/api/gifs?q=${encodeURIComponent(query)}`);
     if (response.ok) {
       const assets = await response.json();
       if (Array.isArray(assets) && assets.length) return assets;

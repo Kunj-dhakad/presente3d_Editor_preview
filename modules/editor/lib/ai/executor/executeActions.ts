@@ -25,6 +25,7 @@ import type {
     CopilotContext,
     ExecutionResult,
 } from "../types";
+import { apiFetch } from "@shared/apiFetch";
 
 /* ==================== HELPERS ==================== */
 
@@ -211,15 +212,15 @@ const scrollCanvasToSlide = (index: number) => {
 
 /** Generates slide content through the existing generator route. */
 const generateSlideContent = async (prompt: string, slide: SlideType) => {
-    const res = await fetch("/api/generate-Ai-slide", {
+    const res = await apiFetch("/api/generate-Ai-slide", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
             prompt,
             pageNum: 1,
             totalPages: 1,
-            width: slide.width ?? 350,
-            height: slide.height ?? 434,
+            width: slide.width ?? 853.33,
+            height: slide.height ?? 480,
         }),
     });
     const data = await res.json();

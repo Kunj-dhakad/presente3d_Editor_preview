@@ -70,7 +70,7 @@ export function BottomToolbar() {
 
   const handleIndexClick = () => {
     if (viewMode === 'index') {
-      setViewMode('flipbook');
+      setViewMode('horizontal');
     } else {
       setViewMode('index');
     }

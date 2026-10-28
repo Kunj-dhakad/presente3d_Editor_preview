@@ -8,9 +8,14 @@ export function lanHostnames() {
     .map(info => info!.address);
 }
 
-/** Origins allowed to call auth and API endpoints. */
+/** This app's public base URL, without a trailing slash. */
+export function appUrl() {
+  return (process.env.APP_URL || "http://localhost:3000").replace(/\/+$/, "");
+}
+
+/** Origins allowed to call the API endpoints. */
 export function trustedOrigins() {
-  const base = new URL(process.env.BETTER_AUTH_URL || "http://localhost:3000");
+  const base = new URL(appUrl());
   const origins = new Set([base.origin]);
   for (const extra of (process.env.EXTRA_TRUSTED_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean)) origins.add(new URL(extra).origin);
   if (process.env.NODE_ENV !== "production") {

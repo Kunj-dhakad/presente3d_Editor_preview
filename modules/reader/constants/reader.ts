@@ -1,7 +1,7 @@
 import type { InteractionKind } from "../types/interaction";
 
-export const DEFAULT_PAGE_WIDTH = 350;
-export const DEFAULT_PAGE_HEIGHT = 434;
+export const DEFAULT_PAGE_WIDTH = 853.33;
+export const DEFAULT_PAGE_HEIGHT = 480;
 export const DEFAULT_PAGE_BACKGROUND = "#ffffff";
 
 export const MIN_ZOOM = 30;

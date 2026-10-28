@@ -46,7 +46,7 @@ export default function SlideSettingToolbar({ slideIndex }: { slideIndex: number
 
     return (
         <div className="w-full flex items-center justify-between">
-            <div className="shrink-0 Kd-Slide-Setting-heding-text mb-1">Page {slideIndex + 1}</div>
+            <div className="shrink-0 Kd-Slide-Setting-heding-text mb-1">Slide {slideIndex + 1}</div>
             <div className="flex items-center gap-4">
                 <button
                     className={` kd-tooltip-parent ${slideIndex === 0 || totalSlides === 1

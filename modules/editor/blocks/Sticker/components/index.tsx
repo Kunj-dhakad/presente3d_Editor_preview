@@ -4,6 +4,7 @@ import { ArrowLeft, Search } from "lucide-react";
 import useEditorStore from "@editor/store/editorStore";
 import useEditorUIStore from "@editor/store/useEditorUIStore";
 import AssetThumb from "@editor/components/AssetThumb";
+import { apiFetch } from "@shared/apiFetch";
 export type StickerAsset = { id: string; title: string; src: string; tags: string[] };
 
 const fallback: StickerAsset[] = [
@@ -16,7 +17,7 @@ const fallback: StickerAsset[] = [
 
 export async function getStickers(query = ""): Promise<StickerAsset[]> {
   try {
-    const response = await fetch(`/api/stickers?q=${encodeURIComponent(query)}`);
+    const response = await apiFetch(`/api/stickers?q=${encodeURIComponent(query)}`);
     if (response.ok) {
       const assets = await response.json();
       if (Array.isArray(assets) && assets.length) return assets;

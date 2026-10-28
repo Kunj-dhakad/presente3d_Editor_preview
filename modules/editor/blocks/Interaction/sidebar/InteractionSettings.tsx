@@ -28,6 +28,7 @@ import {
   numberInput,
   primaryButton,
 } from "@editor/layout/EditBarPanel/SettingsControls";
+import { apiFetch } from "@shared/apiFetch";
 
 const genId = () =>
   globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
@@ -216,7 +217,7 @@ export default function InteractionSettings() {
     setAiError(null);
     try {
       if (isQuiz) {
-        const res = await fetch("/api/generate-quiz", {
+        const res = await apiFetch("/api/generate-quiz", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt: aiPrompt, mode: "quiz", count: data.quizQuestions?.length || 3 }),
@@ -231,7 +232,7 @@ export default function InteractionSettings() {
         }));
         patch({ quizTitle: json.title, quizQuestions: questions });
       } else if (isQuestion) {
-        const res = await fetch("/api/generate-quiz", {
+        const res = await apiFetch("/api/generate-quiz", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ prompt: aiPrompt, mode: "question" }),

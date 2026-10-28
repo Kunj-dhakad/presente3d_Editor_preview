@@ -5254,6 +5254,7 @@ textarea.kd-set-input {
   color: var(--kd-on-accent);
   background: color-mix(in srgb, #fff 14%, transparent);
   flex-shrink: 0;
+  border: 0; padding: 0; cursor: pointer;
 }
 .kd-eh-home:hover { background: color-mix(in srgb, #fff 22%, transparent); }
 .kd-eh-logo { width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0; display: block; box-shadow: 0 0 0 1px color-mix(in srgb, #fff 30%, transparent); }

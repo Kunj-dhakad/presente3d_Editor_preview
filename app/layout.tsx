@@ -85,15 +85,12 @@ const geistMono = Geist_Mono({
 
 // };
 
+// Only ever opened inside the PHP app's iframe, so nothing here is for search engines.
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE.url),
-  title: { default: `${SITE.name} — AI book editor to write, design and publish`, template: `%s · ${SITE.name}` },
+  title: { default: SITE.name, template: `%s · ${SITE.name}` },
   description: SITE.description,
   applicationName: SITE.name,
-  keywords: ["book editor", "AI book writer", "ebook creator", "workbook maker", "self publishing", "PDF book design"],
-  openGraph: { type: "website", siteName: SITE.name, url: "/", title: `${SITE.name} — ${SITE.tagline}`, description: SITE.description },
-  twitter: { card: "summary_large_image", title: `${SITE.name} — ${SITE.tagline}`, description: SITE.description },
-  alternates: { canonical: "/" },
+  robots: { index: false, follow: false },
 };
 
 export const viewport: Viewport = {

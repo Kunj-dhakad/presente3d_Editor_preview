@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { BookOpen, Rows3, Columns3, X } from 'lucide-react';
+import { Rows3, Columns3, X } from 'lucide-react';
 import { useBook } from '../context/BookStateContext';
 import type { ViewMode } from '../types/book';
 
@@ -17,13 +17,6 @@ const MODES: {
   title: string;
   Icon: React.ComponentType<{ className?: string }>;
 }[] = [
-  {
-    id: 'flipbook',
-    label: 'Flipbook View',
-    short: 'Flipbook',
-    title: 'Flipbook Mode',
-    Icon: BookOpen,
-  },
   {
     id: 'vertical',
     label: 'Vertical View',

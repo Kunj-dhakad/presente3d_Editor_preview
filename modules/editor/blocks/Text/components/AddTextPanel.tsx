@@ -1,10 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import useEditorStore, { DEFAULT_TEXT_COLOR } from "@editor/store/editorStore";
-import { addBookIndex } from "@editor/lib/bookIndex";
 import Image from "next/image";
-import BookIndexStyleGallery from "@editor/blocks/Index/components/BookIndexStyleGallery";
-import { TOC_STYLE_PRESETS, TocStyleKey } from "@editor/blocks/Index/lib/tocStyles";
 import {
   setTextDrag,
   setTextTemplateDrag,
@@ -105,7 +102,6 @@ const AddTextPanel = () => {
 
   const [templates, setTemplates] = useState<TextTemplate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [panelView, setPanelView] = useState<"list" | "index-styles">("list");
 
   const handleDragStart = (
     e: React.DragEvent<HTMLDivElement>,
@@ -133,29 +129,6 @@ const AddTextPanel = () => {
     });
   };
 
-  const addChapter = () =>
-    addElement({
-      type: "text",
-      bookRole: "chapter",
-      text: "Chapter title",
-      chapterSubtitle: "",
-      chapterAutoNumber: true,
-      x: defaultX - 135,
-      y: 32,
-      width: 270,
-      height: 70,
-      rotation: 0,
-      opacity: 1,
-      zIndex: 1,
-      fontFamily: "Plus Jakarta Sans",
-      fontSize: 30,
-      fontWeight: 700,
-      lineHeight: 1.2,
-      textAlign: "left",
-      letterSpacing: 0,
-      color: DEFAULT_TEXT_COLOR,
-    });
-
   const addTextByTemplate = (template: TextTemplate) =>
     addTextTemplateAtPoint(template.json_url, defaultX, defaultY);
 
@@ -180,18 +153,6 @@ const AddTextPanel = () => {
     getTemplates();
   }, []);
 
-  if (panelView === "index-styles") {
-    return (
-      <BookIndexStyleGallery
-        onBack={() => setPanelView("list")}
-        onSelect={(styleKey) => {
-          addBookIndex(styleKey);
-          setPanelView("list");
-        }}
-      />
-    );
-  }
-
   return (
     <div className="kd-text-add-panel-container">
       <div className="kd-text-add-panel-fixed">
@@ -203,28 +164,6 @@ const AddTextPanel = () => {
         {/* <p className="kd-toolPanel-sub-heding-text pt-2">Default Text Styles</p> */}
 
         <div className="kd-default-styles-list">
-          <DefaultStyleCard
-            label="📖 Chapter"
-            dragType="book-chapter"
-            style={{
-              fontSize: 16,
-              fontWeight: 700,
-              fontFamily: "Plus Jakarta Sans",
-            }}
-            onClick={addChapter}
-            onDragStart={handleDragStart}
-          />
-          <DefaultStyleCard
-            label="Book Index"
-            dragType="book-index"
-            style={{
-              fontSize: 15,
-              fontWeight: 600,
-              fontFamily: "Plus Jakarta Sans",
-            }}
-            onClick={() => setPanelView("index-styles")}
-            onDragStart={handleDragStart}
-          />
           <DefaultStyleCard
             label="Add Heading"
             dragType="text-h1"

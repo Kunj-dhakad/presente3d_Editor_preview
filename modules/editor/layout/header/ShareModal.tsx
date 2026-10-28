@@ -8,6 +8,7 @@ import useEditorStore from "@editor/store/editorStore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faDownload } from '@fortawesome/free-solid-svg-icons'
 import clsx from "clsx";
+import { apiFetch } from "@shared/apiFetch";
 
 /* ---------------- TYPES ---------------- */
 
@@ -72,7 +73,7 @@ export default function ShareModal({ open, setOpen }: ShareModalProps) {
   const handlePpt = async () => {
     try {
       startLoading("ppt");
-      const res = await fetch("/api/generate-ppt", {
+      const res = await apiFetch("/api/generate-ppt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slides }),
@@ -97,7 +98,7 @@ export default function ShareModal({ open, setOpen }: ShareModalProps) {
 
       // Goes through our own route rather than straight to the render Lambda:
       // calling it from here meant shipping its credential in the bundle.
-      const res = await fetch("/api/export-pdf", {
+      const res = await apiFetch("/api/export-pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slides }),
@@ -108,7 +109,7 @@ export default function ShareModal({ open, setOpen }: ShareModalProps) {
       const data = await res.json();
       if (!data?.url) throw new Error("The export service returned no file.");
 
-      triggerDownload(data.url, "book.pdf");
+      triggerDownload(data.url, "presentation.pdf");
     } catch (err) {
       failWith("pdf", err, "PDF export failed.");
     } finally {
@@ -136,10 +137,6 @@ export default function ShareModal({ open, setOpen }: ShareModalProps) {
       startLoading("json");
       const jsonData = JSON.stringify({ slides }, null, 2);
       const blob = new Blob([jsonData], { type: "application/json" });
-      const exportForm = new FormData();
-      exportForm.append("file", blob, "book.json");
-      const stored = await fetch("/api/exports", {method:"POST",body:exportForm});
-      if (!stored.ok) throw new Error("Could not save the JSON export.");
       const url = URL.createObjectURL(blob);
       urls.push(url);
       triggerDownload(url, "Template.json");

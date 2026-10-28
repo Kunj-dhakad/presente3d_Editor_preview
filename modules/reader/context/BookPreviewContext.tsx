@@ -231,7 +231,7 @@ export function BookPreviewProvider({
 
 
   const [viewMode, setViewMode] =
-    useState<ViewMode>("flipbook");
+    useState<ViewMode>("horizontal");
 
   /*
    * Pages panel: open by default on wide screens, closed on phones. Once the

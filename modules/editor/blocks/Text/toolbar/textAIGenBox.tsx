@@ -99,7 +99,7 @@
 //     setLoading(true);
 
 //     try {
-//       const res = await fetch("/api/generate-ai-text", {
+//       const res = await apiFetch("/api/generate-ai-text", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({
@@ -126,7 +126,7 @@
 //     setLoading(true);
 
 //     try {
-//       const res = await fetch("/api/generate-ai-text", {
+//       const res = await apiFetch("/api/generate-ai-text", {
 //         method: "POST",
 //         headers: { "Content-Type": "application/json" },
 //         body: JSON.stringify({
@@ -256,6 +256,7 @@ import {
 } from "lucide-react";
 import useEditorStore from "@editor/store/editorStore";
 import { Kd_magic_TextGenIcon } from "@editor/lib/icon/icons";
+import { apiFetch } from "@shared/apiFetch";
 
 const ACTION_PROMPTS: Record<string, string> = {
   Simplify: "Simplify this text.",
@@ -346,7 +347,7 @@ export default function TextAIGenBox({
     setLoading(true);
 
     try {
-      const res = await fetch("/api/generate-ai-text", {
+      const res = await apiFetch("/api/generate-ai-text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -373,7 +374,7 @@ export default function TextAIGenBox({
     setLoading(true);
 
     try {
-      const res = await fetch("/api/generate-ai-text", {
+      const res = await apiFetch("/api/generate-ai-text", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

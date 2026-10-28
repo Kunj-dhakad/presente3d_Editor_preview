@@ -1,7 +1,7 @@
 import React from "react";
 import useEditorStore from "@editor/store/editorStore";
 import { toggleMainPanel } from "@editor/lib/ui/mainPanel";
-import { ButtonIcon, ElementsIcon, ImageIcon, KdCoverpageIcon, KdWaterMarkIcon, TemplateIcon, TextIcon, VideoIcon } from "@editor/lib/icon/icons";
+import { ButtonIcon, ElementsIcon, ImageIcon, KdWaterMarkIcon, TemplateIcon, TextIcon, VideoIcon } from "@editor/lib/icon/icons";
 
 /**
  * The panels the nav offers. Exported because the narrow shell shows the same
@@ -12,7 +12,6 @@ export type NavItem = { panel: string; icon: React.ReactElement; label: string }
 
 export const NAV_ITEMS: NavItem[] = [
     { panel: "TemplateAddPanel", icon: <TemplateIcon />, label: "Template" },
-    { panel: "BookCoverpage", icon: <KdCoverpageIcon  />, label: "Coverpage" },
     { panel: "text", icon: <TextIcon />, label: "Text" },
     { panel: "image", icon: <ImageIcon />, label: "Images" },
     { panel: "AddButtonPanel", icon: <ButtonIcon />, label: "Buttons" },

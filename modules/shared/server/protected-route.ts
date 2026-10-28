@@ -1,6 +1,5 @@
 import {NextRequest,NextResponse} from "next/server";
-import {apiError,requireUser,consumeLimit,jsonBody} from "./api";
-import {consumeAi} from "./limits";
+import {apiError,requireUser,consumeLimit,consumeAi,jsonBody} from "./api";
 export function protectedRoute(handler:(request:NextRequest)=>Promise<Response>,scope="ai") {
  return async(request:NextRequest)=>{
   try{
@@ -14,4 +13,3 @@ export function protectedRoute(handler:(request:NextRequest)=>Promise<Response>,
   }catch(e){return apiError(e);}
  };
 }
-

@@ -715,7 +715,7 @@ const useEditorStore = create<EditorStore>()(
   persist(
     immer((set, get) => ({
       slides: [{
-        id: "1", height: 434, width: 350, background: "#ffffff",
+        id: "1", height: 480, width: 853.33, background: "#ffffff",
         subtitle_url: "", subtitle_text: "", subtitle_json: "", thumbnail: "", elements: [],
       }],
       activeSlide: 0,

@@ -1,4 +1,5 @@
 import { createClient } from "@editor/lib/pexels-client";
+import { apiFetch } from "@shared/apiFetch";
 
 
 let pexels: ReturnType<typeof createClient> | null = null;
@@ -41,7 +42,7 @@ const searchImage = async (request: ImageRequest): Promise<string | null> => {
 
 const generateImage = async (prompt: string): Promise<string | null> => {
     try {
-        const res = await fetch("/api/generate-openAiImage", {
+        const res = await apiFetch("/api/generate-openAiImage", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt }),

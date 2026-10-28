@@ -4,6 +4,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Sparkles, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
+import { apiFetch } from "@shared/apiFetch";
 
 export default function NewSlideCreteAi({
     isOpen,
@@ -75,10 +76,13 @@ export default function NewSlideCreteAi({
         setLoading(true);
 
         try {
-            const response = await fetch("/api/generate-Ai-slide", {
+            // The new slide matches the deck's size (slide size is document-wide).
+            const deck = useEditorStore.getState();
+            const current = deck.slides[deck.activeSlide] ?? deck.slides[0];
+            const response = await apiFetch("/api/generate-Ai-slide", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ prompt }),
+                body: JSON.stringify({ prompt, width: current?.width ?? 853.33, height: current?.height ?? 480 }),
             });
 
             const data = await response.json();

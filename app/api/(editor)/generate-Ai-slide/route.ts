@@ -288,10 +288,36 @@ function buildLandscape(c: PageContent, src: string) {
   ], subtitle);
 }
 
+/**
+ * Presentation slides (853.33 × 480 by default) reuse the 690 × 434 landscape
+ * layouts, stretched to the slide: positions and sizes scale per axis, type by
+ * the smaller factor so text never outgrows its box.
+ */
+function scaleSlide(page: ReturnType<typeof buildLandscape>, width: number, height: number) {
+  const sx = width / page.width;
+  const sy = height / page.height;
+  const sf = Math.min(sx, sy);
+  const round = (n: number) => Math.round(n * 100) / 100;
+  return {
+    ...page,
+    width,
+    height,
+    elements: page.elements.map((el) => ({
+      ...el,
+      x: round(Number(el.x ?? 0) * sx),
+      y: round(Number(el.y ?? 0) * sy),
+      width: round(Number(el.width ?? 0) * sx),
+      height: round(Number(el.height ?? 0) * sy),
+      ...(typeof el.fontSize === "number" ? { fontSize: round(el.fontSize * sf) } : {}),
+    })),
+  };
+}
+
 function buildPage(c: PageContent, prompt: string, width: number, height: number, pageNum: number) {
   const src = imageUrl(prompt, width, height, pageNum);
 
   if (width === 690 && height === 434) return buildLandscape(c, src);
+  if (width / height > 1.3) return scaleSlide(buildLandscape(c, src), width, height);
   if (width === 434 && height === 434) return buildSquare(c, src);
 
   return buildPortrait(c, src);
@@ -299,7 +325,7 @@ function buildPage(c: PageContent, prompt: string, width: number, height: number
 
 async function handlePOST(req: Request) {
   try {
-    const { prompt, width = 350, height = 434, pageNum = 1 } = await req.json();
+    const { prompt, width = 853.33, height = 480, pageNum = 1 } = await req.json();
 
     if (!prompt?.trim()) {
       return NextResponse.json({ success: false, error: "Prompt required" }, { status: 400 });
@@ -312,7 +338,7 @@ async function handlePOST(req: Request) {
         {
           role: "user",
           content: `
-            Generate attractive book page content for: "${prompt}"
+            Generate attractive presentation slide content for: "${prompt}"
             
             Return ONLY JSON:
             {
@@ -335,7 +361,7 @@ async function handlePOST(req: Request) {
     return NextResponse.json({ success: true, content: page });
 
   } catch (error: unknown) {
-    console.error("BOOK PAGE ERROR:", error);
+    console.error("AI slide generation failed:", error);
     const errorMessage = error instanceof Error ? error.message : "Generation failed";
     return NextResponse.json(
       { success: false, error: errorMessage },

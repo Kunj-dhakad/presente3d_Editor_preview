@@ -53,18 +53,27 @@ type ThumbObserver = {
   unobserve: (el: Element) => void;
 };
 
+/**
+ * Thumbnails are at most THUMB_MAX_W wide so a 16:9 slide fits the 172px rail
+ * with room around it; narrower (portrait) pages keep the usual scale.
+ */
+const THUMB_MAX_W = 140;
+const thumbScale = (slide: SlideType) =>
+  Math.min(MINI_SCALE, THUMB_MAX_W / (slide.width || 853.33));
+
 /** Same footprint as the real thumbnail, so nothing shifts when it swaps in. */
 const MiniSlidePlaceholder = memo(function MiniSlidePlaceholder({
   slide,
 }: {
   slide: SlideType;
 }) {
+  const scale = thumbScale(slide);
   return (
     <div
       className="rounded"
       style={{
-        width: (slide.width ?? 853.33) * MINI_SCALE,
-        height: (slide.height ?? 480) * MINI_SCALE,
+        width: (slide.width ?? 853.33) * scale,
+        height: (slide.height ?? 480) * scale,
         background: slide.background || "#ffffff",
       }}
     />
@@ -121,7 +130,7 @@ const SlideItem = memo(
         >
           <div className="text-[11px] kd-text-muted select-none">
             {seen ? (
-              <MiniSlidePreview slide={slide} />
+              <MiniSlidePreview slide={slide} scale={thumbScale(slide)} />
             ) : (
               <MiniSlidePlaceholder slide={slide} />
             )}

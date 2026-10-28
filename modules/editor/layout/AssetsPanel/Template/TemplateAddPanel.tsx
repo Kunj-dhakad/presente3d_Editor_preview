@@ -9,6 +9,7 @@ import {
   setShapeDrag,
 } from "@editor/layout/EditorCanvas/utils/dragPayloads";
 import AssetThumb from "@editor/components/AssetThumb";
+import { apiFetch } from "@shared/apiFetch";
 
 const TEMPLATE_BUCKET =
   "https://kdmeditor.s3.us-east-1.amazonaws.com/kd_videoeditor/files/templates";
@@ -56,7 +57,6 @@ const TemplateAddPanel: React.FC<{ Addtype?: string }> = ({}) => {
   const [previewTemplate, setPreviewTemplate] =
     useState<TemplateListItem | null>(null);
   const token = useProjectInfoStore((s) => s.token);
-  const api_url = useProjectInfoStore((s) => s.api_url);
   useEffect(() => {
     (async () => {
       try {
@@ -64,7 +64,7 @@ const TemplateAddPanel: React.FC<{ Addtype?: string }> = ({}) => {
         formData.append("access_token", token || "");
         formData.append("search_temp", search);
 
-        const res = await fetch(`${api_url}sl_editor_template_listing`, {
+        const res = await apiFetch("/api/templates", {
           method: "POST",
           body: formData,
         });
@@ -87,7 +87,7 @@ const TemplateAddPanel: React.FC<{ Addtype?: string }> = ({}) => {
         setLoading(false);
       }
     })();
-  }, [api_url, search, token]);
+  }, [search, token]);
 
   const filtered = useMemo(() => {
     return elements.filter((el) => {

@@ -12,6 +12,7 @@ import OpacityPanel from "@editor/blocks/shared/EditPopup/OpacityPanel";
 import BorderRadiusPanel from "@editor/blocks/shared/EditPopup/BorderRadiusPanel";
 import { KdCropIcon, KdFlipIcon, KdGradBgIcon, KdLinkAddIcon, KdMagicWandIcon, KdRadiusIcon, KdReloadIcon, KdStrokeIcon, KdUndoIcon } from "@editor/lib/icon/icons";
 import CopyStyleTopAction from "@editor/layout/EditorCanvas/toolbar/EditTool/ComanEditTool/CopyStyleTopAction";
+import { apiFetch } from "@shared/apiFetch";
 
 interface ToolbarProps {
   target?: HTMLElement | null;
@@ -87,7 +88,7 @@ const ImageEditPanel: React.FC<ToolbarProps> = ({ target }) => {
 
  
   const pollResult = async (fetchUrl: string): Promise<string> => {
-    const res = await fetch('/api/ImageBgRemovefetch-result', {
+    const res = await apiFetch('/api/ImageBgRemovefetch-result', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fetchUrl }),
@@ -110,7 +111,7 @@ const ImageEditPanel: React.FC<ToolbarProps> = ({ target }) => {
     try {
 
       setBgRemovingElementId(element.id);
-      const res = await fetch('/api/imageBgRemove', {
+      const res = await apiFetch('/api/imageBgRemove', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ imageSrc: data.src }),

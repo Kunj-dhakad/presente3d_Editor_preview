@@ -11,6 +11,7 @@ import React, {
 import useEditorStore from "@editor/store/editorStore";
 import { loadGoogleFont, loadFontPreview } from "@shared/fonts/useFontLoader";
 import { CURATED_FONTS, type FontItem } from "@shared/fonts/fonts";
+import { apiFetch } from "@shared/apiFetch";
 
 /** Rows rendered before the "load more" sentinel adds another page. */
 const PAGE_SIZE = 24;
@@ -24,7 +25,7 @@ const PAGE_SIZE = 24;
 
 async function fetchGoogleFonts(signal: AbortSignal): Promise<FontItem[] | null> {
   try {
-    const res = await fetch(
+    const res = await apiFetch(
       "/api/fonts",
       { signal }
     );

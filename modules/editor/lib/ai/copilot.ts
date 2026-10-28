@@ -3,6 +3,7 @@ import { validateCopilotResponse } from "./actions/validate";
 import { buildCopilotContext } from "./context/buildContext";
 import { executeAIActions } from "./executor/executeActions";
 import type { AIAction, ChatTurn, ExecutionResult } from "./types";
+import { apiFetch } from "@shared/apiFetch";
 
 /**
  * READ -> UNDERSTAND -> PLAN -> VALIDATE -> APPLY.
@@ -26,7 +27,7 @@ const currentContext = (lastTouchedIds: string[] | undefined) => {
 };
 
 const requestPlan = async (input: CopilotTurnInput, context: ReturnType<typeof currentContext>) => {
-    const res = await fetch("/api/ai-copilot", {
+    const res = await apiFetch("/api/ai-copilot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input.message, context, history: input.history }),

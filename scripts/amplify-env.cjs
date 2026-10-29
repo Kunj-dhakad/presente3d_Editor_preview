@@ -24,6 +24,8 @@ const NAMES = [
   "OPENAI_API_KEY", "PEXELS_API_KEY", "SPEECHIFY_API_KEY", "MODELSLAB_API_KEY", "AI_DAILY_LIMIT",
   // branding
   "NEXT_PUBLIC_APP_NAME",
+  // PowerPoint exports on the ppt-export Lambda (lambda/ppt-export); empty uses /api/generate-ppt
+  "NEXT_PUBLIC_PPT_EXPORT_URL",
 ];
 const REQUIRED = ["APP_URL", "KD_AWS_S3_BUCKET_NAME", "KD_AWS_ACCESS_KEY_ID", "KD_AWS_SECRET_ACCESS_KEY", "OPENAI_API_KEY"];
 

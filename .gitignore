@@ -64,3 +64,7 @@ next-env.d.ts
 /scripts/*
 !/scripts/setup.cjs
 !/scripts/amplify-env.cjs
+!/scripts/build-ppt-lambda.mjs
+
+# ppt-export Lambda build output (npm run build:ppt-lambda)
+/lambda/ppt-export/dist/

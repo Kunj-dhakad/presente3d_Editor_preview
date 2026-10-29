@@ -1,7 +1,7 @@
 import type { SlideType } from "@editor/store/editorStore";
 import useEditorUIStore from "@editor/store/useEditorUIStore";
 import { generateImages } from "@editor/lib/outputGenerateLibrary/generateImages";
-import { apiFetch } from "@shared/apiFetch";
+import { apiFetch, PPT_EXPORT_URL } from "@shared/apiFetch";
 
 /**
  * Saving goes to the PHP app, the same endpoints the old editor used
@@ -62,7 +62,7 @@ export async function publishPresentation(project: PhpProject, slides: SlideType
   const slidesZip = await zip.generateAsync({ type: "blob" });
   const thumbnail = await dataUrlToBlob(images[0].dataUrl);
 
-  const res = await apiFetch("/api/generate-ppt", {
+  const res = await apiFetch(PPT_EXPORT_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ slides }),

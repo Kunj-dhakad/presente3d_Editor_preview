@@ -8,7 +8,7 @@ import useEditorStore from "@editor/store/editorStore";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleNotch, faDownload } from '@fortawesome/free-solid-svg-icons'
 import clsx from "clsx";
-import { apiFetch } from "@shared/apiFetch";
+import { apiFetch, PPT_EXPORT_URL } from "@shared/apiFetch";
 
 /* ---------------- TYPES ---------------- */
 
@@ -73,7 +73,7 @@ export default function ShareModal({ open, setOpen }: ShareModalProps) {
   const handlePpt = async () => {
     try {
       startLoading("ppt");
-      const res = await apiFetch("/api/generate-ppt", {
+      const res = await apiFetch(PPT_EXPORT_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slides }),

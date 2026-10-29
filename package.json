@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit --incremental false",
-    "library:export": "node scripts/export-library.cjs"
+    "library:export": "node scripts/export-library.cjs",
+    "build:ppt-lambda": "node scripts/build-ppt-lambda.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1132.0",
@@ -56,6 +57,7 @@
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.1",
     "baseline-browser-mapping": "^2.10.29",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "^16.3.5",
     "tailwindcss": "^4",

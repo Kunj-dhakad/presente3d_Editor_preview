@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // ppt-export Lambda bundle (npm run build:ppt-lambda)
+    "lambda/ppt-export/dist/**",
   ]),
   {
     // CommonJS helper scripts run under plain Node, where `require` is the

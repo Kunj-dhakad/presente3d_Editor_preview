@@ -1,7 +1,6 @@
 import type { SlideType } from "@editor/store/editorStore";
 import useEditorUIStore from "@editor/store/useEditorUIStore";
 import { generateImages } from "@editor/lib/outputGenerateLibrary/generateImages";
-import { apiFetch, PPT_EXPORT_URL } from "@shared/apiFetch";
 
 /**
  * Saving goes to the PHP app, the same endpoints the old editor used
@@ -41,9 +40,10 @@ export function renamePresentation(project: PhpProject, title: string) {
 const dataUrlToBlob = (dataUrl: string) => fetch(dataUrl).then(r => r.blob());
 
 /**
- * Publish: everything PHP keeps beside the JSON. A PowerPoint file (built by
- * /api/generate-ppt; PHP downloads it from the returned URL), a thumbnail of
- * slide 1, and a zip of every slide as PNG, which PHP unpacks into slides_thumbs.
+ * Publish: everything PHP keeps beside the JSON. A thumbnail of slide 1, and a
+ * zip of every slide as PNG, which PHP unpacks into slides_thumbs. No
+ * PowerPoint file: that is made separately (ppt-export Lambda), so publishing
+ * does not wait on it or fail with it. PHP accepts an optional ppt_file URL.
  */
 export async function publishPresentation(project: PhpProject, slides: SlideType[]) {
   const ui = useEditorUIStore.getState();
@@ -62,18 +62,10 @@ export async function publishPresentation(project: PhpProject, slides: SlideType
   const slidesZip = await zip.generateAsync({ type: "blob" });
   const thumbnail = await dataUrlToBlob(images[0].dataUrl);
 
-  const res = await apiFetch(PPT_EXPORT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ slides }),
-  });
-  const ppt = await res.json().catch(() => null);
-  if (!res.ok || !ppt?.url) throw new Error(ppt?.error || "The PowerPoint file could not be created.");
-
   return post(
     project,
     "sl_editor_json_ppt_upload",
-    { json: documentJson(slides), ppt_file: ppt.url },
+    { json: documentJson(slides) },
     { thumbnail: [thumbnail, "thumbnail.png"], slides_zip: [slidesZip, "slides.zip"] },
   );
 }

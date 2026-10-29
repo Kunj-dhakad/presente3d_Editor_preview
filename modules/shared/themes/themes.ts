@@ -8,23 +8,23 @@ export const THEMES: Record<string, Record<string, string>> = {
  
   dark: {
 
-    "--kd-accent": "#8b78ee",
-    "--kd-accent-hover": "#9d8cf2",
-    "--kd-accent-active": "#7a66e6",
-    "--kd-accent-soft": "#8b78ee26",
-    // Neutral surfaces ke upar #2e2348 ek saturated violet patch ban
+    "--kd-accent": "#0a9ad8",
+    "--kd-accent-hover": "#22aef0",
+    "--kd-accent-active": "#0088cc",
+    "--kd-accent-soft": "#00a6ee26",
+    // Neutral surfaces ke upar saturated blue patch ban
     // ke chipakta tha. Neutral ki taraf khinch diya taaki tint lage,
     // sticker nahi.
-    "--kd-accent-subtle": "#252236",
+    "--kd-accent-subtle": "#16242e",
     "--kd-on-accent": "#ffffff",
-    "--kd-scrollbar-thumb": "#4a4466",
-    "--kd-scrollbar-thumb-hover": "#6b6394",
+    "--kd-scrollbar-thumb": "#3e5260",
+    "--kd-scrollbar-thumb-hover": "#587486",
 
     /* Surfaces
        Dark me depth shadow se NAHI aati (black-on-black invisible hai) —
        surface ke lighter hone se aati hai. Isliye well ko neeche gira ke
        aur elevated ko upar utha ke har level ke beech asli gap banaya
-       gaya hai. Neutrals me halka violet tint accent ke hue se mel
+       gaya hai. Neutrals me halka cool tint accent ke hue se mel
        khata hai; pure gray dark me dead lagta tha. */
     "--kd-bg-app": "#0e0e13",
     "--kd-bg-surface": "#1a1a21",
@@ -72,8 +72,8 @@ export const THEMES: Record<string, Record<string, string>> = {
     "--kd-shadow-lg": "0 6px 18px #000000a6, 0 0 0 1px #ffffff14",
     "--kd-shadow-popup": "0 12px 32px #000000b3, 0 0 0 1px #ffffff1a",
     "--kd-shadow-color-strong": "#00000099",
-    "--kd-focus-ring": "0 0 0 3px #9d78ea40",
-    "--kd-ring": "#9d78ea66",
+    "--kd-focus-ring": "0 0 0 3px #22aef040",
+    "--kd-ring": "#22aef066",
 
     // Tooltip / thumbnail badge ka bg. #26262e surface (#1c1c22) ke
     // itna paas tha ki dark me tooltip dikhta hi nahi tha — isliye
@@ -89,10 +89,10 @@ export const THEMES: Record<string, Record<string, string>> = {
        ki tarah behave karta hai, aur uske upar white text 5.4:1 se
        ~7.5:1 par chala jaata hai. */
     "--kd-gradient-brand":
-      "linear-gradient(90deg, var(--kd-brand-700) 0%, var(--kd-brand-600) 50%, var(--kd-brand-500) 100%)",
+      "linear-gradient(90deg, var(--kd-brand-800) 0%, var(--kd-brand-700) 50%, var(--kd-brand-600) 100%)",
     "--kd-gradient-accent":
-      "linear-gradient(180deg, var(--kd-brand-400) 0%, var(--kd-brand-600) 100%)",
+      "linear-gradient(180deg, var(--kd-brand-500) 0%, var(--kd-brand-700) 100%)",
     "--kd-gradient-soft":
-      "linear-gradient(135deg, var(--kd-accent-subtle), #332a4a)",
+      "linear-gradient(135deg, var(--kd-accent-subtle), #1d3442)",
   },
 };

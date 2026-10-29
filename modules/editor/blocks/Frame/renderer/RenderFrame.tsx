@@ -246,7 +246,7 @@ const RenderFrame: React.FC<{
                   inset: 0,
                   clipPath: shape.clip,
                   WebkitClipPath: shape.clip,
-                  background: "rgba(112,105,232,0.35)",
+                  background: "rgba(0, 166, 238,0.35)",
                   pointerEvents: "none",
                 }}
               />

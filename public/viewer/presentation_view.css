@@ -4,7 +4,7 @@ body {
     height: 100dvh;
     display: flex;
     overflow: hidden;
-    background: #190310;
+    background: #050E15;
     flex-direction: column;
     font-family: Arial, sans-serif;
 }
@@ -12,17 +12,17 @@ body {
 :root {
     --slide-h: 625px;
     --slide-w: 1110px;
-    --panel-bg: #EC2CA3;
-    --agent-btn-bg: #EC2CA3;
+    --panel-bg: #00A6EE;
+    --agent-btn-bg: #00A6EE;
     --agent-bot-bg: #EEF1FF;
-    --agent-primary: #EC2CA3;
+    --agent-primary: #00A6EE;
     --agent-bot-text: #0E1843;
-    --agent-primary-bg: #EC2CA3;
+    --agent-primary-bg: #00A6EE;
     --agent-role-color: #ffffff;
     --agent-name-color: #ffffff;
     --agent-suggest-text: #0E1843;
     --agent-voice-icon-color: #fff;
-    --agent-voice-icon-bg: #EC2CA3;
+    --agent-voice-icon-bg: #00A6EE;
     --agent-bot-title-text: #0E1843;
     --agent-bot-white-text: #ffffff;
     --agent-msg-bubble-text: #0E1843;
@@ -36,14 +36,14 @@ body {
 }
 
 .btn-primary {
-    --bs-btn-bg: #EC2CA3 !important;
-    --bs-btn-border-color: #EC2CA3 !important;
-    --bs-btn-disabled-bg: #EC2CA3 !important;
-    --bs-btn-disabled-border-color: #EC2CA3 !important;
-    --bs-btn-active-bg: #EC2CA3 !important;
-    --bs-btn-active-border-color: #EC2CA3 !important;
-    --bs-btn-hover-bg: #EC2CA3 !important;
-    --bs-btn-hover-border-color: #EC2CA3 !important;
+    --bs-btn-bg: #00A6EE !important;
+    --bs-btn-border-color: #00A6EE !important;
+    --bs-btn-disabled-bg: #00A6EE !important;
+    --bs-btn-disabled-border-color: #00A6EE !important;
+    --bs-btn-active-bg: #00A6EE !important;
+    --bs-btn-active-border-color: #00A6EE !important;
+    --bs-btn-hover-bg: #00A6EE !important;
+    --bs-btn-hover-border-color: #00A6EE !important;
 }
 
 .main-presentation-view {
@@ -115,7 +115,7 @@ body {
 .active-slide {
     opacity: 1;
     transform: scale(1.08);
-    border-color: #EC2CA3 !important;
+    border-color: #00A6EE !important;
 }
 
 .slide-panel-container::-webkit-scrollbar {
@@ -348,13 +348,13 @@ footer {
     /* display: flex;
     align-items: center; */
     /* background: #0c152f; */
-    /* background: #EC2CA3; */
+    /* background: #00A6EE; */
     /* justify-content: space-between; */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 header {
-    background: #EC2CA3;
+    background: #00A6EE;
     height: 45px;
     padding: 10px 20px;
     display: flex;
@@ -376,7 +376,7 @@ header {
 
 footer {
     height: 60px;
-    background: #20131F;
+    background: #0D1820;
     z-index: 999;
 
     .controls {
@@ -394,7 +394,7 @@ footer {
             width: 0%;
             position: relative;
             transition: width 0.4s ease;
-            background: #EC2CA3 !important;
+            background: #00A6EE !important;
 
             &::after {
                 top: -4px;
@@ -405,7 +405,7 @@ footer {
                 position: absolute;
                 border-radius: 8px;
                 border: 2px solid rgba(255, 255, 255, 0.60);
-                background: #EC2CA3;
+                background: #00A6EE;
             }
         }
     }
@@ -422,7 +422,7 @@ header h3 {
     line-height: 20px;
     padding: 5px 20px;
     font-weight: 500;
-    background: #190310;
+    background: #050E15;
     border-radius: 6px;
     color: #fff;
     text-wrap: nowrap;
@@ -462,13 +462,13 @@ header h3 {
         justify-content: space-between;
         width: 130px;
         box-sizing: border-box;
-        background: #190310;
+        background: #050E15;
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 5px;
         overflow: hidden;
 
         .icon-btn {
-            background: #20131F;
+            background: #0D1820;
             border-radius: 0;
         }
 
@@ -484,7 +484,7 @@ header h3 {
 
         .slide-index {
             font-size: 14px;
-            color: #EC2CA3 !important;
+            color: #00A6EE !important;
         }
     }
 
@@ -549,10 +549,10 @@ header h3 {
                 &:active,
                 &:hover {
                     color: #fff;
-                    background: #EC2CA3;
+                    background: #00A6EE;
 
                     .icon-btn {
-                        background: #EC2CA3;
+                        background: #00A6EE;
                         color: #fff;
                     }
                 }
@@ -568,12 +568,12 @@ header h3 {
     display: flex;
     font-size: 16px;
     cursor: pointer;
-    color: #EC2CA3;
+    color: #00A6EE;
     border-radius: 8px;
     align-items: center;
     transition: all 0.5s;
     justify-content: center;
-    background: #190310;
+    background: #050E15;
 
     @media screen and (max-width:767px) {
         width: 30px;
@@ -595,7 +595,7 @@ header h3 {
     display: flex;
     cursor: pointer;
     font-size: 20px;
-    color: #EC2CA3;
+    color: #00A6EE;
     text-align: center;
     border-radius: 8px;
     align-items: center;
@@ -607,7 +607,7 @@ header h3 {
 }
 
 .icon-btn-2:hover {
-    color: #EC2CA3;
+    color: #00A6EE;
     transition: all 0.5s;
 }
 
@@ -615,7 +615,7 @@ header h3 {
 .icon-btn:hover {
     opacity: 1;
     color: #FFFFFF;
-    background: #EC2CA3;
+    background: #00A6EE;
     transition: all 0.5s;
 }
 
@@ -644,11 +644,11 @@ header h3 {
     align-items: center;
     padding: 7px 12px;
     gap: 8px;
-    background: rgba(112, 105, 232, 0.1);
-    border: 1px solid #EC2CA3;
+    background: rgba(0, 166, 238, 0.1);
+    border: 1px solid #00A6EE;
     border-radius: 6px;
     line-height: 20px;
-    color: rgba(236, 44, 163, 1);
+    color: rgba(0, 166, 238, 1);
     transition: all 0.5s;
 
     @media screen and (max-width:575px) {
@@ -660,7 +660,7 @@ header h3 {
 
 .ask-ques-btn:hover {
     color: #fff;
-    background: #EC2CA3;
+    background: #00A6EE;
     transition: all 0.5s;
 }
 
@@ -801,8 +801,8 @@ header h3 {
 
         &:hover {
             transform: translateY(-3px);
-            border: 1px solid #EC2CA3 !important;
-            background: rgba(236, 44, 163, 0.15);
+            border: 1px solid #00A6EE !important;
+            background: rgba(0, 166, 238, 0.15);
 
         }
 
@@ -871,8 +871,8 @@ ul.reaction-box li.active,
 ul.reaction-box li:hover {
     opacity: 1;
     scale: 1.2;
-    border: 1px solid #EC2CA3 !important;
-    background: rgba(236, 44, 163, 0.15) !important;
+    border: 1px solid #00A6EE !important;
+    background: rgba(0, 166, 238, 0.15) !important;
 }
 
 ul.reaction-box li {
@@ -917,7 +917,7 @@ ul.reaction-box li {
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     transition: 0.35s ease;
-    background: #20131F;
+    background: #0D1820;
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0px 3.52px 35.2px 0px #00000026;
 }
@@ -968,7 +968,7 @@ ul.reaction-box li {
     color: #ffffff;
     align-items: center;
     justify-content: center;
-    background-color:rgba(236, 44, 163, 1);
+    background-color:rgba(0, 166, 238, 1);
     font-size: 48px;
     font-family: sans-serif;
 }
@@ -1381,7 +1381,7 @@ ul.reaction-box li {
     color: black;
     overflow: hidden;
     position: relative;
-    background: #20131F;
+    background: #0D1820;
     pointer-events: none;
     transition: 0.35s ease;
     transform: translateX(250px);
@@ -1487,8 +1487,8 @@ ul.reaction-box li {
             align-self: flex-end;
 
             .message-bubble {
-                background: #EC2CA3;
-                border: 1px solid #EC2CA3;
+                background: #00A6EE;
+                border: 1px solid #00A6EE;
                 border-radius: 8px 8px 0px 8px;
                 margin-top: 5px;
                 max-width: fit-content;
@@ -1505,7 +1505,7 @@ ul.reaction-box li {
             /* text-align: justify; */
 
             .message-bubble {
-                background: #190310;
+                background: #050E15;
                 color: #fff;
                 border-radius: 8px 8px 8px 0px;
                 margin-top: 5px;
@@ -1564,7 +1564,7 @@ ul.reaction-box li {
     .chat-input {
         flex: 1;
         resize: none;
-        background: #190310;
+        background: #050E15;
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 8px 0px 0px 8px;
         padding: 10px 14px;
@@ -1592,7 +1592,7 @@ ul.reaction-box li {
         font-style: normal;
         font-weight: 400;
         font-size: 14px;
-        background: #EC2CA3;
+        background: #00A6EE;
 
         &:hover {
             opacity: 0.9;
@@ -1750,7 +1750,7 @@ ul.reaction-box li {
                 color: #ffffff;
                 max-width: 700px;
                 span{
-                    color: rgba(236, 44, 163, 1);
+                    color: rgba(0, 166, 238, 1);
                 }
                 @media screen and (min-width: 1380px) {
                     font-size: 75px;
@@ -1877,10 +1877,10 @@ ul.reaction-box li {
         }
 
         .modal-bnr {
-            background: linear-gradient(90deg, rgba(112, 105, 232, 0) 0%, rgba(112, 105, 232, 0.05) 48.08%, rgba(112, 105, 232, 0) 100%);
+            background: linear-gradient(90deg, rgba(0, 166, 238, 0) 0%, rgba(0, 166, 238, 0.05) 48.08%, rgba(0, 166, 238, 0) 100%);
             border-width: 0px 2px;
             border-style: solid;
-            border-color: #EC2CA3;
+            border-color: #00A6EE;
             border-radius: 8px;
             text-align: center;
             padding: 12px 25px;
@@ -1957,10 +1957,10 @@ ul.reaction-box li {
 
                 .btn-submit {
                     padding: 10px 15px;
-                    background: #EC2CA3;
+                    background: #00A6EE;
                     border-radius: 6px;
                     font-family: 'Inter';
-                    border: 1px solid #EC2CA3;
+                    border: 1px solid #00A6EE;
                     font-style: normal;
                     font-weight: 500;
                     line-height: 20px;
@@ -2005,7 +2005,7 @@ ul.reaction-box li {
         z-index: 1;
         border-radius: 10px;
         padding: 40px 40px 20px 40px;
-        border: 1px solid #EC2CA3;
+        border: 1px solid #00A6EE;
 
         .thankyou-bg {
             position: absolute;
@@ -2023,7 +2023,7 @@ ul.reaction-box li {
             font-style: normal;
             font-weight: 600;
             font-size: 26px;
-            color: #EC2CA3;
+            color: #00A6EE;
             margin: auto;
             margin-bottom: 20px;
             padding: 0;
@@ -2052,7 +2052,7 @@ ul.reaction-box li {
 
         .btn {
             padding: 10px 24px;
-            background-color: #EC2CA3;
+            background-color: #00A6EE;
             /* border: 1px solid #DAD8FF; */
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
@@ -2162,7 +2162,7 @@ ul.reaction-box li {
 
             .btn {
                 padding: 10px 24px;
-                background-color: #EC2CA3;
+                background-color: #00A6EE;
                 /* border: 1px solid #DAD8FF; */
                 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
@@ -2248,7 +2248,7 @@ ul.reaction-box li {
             color: #ffffff;
             max-width: 700px;
             span{
-                color: rgba(236, 44, 163, 1);
+                color: rgba(0, 166, 238, 1);
             }
             @media screen and (min-width: 1380px) {
                 font-size: 78px;
@@ -2311,10 +2311,10 @@ ul.reaction-box li {
         }
 
         .modal-bnr {
-            background: linear-gradient(90deg, rgba(112, 105, 232, 0) 0%, rgba(112, 105, 232, 0.05) 48.08%, rgba(112, 105, 232, 0) 100%);
+            background: linear-gradient(90deg, rgba(0, 166, 238, 0) 0%, rgba(0, 166, 238, 0.05) 48.08%, rgba(0, 166, 238, 0) 100%);
             border-width: 0px 2px;
             border-style: solid;
-            border-color: #EC2CA3;
+            border-color: #00A6EE;
             border-radius: 8px;
             text-align: center;
             padding: 12px 25px;
@@ -2388,10 +2388,10 @@ ul.reaction-box li {
 
                 .btn-submit {
                     padding: 10px 15px;
-                    background: #EC2CA3;
+                    background: #00A6EE;
                     border-radius: 6px;
                     font-family: 'Inter';
-                    border: 1px solid #EC2CA3;
+                    border: 1px solid #00A6EE;
                     font-style: normal;
                     font-weight: 500;
                     line-height: 20px;
@@ -2443,7 +2443,7 @@ ul.reaction-box li {
             font-style: normal;
             font-weight: 400;
             font-size: 26px;
-            color: #EC2CA3;
+            color: #00A6EE;
             margin: auto;
             margin-bottom: 20px;
             padding: 0;
@@ -2471,7 +2471,7 @@ ul.reaction-box li {
 
         .btn {
             padding: 10px 24px;
-            background-color: #EC2CA3;
+            background-color: #00A6EE;
             border: 1px solid #DAD8FF;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
@@ -2523,7 +2523,7 @@ ul.reaction-box li {
             .feedback-modal {
                 .form-control {
                     background: rgba(255, 255, 255, 0.1);
-                    border: 2px solid #EC2CA3;
+                    border: 2px solid #00A6EE;
                     border-radius: 10px;
                     margin-bottom: 15px;
                 }
@@ -2531,7 +2531,7 @@ ul.reaction-box li {
 
             .btn {
                 padding: 10px 24px;
-                background-color: #EC2CA3;
+                background-color: #00A6EE;
                 border: 1px solid #DAD8FF;
                 box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
@@ -2553,7 +2553,7 @@ ul.reaction-box li {
         left: 0;
         transform: translateX(-250px);
         height: 530px;
-        background: #20131F;
+        background: #0D1820;
         box-shadow: 5px 0px 53px 0px rgba(0, 0, 0, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.15);
         border-radius: 10px;
@@ -2570,7 +2570,7 @@ ul.reaction-box li {
             overflow-x: hidden;
             padding-right: 15px !important;
             margin-right: -15px !important;
-            scrollbar-color: #EC2CA3 #000000;
+            scrollbar-color: #00A6EE #000000;
 
             /* width */
             &::-webkit-scrollbar {
@@ -2590,14 +2590,14 @@ ul.reaction-box li {
             &::-webkit-scrollbar-thumb {
                 width: 2px;
                 height: 25px !important;
-                background: rgba(112, 105, 232, 0.8);
+                background: rgba(0, 166, 238, 0.8);
                 border-radius: 4px;
                 cursor: pointer;
             }
 
             /* Handle on hover */
             &::-webkit-scrollbar-thumb:hover {
-                background: #EC2CA3;
+                background: #00A6EE;
             }
 
             .slide-thumb-wrapper {
@@ -2707,7 +2707,7 @@ ul.reaction-box li {
             left: 0;
             bottom: 45px;
             z-index: 1;
-            background: #20131F;
+            background: #0D1820;
             height: unset;
             box-shadow: none;
             transform: translate(0, 100%);

@@ -228,7 +228,7 @@ function ViewerShell({ settings: s, env, slides }: { settings: ViewerSettings; e
                       <div
                         key={layer.key}
                         className={`slide-layer ${layer.className}${engine.isPlaying ? " play" : ""}`}
-                        style={{ position: "absolute", left: 0, top: 0, width: BOX_W, height: BOX_H, border: `${LAYER_BORDER}px solid #EC2CA3`, boxSizing: "border-box", overflow: "hidden", background: page.background || "#ffffff" }}
+                        style={{ position: "absolute", left: 0, top: 0, width: BOX_W, height: BOX_H, border: `${LAYER_BORDER}px solid #00A6EE`, boxSizing: "border-box", overflow: "hidden", background: page.background || "#ffffff" }}
                         onClick={e => { if (e.target === e.currentTarget) engine.togglePlay(); }}
                       >
                         <PageRenderer page={page} pageNumber={layer.index + 1} style={{ transform: `scale(${scale})`, transformOrigin: "top left", boxShadow: "none" }} />
@@ -276,7 +276,7 @@ function ViewerShell({ settings: s, env, slides }: { settings: ViewerSettings; e
               : <i className="fa-solid fa-play icon-btn-2" id="play" title="Play" style={{ display: "flex" }} onClick={() => engine.startPlayer()} />}
             <div className="left-pagination">
               <i className="fa-solid fa-angles-left icon-btn" id="prev" title="Previous" onClick={() => engine.prevSlide()} />
-              <p className="slide-index" id="slide-index" style={{ fontSize: 16, margin: "0 -16px", color: "#0D0A4D" }} title="Slide Index">{engine.index + 1}/{total}</p>
+              <p className="slide-index" id="slide-index" style={{ fontSize: 16, margin: "0 -16px", color: "#0B2638" }} title="Slide Index">{engine.index + 1}/{total}</p>
               <i className="fa-solid fa-angles-right icon-btn" id="next" title="Next" onClick={() => engine.nextSlide()} />
             </div>
           </div>
@@ -299,8 +299,8 @@ function ViewerShell({ settings: s, env, slides }: { settings: ViewerSettings; e
 
           <span className="right-controls">
             {engine.muted
-              ? <i className="fa-solid fa-volume-xmark" style={{ color: "#EC2CA3", fontSize: 20, cursor: "pointer" }} id="muteOffBtn" onClick={() => engine.toggleMute()} />
-              : <i className="fa-solid fa-volume-high" style={{ color: "#EC2CA3", fontSize: 20, cursor: "pointer" }} id="muteOnBtn" onClick={() => engine.toggleMute()} />}
+              ? <i className="fa-solid fa-volume-xmark" style={{ color: "#00A6EE", fontSize: 20, cursor: "pointer" }} id="muteOffBtn" onClick={() => engine.toggleMute()} />
+              : <i className="fa-solid fa-volume-high" style={{ color: "#00A6EE", fontSize: 20, cursor: "pointer" }} id="muteOnBtn" onClick={() => engine.toggleMute()} />}
             {s.slides_panel && <i className={`fa-solid fa-layer-group icon-btn slidePanelBtn${engine.panelOpen ? " active" : ""}`} id="slidePanelBtn" title="Slides" onClick={() => engine.togglePanel()} />}
             {s.chat_panel && <i className={`fa-solid fa-comments icon-btn chatOpenBtn${engine.chatOpen ? " active" : ""}`} id="chatOpenBtn" title="Chat To Agent" style={{ pointerEvents: engine.chatLocked ? "none" : "auto" }} onClick={() => engine.toggleChat()} />}
             <i className={`fa-solid fa-closed-captioning icon-btn subtitleBtn${engine.subtitlesOn ? " active" : ""}`} id="subtitleBtn" title="Subtitle" onClick={() => engine.toggleSubtitles()} />
@@ -321,7 +321,7 @@ function ViewerShell({ settings: s, env, slides }: { settings: ViewerSettings; e
               </button>
               <ul className={`dropdown-menu${menuOpen ? " show" : ""}`} style={menuOpen ? { position: "absolute", bottom: "100%", left: 0 } : undefined} onClick={() => setMenuOpen(false)}>
                 <li className="dropdown-item" onClick={() => engine.toggleMute()}>
-                  <i className={`fa-solid ${engine.muted ? "fa-volume-xmark" : "fa-volume-high"}`} style={{ color: "#EC2CA3", fontSize: 16, width: 29, textAlign: "center" }} />
+                  <i className={`fa-solid ${engine.muted ? "fa-volume-xmark" : "fa-volume-high"}`} style={{ color: "#00A6EE", fontSize: 16, width: 29, textAlign: "center" }} />
                   <span className="text">{engine.muted ? "Unmute" : "Mute"}</span>
                 </li>
                 {s.slides_panel && (

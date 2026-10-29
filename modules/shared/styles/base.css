@@ -13,25 +13,27 @@
 
 :root {
   /* ---------- 1. BRAND — Present 3D ----------
-     Poore project (site, admin, editor, reader) ka EK hi purple yahi hai.
-     Kahin bhi hex mat likho — in tokens ko use karo. Logo bhi isi
-     scale se bana hai (brand-600 → brand-400). Email / OG image jaise
+     Poore project (site, admin, editor, reader) ka EK hi blue yahi hai.
+     Kahin bhi hex mat likho — in tokens ko use karo. Logo ka gradient
+     brand-500 (#00a6ee) → brand-400 (#01c4f9) hai. Email / OG image jaise
      jagah jahan CSS variable nahi chalta, wahan modules/shared/brand.ts. */
-  --kd-brand-50: #f7f5ff;          /* page wash, faint tint              */
-  --kd-brand-100: #efebfb;         /* soft panel / chip background       */
-  --kd-brand-200: #e4dff3;         /* lavender border, divider           */
-  --kd-brand-300: #c9bef0;         /* hover border, strong outline       */
-  --kd-brand-400: #8a76ea;         /* light accent, icons, gradient end  */
-  --kd-brand-500: #6c56dc;         /* THE brand colour                   */
-  --kd-brand-600: #5b45cf;         /* hover, gradient start              */
-  --kd-brand-700: #4c38b8;         /* pressed, deep accent text          */
-  --kd-brand-800: #3b2a7a;         /* dark accent, tinted shadow         */
-  --kd-brand-900: #1e1a3a;         /* brand ink (headings)               */
-  --kd-brand-muted: #7a6f9b;       /* muted lavender text                */
+  --kd-brand-50: #f0faff;          /* page wash, faint tint              */
+  --kd-brand-100: #e0f4fe;         /* soft panel / chip background       */
+  --kd-brand-200: #bae8fd;         /* light blue border, divider         */
+  --kd-brand-300: #7dd6fc;         /* hover border, strong outline       */
+  --kd-brand-400: #01c4f9;         /* logo cyan, icons, gradient end     */
+  --kd-brand-500: #00a6ee;         /* THE brand colour (logo blue)       */
+  --kd-brand-600: #0088cc;         /* accent buttons, gradient start     */
+  --kd-brand-700: #006ea6;         /* hover, deep accent text            */
+  --kd-brand-800: #0a5580;         /* pressed, tinted shadow             */
+  --kd-brand-900: #0b2638;         /* brand ink (headings)               */
+  --kd-brand-muted: #5d7a8c;       /* muted blue-gray text               */
 
-  --kd-accent: var(--kd-brand-500);        /* buttons, active state, links */
-  --kd-accent-hover: var(--kd-brand-600);  /* hover                        */
-  --kd-accent-active: var(--kd-brand-700); /* pressed                      */
+  /* Accent ek step gehra (600) hai: logo blue (500) par white text sirf
+     2.7:1 deta hai, 600 par 3.9:1 aur hover (700) par 5.5:1. */
+  --kd-accent: var(--kd-brand-600);        /* buttons, active state, links */
+  --kd-accent-hover: var(--kd-brand-700);  /* hover                        */
+  --kd-accent-active: var(--kd-brand-800); /* pressed                      */
   --kd-accent-soft: color-mix(in srgb, var(--kd-brand-500) 10%, transparent); /* alpha tint */
   --kd-accent-subtle: var(--kd-brand-100); /* solid tint — section / panel bg */
   --kd-on-accent: #ffffff;                 /* accent ke upar ka text / icon */
@@ -84,8 +86,9 @@
   --kd-on-media: #ffffff;
 
   /* ---------- 8. BRAND GRADIENT ---------- */
-  --kd-gradient-brand: linear-gradient(90deg, var(--kd-brand-600) 0%, var(--kd-brand-500) 45%, var(--kd-brand-400) 100%);
-  --kd-gradient-accent: linear-gradient(180deg, var(--kd-brand-400) 0%, var(--kd-brand-500) 100%);
+  /* White text baithta hai in par, isliye cyan (400) ki jagah 700 → 500. */
+  --kd-gradient-brand: linear-gradient(90deg, var(--kd-brand-700) 0%, var(--kd-brand-600) 45%, var(--kd-brand-500) 100%);
+  --kd-gradient-accent: linear-gradient(180deg, var(--kd-brand-500) 0%, var(--kd-brand-600) 100%);
   --kd-gradient-soft: linear-gradient(135deg, var(--kd-accent-subtle), var(--kd-brand-200));
   --kd-gradient-glass: linear-gradient(180deg, #ffffff14 0%, #ffffff08 100%);
   --kd-gradient-rainbow: conic-gradient(from 180deg at 50% 50%, #ff6b6b, #ffd93d, #6bff95, #4fc3f7, #8b5cf6, #ff6b6b);
